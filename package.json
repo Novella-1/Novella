@@ -33,6 +33,7 @@
     "typescript": "^5"
   },
   "lint-staged": {
-    "*": "npm run fix-style"
+    "*.{js,jsx,ts,tsx}": "npm run fix-style",
+    "*.{json,css,md}": "prettier --write"
   }
 }
