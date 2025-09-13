@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Manrope } from 'next/font/google';
+import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
 import './globals.css';
 
@@ -38,6 +39,7 @@ export default function RootLayout({
       >
         <Header />
         <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
