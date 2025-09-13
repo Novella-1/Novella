@@ -6,13 +6,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { Input ,
+import { Input } from '@/components/ui/input';
+
+import {
   Select,
   SelectTrigger,
   SelectContent,
   SelectItem,
   SelectValue,
-} from '@/components/ui/button';
+} from '@/components/ui/select';
 
 const manrope = Manrope({
   subsets: ['latin'],
