@@ -10,6 +10,7 @@ export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
     <div
       className={cn(
         'flex w-10 h-10 p-3 items-center justify-center rounded-[8] border-1 border-main-elements-color',
+        className,
       )}
       {...props}
     >
