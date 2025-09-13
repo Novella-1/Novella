@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Manrope } from 'next/font/google';
+import Header from '@/components/common/Header';
 import './globals.css';
 
 const geistSans = Geist({
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 
 const manrope = Manrope({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'], // какие нужны
+  weight: ['400', '500', '600', '700'],
 });
 
 export default function RootLayout({
@@ -28,11 +29,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+    >
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${manrope.className} antialiased`}
       >
-        {children}
+        <Header />
+        <main>{children}</main>
       </body>
     </html>
   );
