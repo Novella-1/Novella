@@ -1,3 +1,5 @@
+import { CardItem } from '@/components/common/CardItem';
+
 export default function Home() {
-  return <div>Production ready</div>;
+  return <CardItem />;
 }
