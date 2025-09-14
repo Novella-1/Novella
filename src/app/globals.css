@@ -41,6 +41,12 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-gray-secondary: var(--gray-secondary);
+  --color-primary-color: var(--primary-color);
+  --color-icons-accent-color: var(--icons-accent-color);
+  --color-icons-main-color: var(--icons-main-color);
+  --color-main-elements-color: var(--main-elements-color);
+  --color-hover-color: var(--hover-color);
 }
 
 :root {
@@ -76,6 +82,14 @@
   --sidebar-accent-foreground: #343434;
   --sidebar-border: #ebebeb;
   --sidebar-ring: #b4b4b4;
+  --primary-color: #313237;
+  --gray-secondary: #89939a;
+  --icons-main-color: #b4bdc3;
+  --icons-accent-color: #27ae60;
+  --main-elements-color: #e2e6e9;
+  --hover-color: #fafbfc;
+  --background-main-color: #fff;
+  --favorites-color: #eb5757;
 }
 
 .dark {
@@ -110,6 +124,7 @@
   --sidebar-accent-foreground: #fbfbfb;
   --sidebar-border: rgba(255, 255, 255, 0.1);
   --sidebar-ring: #8f8f8f;
+  /* --gray-secondary: #89939A; */
 }
 
 @layer base {
