@@ -53,6 +53,7 @@
   --color-custom-card-bg: var(--card-bg);
   --color-custom-border-color: var(--border-color);
   --radius-main: var(--main-radius: 8px;);
+  --breakpoint-lg: 71rem;
 }
 
 :root {
