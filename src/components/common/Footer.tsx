@@ -28,11 +28,12 @@ const Footer: FC = () => {
           </Link>
         </nav>
 
-        <Link href="#top">
+        <Link href="#">
           <div
             className="flex items-center hover:opacity-75 transition-opacity"
             aria-label="Back to top"
           >
+            Back to top
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5 mr-1"
@@ -48,7 +49,6 @@ const Footer: FC = () => {
                 d="M5 15l7-7 7 7"
               />
             </svg>
-            Back to top
           </div>
         </Link>
       </div>
