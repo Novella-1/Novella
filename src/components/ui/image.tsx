@@ -22,14 +22,3 @@ export function BookImage() {
     </div>
   );
 }
-
-export function VanIcon() {
-  return (
-    <Image
-      src="/car.svg"
-      alt="Van icon"
-      width={20}
-      height={20}
-    />
-  );
-}

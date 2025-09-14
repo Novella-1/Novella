@@ -14,59 +14,60 @@ import {
   ChevronUp,
   ChevronDown,
 } from 'lucide-react';
+import * as React from 'react';
 
-export function VanIcon() {
-  return <Truck />;
+export function TruckIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <Truck {...props} />;
 }
 
-export function SearchIcon() {
-  return <Search />;
+export function SearchIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <Search {...props} />;
 }
 
-export function HeartIcon() {
-  return <Heart />;
+export function HeartIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <Heart {...props} />;
 }
 
-export function CartIcon() {
-  return <ShoppingBag />;
+export function CartIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <ShoppingBag {...props} />;
 }
 
-export function HeadphonesIcon() {
-  return <Headphones />;
+export function HeadphonesIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <Headphones {...props} />;
 }
 
-export function BurgerMenuIcon() {
-  return <Menu />;
+export function BurgerMenuIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <Menu {...props} />;
 }
 
-export function HomeIcon() {
-  return <House />;
+export function HomeIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <House {...props} />;
 }
 
-export function PlusIcon() {
-  return <Plus />;
+export function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <Plus {...props} />;
 }
 
-export function MinusIcon() {
-  return <Minus />;
+export function MinusIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <Minus {...props} />;
 }
 
-export function CLoseIcon() {
-  return <X />;
+export function CLoseIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <X {...props} />;
 }
 
-export function ArrowUpIcon() {
-  return <ChevronUp />;
+export function ArrowUpIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <ChevronUp {...props} />;
 }
 
-export function ArrowDownIcon() {
-  return <ChevronDown />;
+export function ArrowDownIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <ChevronDown {...props} />;
 }
 
-export function ArrowLeftIcon() {
-  return <ChevronLeft />;
+export function ArrowLeftIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <ChevronLeft {...props} />;
 }
 
-export function ArrowRightIcon() {
-  return <ChevronRight />;
+export function ArrowRightIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <ChevronRight {...props} />;
 }
