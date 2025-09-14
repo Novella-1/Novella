@@ -36,7 +36,7 @@ const Header = () => {
     <header
       className={`${manrope.className} bg-white border-b border-gray-200 h-[48px] xl:h-[64px]`}
     >
-      <div className="flex items-center justify-between h-full px-6">
+      <div className="flex items-center justify-between h-full px-6 relative">
         {/* Логотип */}
         <Link
           href="/"
@@ -98,12 +98,18 @@ const Header = () => {
 
         {/* Desktop icons */}
         <div className="hidden md:flex items-center space-x-4 ml-4">
-          <button className="border-2 border-gray-200 p-2 rounded-full transition hover:scale-105">
+          <Link
+            href="/favorites"
+            className="border-2 border-gray-200 p-2 rounded-full transition hover:scale-105"
+          >
             <Heart size={22} />
-          </button>
-          <button className="border-2 border-gray-200 p-2 rounded-full transition hover:scale-105">
+          </Link>
+          <Link
+            href="/cart"
+            className="border-2 border-gray-200 p-2 rounded-full transition hover:scale-105"
+          >
             <ShoppingBag size={22} />
-          </button>
+          </Link>
         </div>
 
         {/* Mobile burger (<640px) */}
@@ -122,7 +128,7 @@ const Header = () => {
 
       {/* Выпадающий поиск на планшете/мобиле */}
       {isSearchOpen && (
-        <div className="md:hidden lg:hidden xl:hidden border-t border-gray-200 bg-white p-4">
+        <div className="absolute top-[48px] md:top-[64px] left-0 w-full bg-white border-b border-gray-200 p-4 z-40">
           <Input
             placeholder="Find a book or author"
             className="w-full"
@@ -132,7 +138,7 @@ const Header = () => {
 
       {/* Мобильное меню */}
       {isMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-white flex flex-col justify-between">
+        <div className="fixed inset-0 z-50 bg-white flex flex-col justify-between ">
           {/* Верх: логотип + крестик */}
           <div className="flex items-center justify-between p-4 border-b">
             <Link href="/">
@@ -187,12 +193,12 @@ const Header = () => {
 
           {/* Низ: иконки */}
           <div className="border-t border-gray-200 flex justify-around py-4">
-            <button>
+            <Link href="/favorites">
               <Heart size={22} />
-            </button>
-            <button>
+            </Link>
+            <Link href="/cart">
               <ShoppingBag size={22} />
-            </button>
+            </Link>
           </div>
         </div>
       )}
