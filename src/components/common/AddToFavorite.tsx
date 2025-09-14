@@ -1,5 +1,5 @@
-import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { HeartIcon } from '../ui/icons';
 
 interface AddToFavoriteProps {
   className?: string;
@@ -14,7 +14,7 @@ export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
       )}
       {...props}
     >
-      <Heart />
+      <HeartIcon />
     </div>
   );
 }

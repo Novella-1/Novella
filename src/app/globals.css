@@ -41,12 +41,19 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-gray-secondary: var(--gray-secondary);
-  --color-primary-color: var(--primary-color);
-  --color-icons-accent-color: var(--icons-accent-color);
-  --color-icons-main-color: var(--icons-main-color);
-  --color-main-elements-color: var(--main-elements-color);
-  --color-hover-color: var(--hover-color);
+
+  /* our custom styles */
+  --color-custom-primary: var(--primary-color);
+  --color-custom-secondary: var(--gray-secondary);
+  --color-custom-icons-main: var(--icons-main-color);
+  --color-custom-icons-accent: var(--icons-accent-color);
+  --color-custom-elements: var(--main-elements-color);
+  --color-custom-hover: var(--hover-color);
+  --color-custom-favorites: var(--favorites-color);
+  --color-custom-card-bg: var(--card-bg);
+  --color-custom-border-color: var(--border-color);
+  --radius-main: var(--main-radius: 8px;);
+  --breakpoint-lg: 71rem;
 }
 
 :root {
@@ -82,14 +89,19 @@
   --sidebar-accent-foreground: #343434;
   --sidebar-border: #ebebeb;
   --sidebar-ring: #b4b4b4;
+
+  /* out custom styles */
   --primary-color: #313237;
   --gray-secondary: #89939a;
   --icons-main-color: #b4bdc3;
   --icons-accent-color: #27ae60;
   --main-elements-color: #e2e6e9;
   --hover-color: #fafbfc;
-  --background-main-color: #fff;
+  --background-main-color: #fafbfc;
   --favorites-color: #eb5757;
+  --card-bg: #fdfdfb;
+  --border-color: #e2e6e9;
+  --main-radius: 8px;
 }
 
 .dark {

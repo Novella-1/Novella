@@ -44,7 +44,7 @@ const Header = () => {
         >
           <Image
             src="/images/logo.png"
-            alt="NICE GADGETS"
+            alt="NOVELLA"
             width={120}
             height={40}
             className="cursor-pointer"
@@ -128,7 +128,7 @@ const Header = () => {
 
       {/* Выпадающий поиск на планшете/мобиле */}
       {isSearchOpen && (
-        <div className="absolute top-[48px] md:top-[64px] left-0 w-full bg-white border-b border-gray-200 p-4 z-40">
+        <div className="absolute top-[36px] md:top-[48px] left-0 w-full bg-white border-b border-gray-200 p-4 z-40">
           <Input
             placeholder="Find a book or author"
             className="w-full"
@@ -144,7 +144,7 @@ const Header = () => {
             <Link href="/">
               <Image
                 src="/images/logo.png"
-                alt="NICE GADGETS"
+                alt="NOVELLA"
                 width={100}
                 height={30}
                 className="cursor-pointer"
