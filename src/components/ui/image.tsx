@@ -23,13 +23,14 @@ export function BookImage() {
   );
 }
 
-export function VanIcon() {
+export function ShopCatagoryImage({ src }: { src: string }) {
   return (
     <Image
-      src="/car.svg"
-      alt="Van icon"
-      width={20}
-      height={20}
+      src={src}
+      alt="Shop category"
+      width={368}
+      height={289}
+      className="w-full h-[288px] sm:h-[187px] xl:h-[289px] object-cover rounded-md"
     />
   );
 }
