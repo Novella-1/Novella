@@ -1,8 +1,12 @@
 import { X, Minus, Plus } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
+import {
+  TypographyH3,
+  TypographyH5,
+  TypographyP,
+} from '@/components/ui/custom/typography';
 import { Card } from '../ui/card';
-import { TypographyH3, TypographyH5, TypographyP } from '../ui/typography';
 
 const CartCard = () => {
   return (
