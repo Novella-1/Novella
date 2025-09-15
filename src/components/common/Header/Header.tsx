@@ -27,7 +27,7 @@ const Header: FC = () => {
 
   return (
     <header
-      className={`${manrope.className} bg-white border-b border-gray-200 h-[48px] xl:h-[64px] shadow-md`}
+      className={`${manrope.className} bg-white border-b border-gray-200 h-[48px] xl:h-[64px] shadow-md `}
     >
       <div className="flex items-center justify-between h-full px-6 relative">
         <Link
@@ -120,7 +120,7 @@ const Header: FC = () => {
               </button>
             </div>
 
-            <div className="flex-1 p-6 flex flex-col items-center justify-start space-y-6 overflow-y-auto shadow-md">
+            <div className="flex-1 p-6 flex flex-col items-center justify-start space-y-6 overflow-y-auto">
               <MobileNav />
               <MobileSearch />
             </div>

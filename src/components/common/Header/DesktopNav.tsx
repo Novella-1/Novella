@@ -9,7 +9,7 @@ const navLinks = [
 ];
 
 const DesktopNav: FC = () => (
-  <nav className="hidden md:flex items-center space-x-16 pl-10">
+  <nav className="hidden md:flex items-center gap-16 pl-10">
     {navLinks.map((link) => (
       <NavLink
         key={link.href}

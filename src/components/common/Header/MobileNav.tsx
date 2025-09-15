@@ -15,7 +15,7 @@ const MobileNav: FC = () => (
         key={link.href}
         href={link.href}
         name={link.name}
-        className="font-medium text-gray-600 hover:text-black"
+        className="font-bold text-[#BAA48C] hover:#4c412e"
       />
     ))}
   </nav>
