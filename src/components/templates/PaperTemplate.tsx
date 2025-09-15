@@ -2,8 +2,12 @@ import React from 'react';
 import BooksList from '@/components/common/BooksList/BooksList';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { TypographyH1, TypographyP } from '@/components/ui/typography';
+import { getBooks } from '@/server/books';
 
-const PaperTemplate = () => {
+const PaperTemplate = async () => {
+  const books = await getBooks('PAPERBACK');
+  console.log(books);
+
   return (
     <div className="py-16">
       <div>
