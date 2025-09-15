@@ -9,7 +9,7 @@ const navLinks = [
 ];
 
 const MobileNav: FC = () => (
-  <nav className="flex flex-col space-y-4 text-center w-full">
+  <nav className="flex flex-col space-y-4 text-center w-1/5 ">
     {navLinks.map((link) => (
       <NavLink
         key={link.href}
