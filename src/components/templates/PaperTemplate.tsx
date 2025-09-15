@@ -1,7 +1,7 @@
 import React from 'react';
 import BooksList from '@/components/common/BooksList/BooksList';
 import Pagination from '@/components/common/Pagination/Pagination';
-import { TypographyH1, TypographyP } from '@/components/ui/typography';
+import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
 
 const PaperTemplate = () => {
   return (

@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { HeartIcon } from '../ui/icons';
+import { HeartIcon } from '../ui/custom/icons';
 
 interface AddToFavoriteProps {
   className?: string;

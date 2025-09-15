@@ -74,9 +74,12 @@
 
   --radius-main: var(--main-radius);
   --breakpoint-lg: 71rem;
+  --breakpoint-xl: 75rem;
 
   --color-custom-green: #a7ba26;
   --color-custom-red: #eb5757;
+
+  --color-custom-separator: var(--separator);
 }
 
 :root {
@@ -113,7 +116,7 @@
   --sidebar-border: #ebebeb;
   --sidebar-ring: #b4b4b4;
 
-  /* out custom styles */
+  /* our custom styles */
   --primary: #331f06;
   --primary-text: #331f06;
 
@@ -135,6 +138,8 @@
 
   --main-border: #f4e2cd;
   --main-radius: 8px;
+
+  --separator: #dddad7;
 }
 
 .dark {
