@@ -27,7 +27,7 @@ const Header: FC = () => {
 
   return (
     <header
-      className={`${manrope.className} bg-white border-b border-gray-200 h-[48px] xl:h-[64px]`}
+      className={`${manrope.className} bg-white border-b border-gray-200 h-[48px] xl:h-[64px] shadow-md`}
     >
       <div className="flex items-center justify-between h-full px-6 relative">
         <Link
@@ -37,16 +37,16 @@ const Header: FC = () => {
           <Image
             src="/images/logo.png"
             alt="NOVELLA"
-            width={100}
+            width={120}
             height={40}
-            className="cursor-pointer hidden sm:block"
+            className="cursor-pointer hidden sm:block h-10 w-auto xl:h-14"
           />
           <Image
             src="/images/logo.png"
             alt="NOVELLA"
-            width={100}
-            height={30}
-            className="cursor-pointer sm:hidden"
+            width={120}
+            height={40}
+            className="cursor-pointer sm:hidden h-10 w-auto xl:h-14"
           />
         </Link>
 
@@ -70,7 +70,7 @@ const Header: FC = () => {
 
         {!isMenuOpen && (
           <button
-            className="md:hidden p-2 ml-4 mr-2"
+            className="md:hidden p-2 ml-4 mr-2 "
             onClick={() => setIsMenuOpen(true)}
             aria-label="Open menu"
           >
@@ -84,7 +84,7 @@ const Header: FC = () => {
       </div>
 
       {isSearchOpen && (
-        <div className="absolute top-[36px] md:top-[48px] left-0 w-full bg-white border-b border-gray-200 p-4 z-40">
+        <div className="absolute top-[36px] md:top-[48px] left-0 right-0 mx-auto w-full max-w-sm bg-white border-b border-gray-200 p-4 z-40">
           <Input
             placeholder="Find a book or author"
             className="w-full"
@@ -101,7 +101,7 @@ const Header: FC = () => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed inset-0 z-50 bg-white flex flex-col justify-between"
           >
-            <div className="h-[48px] flex items-center justify-between px-6 border-b">
+            <div className="h-[48px] flex items-center justify-between px-6 border-b h-[48px] xl:h-[64px] shadow-md">
               <Link href="/">
                 <Image
                   src="/images/logo.png"
@@ -120,7 +120,7 @@ const Header: FC = () => {
               </button>
             </div>
 
-            <div className="flex-1 p-6 flex flex-col items-center justify-start space-y-6 overflow-y-auto">
+            <div className="flex-1 p-6 flex flex-col items-center justify-start space-y-6 overflow-y-auto shadow-md">
               <MobileNav />
               <MobileSearch />
             </div>
