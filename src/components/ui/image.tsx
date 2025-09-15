@@ -23,10 +23,10 @@ export function BookImage() {
   );
 }
 
-export function ShopCatagoryImage() {
+export function ShopCatagoryImage({ src }: { src: string }) {
   return (
     <Image
-      src="/catagory-cover.jpg"
+      src={src}
       alt="Shop category"
       width={368}
       height={289}
