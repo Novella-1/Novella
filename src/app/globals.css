@@ -6,8 +6,19 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(
+    --font-manrope,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif
+  );
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -43,17 +54,29 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* our custom styles */
-  --color-custom-primary: var(--primary-color);
-  --color-custom-secondary: var(--gray-secondary);
-  --color-custom-icons-main: var(--icons-main-color);
-  --color-custom-icons-accent: var(--icons-accent-color);
-  --color-custom-elements: var(--main-elements-color);
-  --color-custom-hover: var(--hover-color);
-  --color-custom-favorites: var(--favorites-color);
+  --color-custom-primary: var(--primary);
+  --color-custom-text-primary: var(--primary);
+
+  --color-custom-secondary: var(--secondary);
+  --color-custom-text-secondary: var(--secondary-text);
+
+  --color-custom-icons-main: var(--icons-main);
+  --color-custom-icons-accent: var(--icons-accent);
+
+  --color-custom-elements: var(--main-elements);
+  --color-custom-hover-button: var(--hover-button);
+  --color-custom-favorites: var(--favorites);
   --color-custom-card-bg: var(--card-bg);
-  --color-custom-border-color: var(--border-color);
-  --radius-main: var(--main-radius: 8px;);
+  --color-custom-border-color: var(--main-border);
+  --color-custom-header-bg: var(--header-bg);
+  --color-custom-footer-bg: var(--footer-bg);
+  --color-custom-background-main: var(--background-main);
+
+  --radius-main: var(--main-radius);
   --breakpoint-lg: 71rem;
+
+  --color-custom-green: #a7ba26;
+  --color-custom-red: #eb5757;
 }
 
 :root {
@@ -64,9 +87,9 @@
   --card-foreground: #252525;
   --popover: #ffffff;
   --popover-foreground: #252525;
-  --primary: #343434;
+  /*--primary: #343434;*/
   --primary-foreground: #fbfbfb;
-  --secondary: #f7f7f7;
+  /*--secondary: #f7f7f7;*/
   --secondary-foreground: #343434;
   --muted: #f7f7f7;
   --muted-foreground: #8f8f8f;
@@ -91,16 +114,26 @@
   --sidebar-ring: #b4b4b4;
 
   /* out custom styles */
-  --primary-color: #313237;
-  --gray-secondary: #89939a;
-  --icons-main-color: #b4bdc3;
-  --icons-accent-color: #27ae60;
-  --main-elements-color: #e2e6e9;
-  --hover-color: #fafbfc;
-  --background-main-color: #fafbfc;
-  --favorites-color: #eb5757;
+  --primary: #331f06;
+  --primary-text: #331f06;
+
+  --secondary: #baa48c;
+  --secondary-text: #baa48c;
+
+  --icons-main: #baa48c;
+  --icons-accent: #a7ba26;
+
+  --main-elements: #f4e2cd;
+  --hover-button: #4c412e;
+
+  --background-main: #f4e2cd;
+  --favorites: #eb5757;
+
   --card-bg: #fdfdfb;
-  --border-color: #e2e6e9;
+  --header-bg: #fdfdfb;
+  --footer-bg: #fdfdfb;
+
+  --main-border: #f4e2cd;
   --main-radius: 8px;
 }
 
@@ -143,6 +176,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
