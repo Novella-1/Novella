@@ -101,7 +101,7 @@ const Header: FC = () => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed inset-0 z-50 bg-white flex flex-col justify-between"
           >
-            <div className="h-[48px] flex items-center justify-between px-6 border-b h-[48px] xl:h-[64px] shadow-md">
+            <div className="h-[48px] flex items-center justify-between px-6 border-bxl:h-[64px] shadow-md">
               <Link href="/">
                 <Image
                   src="/images/logo.png"
