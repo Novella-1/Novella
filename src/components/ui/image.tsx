@@ -22,3 +22,15 @@ export function BookImage() {
     </div>
   );
 }
+
+export function ShopCatagoryImage() {
+  return (
+    <Image
+      src="/catagory-cover.jpg"
+      alt="Shop category"
+      width={368}
+      height={289}
+      className="w-full h-[288px] sm:h-[187px] xl:h-[289px] object-cover rounded-md"
+    />
+  );
+}
