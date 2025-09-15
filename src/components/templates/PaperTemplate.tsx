@@ -2,8 +2,17 @@ import React from 'react';
 import BooksList from '@/components/common/BooksList/BooksList';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
+import { getBooks } from '@/server/books';
 
-const PaperTemplate = () => {
+const PaperTemplate = async () => {
+  const books = await getBooks({
+    type: 'AUDIOBOOK',
+    quantity: 12,
+    sortBy: 'name',
+    sortOrder: 'asc',
+  });
+  console.log(books);
+
   return (
     <div className="py-16">
       <div>
@@ -16,6 +25,14 @@ const PaperTemplate = () => {
       </div>
 
       {/*<Filtration/>*/}
+
+      {/* {books.map((item) => {
+        return (
+          <div key={item.slug}>
+            {item.slug} {item.priceRegular}
+          </div>
+        );
+      })} */}
 
       <BooksList className="mb-10" />
 

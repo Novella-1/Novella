@@ -9,13 +9,13 @@ const navLinks = [
 ];
 
 const MobileNav: FC = () => (
-  <nav className="flex flex-col space-y-4 text-center w-full">
+  <nav className="flex flex-col space-y-4 text-center w-1/5 ">
     {navLinks.map((link) => (
       <NavLink
         key={link.href}
         href={link.href}
         name={link.name}
-        className="font-medium text-gray-600 hover:text-black"
+        className="font-bold text-[#BAA48C] hover:#4c412e"
       />
     ))}
   </nav>
