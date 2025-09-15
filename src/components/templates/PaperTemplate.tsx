@@ -21,6 +21,10 @@ const PaperTemplate = async () => {
 
       {/*<Filtration/>*/}
 
+      {books.map((item) => {
+        return <div key={item.slug}>{item.slug}</div>;
+      })}
+
       <BooksList className="mb-10" />
 
       <Pagination />
