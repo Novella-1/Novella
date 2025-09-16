@@ -5,7 +5,7 @@ import IconLink from './IconLink';
 const DesktopIcons: FC = () => (
   <div className="hidden md:flex items-center space-x-4 ml-4">
     <IconLink
-      href="/favorites"
+      href="/favourites"
       icon={Heart}
     />
     <IconLink

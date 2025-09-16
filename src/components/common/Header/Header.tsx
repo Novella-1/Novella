@@ -21,9 +21,53 @@ const manrope = Manrope({
   weight: ['400', '500', '600', '700'],
 });
 
+interface Book {
+  id: number;
+  title: string;
+  image: string;
+  price: string;
+}
+
+const mockBooks: Book[] = [
+  {
+    id: 1,
+    title: 'Елеанор і Парк',
+    image: '/books/book1.jpg',
+    price: '₴250',
+  },
+  {
+    id: 2,
+    title: 'Електра',
+    image: '/books/book2.jpg',
+    price: '₴300',
+  },
+  {
+    id: 3,
+    title: 'Електромеханічний конструктор. Аеромобіль',
+    image: '/books/book3.jpg',
+    price: '₴1200',
+  },
+];
+
 const Header: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<Book[]>([]);
+
+  const handleChange = (value: string) => {
+    setQuery(value);
+
+    if (!value.trim()) {
+      setResults([]);
+      return;
+    }
+
+    const filtered = mockBooks.filter((book) =>
+      book.title.toLowerCase().includes(value.toLowerCase()),
+    );
+    setResults(filtered);
+  };
 
   return (
     <header
@@ -66,11 +110,90 @@ const Header: FC = () => {
           />
         </button>
 
+        {isSearchOpen && (
+          <div className="absolute top-[48px] left-0 w-full bg-white border-b border-gray-200 z-40 px-4 py-3">
+            <div className="relative max-w-md mx-auto">
+              <Input
+                placeholder="Find a book or author"
+                value={query}
+                onChange={(e) => handleChange(e.target.value)}
+                className="w-full placeholder:text-[#331F06] border-[#F4E2CD] font-bold"
+              />
+
+              <div className="hidden md:block">
+                {results.length > 0 && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[500px] mt-2 bg-white border border-[#F4E2CD] rounded-md shadow-lg z-50 p-4">
+                    <div className="grid grid-cols-1 gap-4">
+                      {results.map((book) => (
+                        <Link
+                          href={`/book/${book.id}`}
+                          key={book.id}
+                          className="flex items-center space-x-4 p-3 border rounded-lg hover:bg-[#F4E2CD] transition"
+                        >
+                          <div className="w-14 h-18 relative flex-shrink-0">
+                            <Image
+                              src={book.image}
+                              alt={book.title}
+                              fill
+                              className="object-cover rounded"
+                            />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="font-bold text-[#331F06]">
+                              {book.title}
+                            </span>
+                            <span className="text-[#BAA48C] font-semibold">
+                              {book.price}
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="block md:hidden">
+                {results.length > 0 && (
+                  <div className="absolute top-[70px] left-0 w-full bg-white border border-[#F4E2CD] rounded-md shadow-lg z-50 p-4">
+                    <div className="grid grid-cols-1 gap-4">
+                      {results.map((book) => (
+                        <Link
+                          href={`/book/${book.id}`}
+                          key={book.id}
+                          className="flex items-center space-x-4 p-3 border rounded-lg hover:bg-[#F4E2CD] transition"
+                        >
+                          <div className="w-14 h-18 relative flex-shrink-0">
+                            <Image
+                              src={book.image}
+                              alt={book.title}
+                              fill
+                              className="object-cover rounded"
+                            />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="font-bold text-[#331F06]">
+                              {book.title}
+                            </span>
+                            <span className="text-[#BAA48C] font-semibold">
+                              {book.price}
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         <DesktopIcons />
 
         {!isMenuOpen && (
           <button
-            className="md:hidden p-2 ml-4 mr-2 "
+            className="md:hidden p-2 ml-4 mr-2"
             onClick={() => setIsMenuOpen(true)}
             aria-label="Open menu"
           >
@@ -83,15 +206,6 @@ const Header: FC = () => {
         )}
       </div>
 
-      {isSearchOpen && (
-        <div className="absolute top-[36px] md:top-[48px] left-0 right-0 mx-auto w-full max-w-sm bg-white border-b border-gray-200 p-4 z-40">
-          <Input
-            placeholder="Find a book or author"
-            className="w-full"
-          />
-        </div>
-      )}
-
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -101,7 +215,7 @@ const Header: FC = () => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed inset-0 z-50 bg-white flex flex-col justify-between"
           >
-            <div className="h-[48px] flex items-center justify-between px-6 border-bxl:h-[64px] shadow-md">
+            <div className="h-[48px] flex items-center justify-between px-6 border-b xl:h-[64px] shadow-md">
               <Link href="/">
                 <Image
                   src="/images/logo.png"
