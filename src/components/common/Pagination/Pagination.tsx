@@ -1,4 +1,7 @@
-import React from 'react';
+'use client';
+
+import { useSearchParams, useRouter } from 'next/navigation';
+import React, { FC } from 'react';
 import {
   Pagination as UIPagination,
   PaginationContent,
@@ -10,44 +13,120 @@ import {
 } from '@/components/ui/pagination';
 import { cn } from '@/lib/utils';
 
-const AppPagination = () => {
+type Props = {
+  page: number;
+  pageSize: number;
+  totalCount: number;
+};
+
+const MAX_VISIBLE = 5;
+
+const AppPagination: FC<Props> = ({ page, pageSize, totalCount }) => {
+  const totalPages = Math.ceil(totalCount / pageSize);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  function createHref(newPage: number) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', newPage.toString());
+    params.set('pageSize', pageSize.toString());
+    return `?${params.toString()}`;
+  }
+
+  function goToPage(newPage: number) {
+    router.push(createHref(newPage));
+  }
+
+  const pages: number[] = [];
+  const start = Math.max(1, page - Math.floor(MAX_VISIBLE / 2));
+  const end = Math.min(totalPages, start + MAX_VISIBLE - 1);
+
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+
   return (
     <UIPagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href="#"
+            href={createHref(page > 1 ? page - 1 : 1)}
+            onClick={(e) => {
+              e.preventDefault();
+              if (page > 1) goToPage(page - 1);
+            }}
             className={cn(
               'border border-custom-border-color hover:border-1 hover:border-custom-border-color hover:bg-custom-border-color',
+              { 'pointer-events-none opacity-50': page === 1 },
             )}
           />
         </PaginationItem>
-        {Array.from({ length: 5 }).map((_, index) => {
-          return (
-            <PaginationItem key={index}>
+
+        {start > 1 && (
+          <>
+            <PaginationItem>
               <PaginationLink
-                href={`#page=${index + 1}`}
-                isActive={index === 3}
-                className={cn(
-                  'border border-custom-border-color hover:border-1 hover:border-custom-border-color hover:bg-custom-border-color',
-                  {
-                    'bg-custom-primary text-white': index === 3,
-                  },
-                )}
+                href={createHref(1)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  goToPage(1);
+                }}
               >
-                {index + 1}
+                1
               </PaginationLink>
             </PaginationItem>
-          );
-        })}
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
+            {start > 2 && <PaginationEllipsis />}
+          </>
+        )}
+
+        {pages.map((pageNum) => (
+          <PaginationItem key={pageNum}>
+            <PaginationLink
+              href={createHref(pageNum)}
+              onClick={(e) => {
+                e.preventDefault();
+                goToPage(pageNum);
+              }}
+              isActive={pageNum === page}
+              className={cn(
+                'border border-custom-border-color hover:border-1 hover:border-custom-border-color hover:bg-custom-border-color',
+                {
+                  'bg-custom-primary text-white': pageNum === page,
+                },
+              )}
+            >
+              {pageNum}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+
+        {end < totalPages && (
+          <>
+            {end < totalPages - 1 && <PaginationEllipsis />}
+            <PaginationItem>
+              <PaginationLink
+                href={createHref(totalPages)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  goToPage(totalPages);
+                }}
+              >
+                {totalPages}
+              </PaginationLink>
+            </PaginationItem>
+          </>
+        )}
+
         <PaginationItem>
           <PaginationNext
-            href="#"
+            href={createHref(page < totalPages ? page + 1 : totalPages)}
+            onClick={(e) => {
+              e.preventDefault();
+              if (page < totalPages) goToPage(page + 1);
+            }}
             className={cn(
               'border border-custom-border-color hover:border-1 hover:border-custom-border-color hover:bg-custom-border-color',
+              { 'pointer-events-none opacity-50': page === totalPages },
             )}
           />
         </PaginationItem>
