@@ -1,4 +1,4 @@
-import { CategoryItem } from '@/components/common/Catagory/CategoryItem';
+import { CategoryItem } from '@/components/common/Category/CategoryItem';
 
 const categories = [
   {

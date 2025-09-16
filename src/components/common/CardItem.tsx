@@ -18,7 +18,7 @@ export function CardItem() {
   //   };
 
   return (
-    <Card className="flex flex-col items-start gap-4 w-[214px] h-[400px] p-5 rounded-2xl border border-custom-border-color bg-custom-card-bg sm:w-[272px] sm:h-[506px] sm:p-8">
+    <Card className="flex flex-col items-start gap-4 w-[214px] h-[400px] p-5 rounded-2xl border border-custom-border-color bg-custom-card-bg sm:w-[272px] sm:h-[506px] sm:p-8 transition-transform duration-200 ease-in-out hover:scale-[1.02] hover:shadow-[0_2px_16px_0_rgba(0,0,0,0.10)]">
       <div className="relative w-full flex justify-center">
         <BookImage />
         <div className="absolute flex items-center justify-center top-1 right-1 w-10 h-10 bg-custom-icons-accent rounded-full p-1">
@@ -50,10 +50,10 @@ export function CardItem() {
         </div>
       </div>
       <div className="flex flex-row gap-2 justify-between w-full">
-        <Button className="flex-1 h-10 cursor-pointer bg-custom-primary hover:bg-custom-hover-button">
-          Add to cart
+        <Button className="flex-1 h-10 cursor-pointer bg-custom-primary hover:bg-custom-hover-button transition-shadow duration-200 hover:shadow-[0_1px_10px_0_rgba(23,32,49,0.40)]">
+          <TypographyB className="text-white">Add to cart</TypographyB>
         </Button>
-        <AddToFavorite className="cursor-pointer" />
+        <AddToFavorite className="cursor-pointer hover:border-custom-border-color" />
       </div>
     </Card>
   );

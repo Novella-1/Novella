@@ -5,7 +5,12 @@ import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
 import { getBooks } from '@/server/books';
 
 const PaperTemplate = async () => {
-  const books = await getBooks('PAPERBACK');
+  const books = await getBooks({
+    type: 'AUDIOBOOK',
+    quantity: 12,
+    sortBy: 'name',
+    sortOrder: 'asc',
+  });
   console.log(books);
 
   return (
@@ -21,9 +26,13 @@ const PaperTemplate = async () => {
 
       {/*<Filtration/>*/}
 
-      {books.map((item) => {
-        return <div key={item.slug}>{item.slug}</div>;
-      })}
+      {/* {books.map((item) => {
+        return (
+          <div key={item.slug}>
+            {item.slug} {item.priceRegular}
+          </div>
+        );
+      })} */}
 
       <BooksList className="mb-10" />
 

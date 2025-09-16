@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 const Footer: FC = () => {
   return (
-    <footer className="bg-white text-[#BAA48C] font-bold py-6 w-full">
+    <footer className="bg-white text-[#BAA48C] font-bold py-6 w-full shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
       <div className="container mx-auto px-4 flex flex-col items-center space-y-4 md:flex-row md:justify-between md:space-y-0">
         <div className="flex items-center">
           <Link
@@ -33,21 +33,21 @@ const Footer: FC = () => {
           className="flex space-x-6 md:space-x-29"
         >
           <Link href="/github">
-            <div className="hover:text-gray-500 transition-colors">GITHUB</div>
+            <div className="hover:text-[#331F06] transition-colors">GITHUB</div>
           </Link>
           <Link href="/contacts">
-            <div className="hover:text-gray-500 transition-colors">
+            <div className="hover:text-[#331F06] transition-colors">
               CONTACTS
             </div>
           </Link>
           <Link href="/rights">
-            <div className="hover:text-gray-500 transition-colors">RIGHTS</div>
+            <div className="hover:text-[#331F06] transition-colors">RIGHTS</div>
           </Link>
         </nav>
 
         <Link href="#">
           <div
-            className="flex items-center hover:opacity-75 transition-opacity"
+            className="flex items-center hover:opacity-75 transition-opacity hover:text-[#331F06]"
             aria-label="Back to top"
           >
             Back to top

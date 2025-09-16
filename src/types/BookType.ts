@@ -1,6 +1,13 @@
 import { AudiobookDetails, KindleDetails, PaperDetails } from '@prisma/client';
 
 export type BookType = 'PAPERBACK' | 'KINDLE' | 'AUDIOBOOK';
+export type SortType =
+  | 'name'
+  | 'author'
+  | 'category'
+  | 'priceRegular'
+  | 'publicationYear';
+export type SortOrder = 'asc' | 'desc';
 
 export type BaseBook = {
   id: string;
