@@ -1,6 +1,7 @@
 import {
   BookType,
   BookWithDetails,
+  PageSize,
   SortOrder,
   SortType,
 } from '@/types/BookType';
@@ -18,7 +19,7 @@ type GetBooksOptions = {
   sortBy?: SortType;
   sortOrder?: SortOrder;
   page?: number;
-  pageSize?: number;
+  pageSize?: PageSize;
 };
 
 type PrismaCategory = {
@@ -53,20 +54,6 @@ function getOrder(sortBy?: SortType, sortOrder: SortOrder = 'asc') {
   }
 }
 
-function sortByCategory<
-  T extends { categories: { category?: { name: string } }[] },
->(books: T[], sortOrder: SortOrder) {
-  return [...books].sort((a, b) => {
-    const genreA =
-      a.categories.map((c) => c.category?.name ?? '').sort()[0] ?? '';
-    const genreB =
-      b.categories.map((c) => c.category?.name ?? '').sort()[0] ?? '';
-    return sortOrder === 'asc' ?
-        genreA.localeCompare(genreB)
-      : genreB.localeCompare(genreA);
-  });
-}
-
 function formatCategories<T extends { categories: PrismaCategory[] }>(book: T) {
   return {
     ...book,
@@ -79,7 +66,7 @@ export async function getBooks({
   sortBy = 'name',
   sortOrder = 'asc',
   page = 1,
-  pageSize = 8,
+  pageSize = 16,
 }: GetBooksOptions): Promise<[BookWithDetails[], number]> {
   const include = getInclude(type);
   const order = getOrder(sortBy, sortOrder);
@@ -89,17 +76,13 @@ export async function getBooks({
     where: { type },
   });
 
-  let books = await prisma.book.findMany({
+  const books = await prisma.book.findMany({
     where: { type },
     include,
     ...(order ? { orderBy: order } : {}),
     skip,
     take: pageSize,
   });
-
-  if (sortBy === 'category') {
-    books = sortByCategory(books, sortOrder);
-  }
 
   const formattedBooks = books.map(formatCategories);
 
