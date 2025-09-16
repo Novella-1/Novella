@@ -105,3 +105,21 @@ export async function getBooks({
 
   return [formattedBooks as BookWithDetails[], totalCount];
 }
+
+export async function getBookBySlug(
+  slug: string,
+): Promise<BookWithDetails | null> {
+  const book = await prisma.book.findUnique({
+    where: { slug },
+    include: {
+      categories: { include: { category: true } },
+      paperDetails: true,
+      kindleDetails: true,
+      audiobookDetails: true,
+    },
+  });
+
+  if (!book) return null;
+
+  return formatCategories(book) as BookWithDetails;
+}
