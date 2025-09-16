@@ -34,3 +34,21 @@ export function ShopCategoryImage({ src }: { src: string }) {
     />
   );
 }
+
+interface ImageCoverProps {
+  className?: string;
+}
+
+export function HomePageImage({ className }: ImageCoverProps) {
+  return (
+    <div className={cn('flex justify-center', className)}>
+      <Image
+        src="/homePage-cover.png"
+        alt="Home page cover"
+        width={1044}
+        height={400}
+        className="w-[1042px] h-[320px] sm:h-[400px] rounded-md object-cover"
+      />
+    </div>
+  );
+}

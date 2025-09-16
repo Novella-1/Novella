@@ -23,7 +23,7 @@ const categories = [
 
 export function CategoryList() {
   return (
-    <div className="flex flex-col sm:flex-row gap-4 overflow-x-auto">
+    <div className="flex items-center justify-center flex-col sm:flex-row gap-4 overflow-x-auto">
       {categories.map(({ id, imageSrc, title, bookCount }) => (
         <CategoryItem
           key={id}
