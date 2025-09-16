@@ -10,9 +10,8 @@ import { Card } from '../ui/card';
 
 const CartCard = () => {
   return (
-    <Card className="box-content flex flex-col sm:flex-row sm:items-center justify-between w-full max-w-[752px] h-auto p-6 gap-4">
+    <Card className="box-content flex flex-col sm:flex-row sm:items-center justify-between w-full sm:max-w-[752px] xl:h-[120px] p-6 gap-4">
       {/* Left side       */}
-
       <div className="flex items-center gap-4 min-w-0">
         <X
           size={16}
