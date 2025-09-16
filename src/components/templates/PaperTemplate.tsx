@@ -2,7 +2,7 @@ import React from 'react';
 import BooksList from '@/components/common/BooksList/BooksList';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
-import { getBooks } from '@/server/books';
+import { getBookBySlug, getBooks } from '@/server/books';
 
 const PaperTemplate = async () => {
   const [books, totalCount] = await getBooks({
@@ -13,6 +13,12 @@ const PaperTemplate = async () => {
     sortOrder: 'asc',
   });
   console.log(books);
+
+  const bookWithDetails = await getBookBySlug(
+    'codependent-no-more-en-audiobook',
+  );
+
+  console.log('BOOK WITH DETAILS!!!!', bookWithDetails);
 
   return (
     <div className="py-16">
