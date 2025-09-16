@@ -5,7 +5,7 @@ export function CategorySection() {
   return (
     <>
       <SectionTitle>Shop by category</SectionTitle>
-      <CategoryList />;
+      <CategoryList />
     </>
   );
 }
