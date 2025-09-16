@@ -1,14 +1,14 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '../ui/button';
-import { TruckIcon, HeadphonesIcon } from '../ui/icons';
-import { BookImage } from '../ui/image';
+import { TruckIcon, HeadphonesIcon } from '../ui/custom/icons';
+import { BookImage } from '../ui/custom/image';
 import {
   TypographyB,
   TypographyH3,
   TypographyH4,
   TypographyH5,
   TypographyP,
-} from '../ui/typography';
+} from '../ui/custom/typography';
 import { AddToFavorite } from './AddToFavorite';
 
 export function CardItem() {

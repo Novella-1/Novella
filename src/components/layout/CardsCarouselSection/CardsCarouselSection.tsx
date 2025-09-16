@@ -1,5 +1,5 @@
 import { CardCarousel } from '@/components/common/BooksScrollArea/ScrollArea';
-import { SectionTitle } from '../../ui/typography';
+import { SectionTitle } from '../../ui/custom/typography';
 
 export function CardsCarouselSection({
   title = 'You might like',

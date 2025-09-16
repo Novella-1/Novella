@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
-import { ShopCatagoryImage } from '../../ui/image';
-import { TypographyH5, TypographyP } from '../../ui/typography';
+import { ShopCatagoryImage } from '../../ui/custom/image';
+import { TypographyH5, TypographyP } from '../../ui/custom/typography';
 
 export function CategoryItem({
   imageSrc,
