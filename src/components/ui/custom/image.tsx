@@ -34,3 +34,15 @@ export function ShopCategoryImage({ src }: { src: string }) {
     />
   );
 }
+interface DetailImageProps {
+  className?: string;
+}
+
+export function DetailImage({ className, ...props }: DetailImageProps) {
+  return (
+    <div
+      className={cn(className)}
+      {...props}
+    ></div>
+  );
+}
