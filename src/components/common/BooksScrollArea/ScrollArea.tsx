@@ -17,7 +17,8 @@ export function CardCarousel({ books }: { books: object[] }) {
         ref={scrollRef}
         items={books}
       >
-        <CardItem />
+        {/* <CardItem /> */}
+        dasdsa
       </HorizontalScroll>
     </div>
   );

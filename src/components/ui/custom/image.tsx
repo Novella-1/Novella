@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 //   className?: string;
 // }
 
-export function BookImage() {
+export function BookImage({ src }: { src: string }) {
   return (
     <div
       className={cn(
@@ -13,7 +13,7 @@ export function BookImage() {
       )}
     >
       <Image
-        src="/book-cover.png"
+        src={src}
         alt="Book cover"
         width={208}
         height={264}

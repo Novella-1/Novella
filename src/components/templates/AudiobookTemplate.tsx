@@ -12,7 +12,7 @@ type Props = {
   searchParams: Promise<FilterBooksParams>;
 };
 
-const PaperTemplate = async ({ searchParams }: Props) => {
+const AudiobookTemplate = async ({ searchParams }: Props) => {
   const params = await searchParams;
 
   const sortBy = (params.sortBy as SortType) || 'name';
@@ -20,7 +20,7 @@ const PaperTemplate = async ({ searchParams }: Props) => {
   const page = params.page ? Number(params.page) : 1;
   const pageSize = (params.pageSize ? Number(params.pageSize) : 16) as PageSize;
 
-  const totalCount = await getBooksQuantityByType('PAPERBACK');
+  const totalCount = await getBooksQuantityByType('AUDIOBOOK');
 
   return (
     <div className="py-16">
@@ -39,7 +39,7 @@ const PaperTemplate = async ({ searchParams }: Props) => {
       <Suspense fallback={<BookListSkeleton pageSize={pageSize} />}>
         <BooksList
           className="mb-10"
-          type="PAPERBACK"
+          type="AUDIOBOOK"
           page={page}
           pageSize={pageSize}
           sortBy={sortBy}
@@ -56,4 +56,4 @@ const PaperTemplate = async ({ searchParams }: Props) => {
   );
 };
 
-export default PaperTemplate;
+export default AudiobookTemplate;
