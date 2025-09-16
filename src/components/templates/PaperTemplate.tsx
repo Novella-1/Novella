@@ -5,9 +5,10 @@ import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
 import { getBooks } from '@/server/books';
 
 const PaperTemplate = async () => {
-  const books = await getBooks({
-    type: 'AUDIOBOOK',
-    quantity: 12,
+  const [books, totalCount] = await getBooks({
+    type: 'PAPERBACK',
+    page: 5,
+    pageSize: 2,
     sortBy: 'name',
     sortOrder: 'asc',
   });
@@ -20,19 +21,24 @@ const PaperTemplate = async () => {
           Paper books
         </TypographyH1>
         <TypographyP className="text-custom-text-secondary">
-          10,305 books
+          {totalCount} books
         </TypographyP>
       </div>
 
       {/*<Filtration/>*/}
 
-      {/* {books.map((item) => {
+      {books.map((item) => {
         return (
           <div key={item.slug}>
-            {item.slug} {item.priceRegular}
+            {/* <span>{item.author}</span>
+            <span style={{ backgroundColor: 'red' }}>{item.categories}</span> */}
+            {/* <span>{item.description}</span> */}
+            {/* <span>{item.name}</span> */}
+            {/* <span>{item.kindleDetails?.format}</span> */}
+            <span>{item.name}</span>
           </div>
         );
-      })} */}
+      })}
 
       <BooksList className="mb-10" />
 
