@@ -8,7 +8,7 @@ type Props = {
 
 const BooksList: FC<Props> = ({ className }) => {
   return (
-    <div className={cn('flex flex-row flex-wrap gap-4', className)}>
+    <div className={cn('flex flex-row flex-wrap gap-y-10 gap-x-4', className)}>
       {Array.from({ length: 16 }).map((_, index) => {
         return <CardItem key={index} />;
       })}

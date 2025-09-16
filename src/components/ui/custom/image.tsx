@@ -23,7 +23,7 @@ export function BookImage() {
   );
 }
 
-export function ShopCatagoryImage({ src }: { src: string }) {
+export function ShopCategoryImage({ src }: { src: string }) {
   return (
     <Image
       src={src}
