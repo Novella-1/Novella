@@ -1,12 +1,16 @@
 import { ChevronLeft } from 'lucide-react';
 import React from 'react';
 import { TypographyH1 } from '@/components/ui/custom/typography';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import CartCard from '../common/CartCard';
 import CartCheckout from '../common/CartCheckout';
 import { Button } from '../ui/button';
 
 const CartTemplate = () => {
+  //<ScrollArea className="h-72 w-48 rounded-md border"></ScrollArea>
   return (
+    // Scroll-area
+
     <section className="flex flex-col items-center justify-center pt-6 md:pt-10">
       <div className="w-full max-w-[1200px]">
         <Button variant={'link'}>
@@ -14,11 +18,16 @@ const CartTemplate = () => {
           <span>Back</span>
         </Button>
         <TypographyH1 className="pb-[32px]">Cart</TypographyH1>
-        <div className="flex flex-col  md:flex-row md:items-start gap-4 ">
-          <div className="flex flex-col gap-4 md:flex-1">
+        <div className="flex flex-col  md:flex-row md:items-start gap-16">
+          {/* <ScrollArea className="flex flex-col gap-4 md:flex-1"> */}
+          {/* <ScrollArea className="h-72 w-full rounded-md border"> */}
+          <div className="flex flex-col gap-4 md:flex-1 overflow-y-auto h-[360px] mb-20 ">
+            <CartCard />
+            <CartCard />
             <CartCard />
             <CartCard />
           </div>
+          {/* </ScrollArea> */}
 
           <div className="md:w-[320px]">
             <CartCheckout />
