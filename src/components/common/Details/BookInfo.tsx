@@ -39,10 +39,10 @@ export function BookInfo({
       className={cn(className)}
       {...props}
     >
-      <ImageContainer className="flex gap-4 flex-col w-full rounded-[14px] sm:w-full sm:rounded-[20px] xl:w-full xl:h-full py-4 px-3 sm:py-6 sm:px-12 xl:py-7 xl:px-8 bg-custom-header-bg border-1 border-custom-border-color">
+      <ImageContainer className="flex gap-4 flex-col w-full rounded-[14px] sm:w-full sm:rounded-[20px] xl:w-full xl:h-full py-4 px-3 sm:py-6 sm:px-12 xl:py-7 xl:px-8 bg-custom-header-footer border-1 border-custom-border">
         <div>
           <TypographyH5 className="mb-2">Category</TypographyH5>
-          <div className="inline-flex py-[5px] px-[10px] bg-custom-background-main border border-custom-border-color rounded-[8px]">
+          <div className="inline-flex py-[5px] px-[10px] bg-custom-button-bg border border-custom-border rounded-[8px] bg-custom-primary-bg">
             <div className="overflow-y-auto max-h-11">
               {categories?.length ?
                 <TypographyP>
@@ -61,11 +61,11 @@ export function BookInfo({
         <div>
           <TypographyH5 className="mb-2">Select language</TypographyH5>
           <div className="flex gap-2">
-            <Button>
-              <TypographyP>UA</TypographyP>
+            <Button className="bg-custom-button hover:bg-custom-hover-button">
+              <TypographyB>UA</TypographyB>
             </Button>
-            <Button>
-              <TypographyP>ENG</TypographyP>
+            <Button className="bg-custom-primary-bg border border-custom-border">
+              <TypographyB className="text-custom-button">ENG</TypographyB>
             </Button>
           </div>
         </div>
@@ -75,42 +75,40 @@ export function BookInfo({
             {priceDiscount ?
               <>
                 <TypographyH2>${priceDiscount}</TypographyH2>
-                <TypographyH3 className="line-through text-custom-text-secondary">
+                <TypographyH3 className="line-through text-custom-icons">
                   ${priceRegular}
                 </TypographyH3>
               </>
             : <TypographyH2>${priceRegular ?? '-'}</TypographyH2>}
           </div>
           <div className="flex gap-2 mb-6">
-            <Button className="flex-1 h-10">
+            <Button className="flex-1 h-10 bg-custom-button hover:bg-custom-hover-button">
               <TypographyB>Add to cart</TypographyB>
             </Button>
             <AddToFavorite />
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex justify-between w-full">
-              <TypographyP className="text-custom-text-secondary">
-                Author
-              </TypographyP>
+              <TypographyP className="text-custom-icons">Author</TypographyP>
               <TypographyP>{author}</TypographyP>
             </div>
             <Separator className="border-1 border-custom-separator" />
             <div className="flex justify-between w-full">
-              <TypographyP className="text-custom-text-secondary">
+              <TypographyP className="text-custom-icons">
                 Cover type
               </TypographyP>
               <TypographyP>{coverType || '-'}</TypographyP>
             </div>
             <Separator className="border-1 border-custom-separator" />
             <div className="flex justify-between w-full">
-              <TypographyP className="text-custom-text-secondary">
+              <TypographyP className="text-custom-icons">
                 Number of pages
               </TypographyP>
               <TypographyP>{numberOfPages || '-'}</TypographyP>
             </div>
             <Separator className="border-1 border-custom-separator" />
             <div className="flex justify-between w-full">
-              <TypographyP className="text-custom-text-secondary">
+              <TypographyP className="text-custom-icons">
                 Year of publication
               </TypographyP>
               <TypographyP>{publicationYear || '-'}</TypographyP>

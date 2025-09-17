@@ -15,10 +15,10 @@ export function CategoryItem({
     <Card className="flex flex-col items-start w-[288px] h-[355px] border-0 shadow-none sm:w-[187px] sm:h-[263px] xl:w-[368px] xl:h-[365px] py-0 gap-4 bg-transparent">
       <ShopCategoryImage src={imageSrc} />
       <div className="flex flex-col gap-1">
-        <TypographyH5 className="text-custom-primary text-[20px]">
+        <TypographyH5 className="text-custom-button text-[20px]">
           {title}
         </TypographyH5>
-        <TypographyP className="text-custom-secondary text-[14px]">
+        <TypographyP className="text-custom-icons text-[14px]">
           {bookCount}
         </TypographyP>
       </div>

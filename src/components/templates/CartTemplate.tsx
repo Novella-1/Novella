@@ -16,7 +16,7 @@ const CartTemplate = () => {
         </Button>
         <TypographyH1 className="pb-[32px]">Cart</TypographyH1>
         <div className="flex flex-col  md:flex-row md:items-start gap-4">
-          <Card className="flex flex-col gap-4 max-h-[390px] overflow-y-auto p-5 md:flex-1 bg-custom-card-bg">
+          <Card className="flex flex-col gap-4 max-h-[390px] overflow-y-auto p-5 md:flex-1 bg-custom-header-footer">
             <CartCard />
             <CartCard />
             <CartCard />
