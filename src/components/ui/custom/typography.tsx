@@ -166,7 +166,7 @@ export function SectionTitle({
   return (
     <h2
       className={cn(
-        'font-manrope text-[32px] not-italic font-bold leading-[41px] sm:tracking-[-0.32px] mb-[23px]',
+        'font-manrope text-[22px] not-italic font-bold leading-[41px] sm:tracking-[-0.32px] mb-[23px] sm:text-[32px] ml-[15%] xl:ml-0',
         className,
       )}
     >

@@ -1,11 +1,10 @@
-// import { CardItem } from '@/components/common/CardItem';
 import { PageWrapper } from '@/components/common/PageWrapper';
+import { HomePageTemplate } from '@/components/templates/HomePageTemplate';
 
 export default function Home() {
   return (
     <PageWrapper>
-      {/* <CardItem /> */}
-      HOME PAGE
+      <HomePageTemplate />
     </PageWrapper>
   );
 }

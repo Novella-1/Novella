@@ -2,17 +2,17 @@
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import React, { forwardRef } from 'react';
+import { cn } from '@/lib/utils';
+import { BookWithDetails } from '@/types/BookType';
 
 type HorizontalScrollProps = {
-  items: object[];
+  items: BookWithDetails[];
   children: React.ReactNode;
 };
 
 type ScrollButtonsProps = {
   scrollRef: React.RefObject<HTMLDivElement | null>;
 };
-
-import { cn } from '@/lib/utils';
 
 function ScrollArea({
   className,
