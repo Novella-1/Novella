@@ -11,6 +11,7 @@ import {
   SelectContent,
   SelectItem,
 } from '@/components/ui/select';
+import { ThemeButton } from './ThemeButton';
 
 interface Book {
   id: number;
@@ -97,7 +98,7 @@ const SearchAndCategory: FC = () => {
         )}
       </div>
 
-      <Select>
+      {/* <Select>
         <SelectTrigger className="w-48 h-10 bg-[#F4E2CD] text-[#331F06] font-bold border-[#BAA48C] rounded-md px-3 py-2">
           <SelectValue placeholder="Categories" />
         </SelectTrigger>
@@ -106,7 +107,9 @@ const SearchAndCategory: FC = () => {
           <SelectItem value="audio">Audio</SelectItem>
           <SelectItem value="kindle">Kindle</SelectItem>
         </SelectContent>
-      </Select>
+      </Select> */}
+
+      <ThemeButton />
     </div>
   );
 };
