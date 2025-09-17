@@ -67,14 +67,10 @@ export async function getBooks({
   sortOrder = 'asc',
   page = 1,
   pageSize = 16,
-}: GetBooksOptions): Promise<[BookWithDetails[], number]> {
+}: GetBooksOptions): Promise<BookWithDetails[]> {
   const include = getInclude(type);
   const order = getOrder(sortBy, sortOrder);
   const skip = (page - 1) * pageSize;
-
-  const totalCount = await prisma.book.count({
-    where: { type },
-  });
 
   const books = await prisma.book.findMany({
     where: { type },
@@ -86,7 +82,14 @@ export async function getBooks({
 
   const formattedBooks = books.map(formatCategories);
 
-  return [formattedBooks as BookWithDetails[], totalCount];
+  return formattedBooks as BookWithDetails[];
+}
+
+export async function getBooksQuantityByType(type: BookType): Promise<number> {
+  const count = await prisma.book.count({
+    where: { type },
+  });
+  return count;
 }
 
 export async function getBookBySlug(
