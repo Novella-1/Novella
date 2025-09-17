@@ -2,7 +2,13 @@ import React, { FC } from 'react';
 import { CardItem } from '@/components/common/CardItem';
 import { cn } from '@/lib/utils';
 import { getBooks } from '@/server/books';
-import { BookType, PageSize, SortType, SortOrder } from '@/types/BookType';
+import {
+  BookType,
+  PageSize,
+  SortType,
+  SortOrder,
+  BookWithDetails,
+} from '@/types/BookType';
 
 type Props = {
   className?: string;
@@ -13,21 +19,22 @@ type Props = {
   sortOrder: SortOrder;
 };
 
-const BooksList: FC<Props> = async ({
+const BooksList = async ({
   className,
   type,
   page,
   pageSize,
   sortBy,
   sortOrder,
-}) => {
-  const books = await getBooks({
-    type,
-    page,
-    pageSize,
-    sortBy,
-    sortOrder,
-  });
+}: Props) => {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
+  const res = await fetch(
+    `${baseUrl}/api/books?type=${type}&sortBy=${sortBy}&sortOrder=${sortOrder}&page=${page}&pageSize=${pageSize}`,
+    { cache: 'no-store' },
+  );
+  const books = await res.json();
+
   return (
     <div
       className={cn(
@@ -35,14 +42,12 @@ const BooksList: FC<Props> = async ({
         className,
       )}
     >
-      {books.map((book, index) => {
-        return (
-          <CardItem
-            key={index}
-            book={book}
-          />
-        );
-      })}
+      {books.map((book: BookWithDetails) => (
+        <CardItem
+          key={book.id}
+          book={book}
+        />
+      ))}
     </div>
   );
 };
