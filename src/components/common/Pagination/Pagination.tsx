@@ -35,6 +35,8 @@ const AppPagination: FC<Props> = ({ page, pageSize, totalCount }) => {
 
   function goToPage(newPage: number) {
     router.push(createHref(newPage));
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   const pages: number[] = [];

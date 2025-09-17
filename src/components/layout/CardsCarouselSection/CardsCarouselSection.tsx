@@ -1,17 +1,25 @@
 import { CardCarousel } from '@/components/common/BooksScrollArea/ScrollArea';
+import { cn } from '@/lib/utils';
+import { getBooks } from '@/server/books';
 import { SectionTitle } from '../../ui/custom/typography';
 
-export function CardsCarouselSection({
+export async function CardsCarouselSection({
+  className,
   title = 'You might like',
-  books = Array.from({ length: 7 }, () => ({})),
 }: {
+  className?: string;
   title?: string;
-  books?: object[];
 }) {
+  const booksData = await getBooks({
+    type: 'KINDLE',
+  });
+
   return (
-    <>
-      <SectionTitle className="mb-[-40px]">{title}</SectionTitle>
-      <CardCarousel books={books} />
-    </>
+    <section className={cn('', className)}>
+      <SectionTitle className="mb-[-42px] ">{title}</SectionTitle>
+      <CardCarousel books={booksData} />
+    </section>
   );
 }
+// ""
+// flex flex-col items-center

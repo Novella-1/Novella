@@ -4,6 +4,7 @@ import { TypographyH1 } from '@/components/ui/custom/typography';
 import CartCard from '../common/CartCard';
 import CartCheckout from '../common/CartCheckout';
 import { Button } from '../ui/button';
+import { Card } from '../ui/card';
 
 const CartTemplate = () => {
   return (
@@ -14,11 +15,13 @@ const CartTemplate = () => {
           <span>Back</span>
         </Button>
         <TypographyH1 className="pb-[32px]">Cart</TypographyH1>
-        <div className="flex flex-col  md:flex-row md:items-start gap-4 ">
-          <div className="flex flex-col gap-4 md:flex-1">
+        <div className="flex flex-col  md:flex-row md:items-start gap-4">
+          <Card className="flex flex-col gap-4 max-h-[390px] overflow-y-auto p-5 md:flex-1 bg-custom-card-bg">
             <CartCard />
             <CartCard />
-          </div>
+            <CartCard />
+            <CartCard />
+          </Card>
 
           <div className="md:w-[320px]">
             <CartCheckout />

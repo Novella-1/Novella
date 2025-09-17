@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 //   className?: string;
 // }
 
-export function BookImage() {
+export function BookImage({ src }: { src: string }) {
   return (
     <div
       className={cn(
@@ -13,7 +13,7 @@ export function BookImage() {
       )}
     >
       <Image
-        src="/book-cover.png"
+        src={src}
         alt="Book cover"
         width={208}
         height={264}
@@ -34,15 +34,21 @@ export function ShopCategoryImage({ src }: { src: string }) {
     />
   );
 }
-interface DetailImageProps {
+
+interface ImageCoverProps {
   className?: string;
 }
 
-export function DetailImage({ className, ...props }: DetailImageProps) {
+export function HomePageImage({ className }: ImageCoverProps) {
   return (
-    <div
-      className={cn(className)}
-      {...props}
-    ></div>
+    <div className={cn('flex justify-center', className)}>
+      <Image
+        src="/homePage-cover.png"
+        alt="Home page cover"
+        width={1044}
+        height={400}
+        className="w-[1042px] h-[320px] sm:h-[400px] rounded-md object-cover"
+      />
+    </div>
   );
 }
