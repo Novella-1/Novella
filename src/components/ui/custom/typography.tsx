@@ -11,7 +11,7 @@ export function TypographyH1({
   return (
     <h1
       className={cn(
-        'font-manrope text-[32px] not-italic font-bold leading-[41px] tracking-[-0.32px] sm:text-[48px] sm:leading-[56px] sm:tracking-[-0.96px]',
+        'font-manrope text-3xl not-italic font-bold leading-[41px] tracking-[-0.32px] sm:text-5xl sm:leading-[56px] sm:tracking-[-0.96px]',
         className,
       )}
     >
@@ -30,7 +30,7 @@ export function TypographyH2({
   return (
     <h2
       className={cn(
-        'font-manrope text-[22px] not-italic font-bold leading-[30.8px] sm:text-[32px] sm:leading-[41px] sm:tracking-[-0.32px]',
+        'font-manrope text-2xl not-italic font-bold leading-[30.8px] sm:text-3xl sm:leading-[41px] sm:tracking-[-0.32px]',
         className,
       )}
     >
@@ -49,7 +49,7 @@ export function TypographyH3({
   return (
     <h3
       className={cn(
-        'font-manrope text-[22px] not-italic font-semibold leading-[30.8px]',
+        'font-manrope text-2xl not-italic font-semibold leading-[30.8px]',
         className,
       )}
     >
@@ -68,7 +68,7 @@ export function TypographyH4({
   return (
     <h4
       className={cn(
-        'font-manrope text-[20px] not-italic font-semibold leading-normal',
+        'font-manrope text-xl not-italic font-semibold leading-normal',
         className,
       )}
     >
@@ -96,7 +96,7 @@ export function TypographyH5({
   );
 }
 
-//paragraph
+//for paragraphs
 export function TypographyP({
   children,
   className,
@@ -136,7 +136,7 @@ export function TypographyB({
   );
 }
 
-//uppercase for header/footer
+//for uppercase
 export function TypographyU({
   children,
   className,

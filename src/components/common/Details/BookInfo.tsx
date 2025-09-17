@@ -39,7 +39,7 @@ export function BookInfo({
       className={cn(className)}
       {...props}
     >
-      <ImageContainer className="flex gap-4 flex-col w-full rounded-[14px] sm:w-full sm:rounded-[20px] xl:w-[380px] xl:h-full py-4 px-3 sm:py-6 sm:px-12 xl:py-7 xl:px-8 bg-custom-header-bg border-1 border-custom-border-color">
+      <ImageContainer className="flex gap-4 flex-col w-full rounded-[14px] sm:w-full sm:rounded-[20px] xl:w-full xl:h-full py-4 px-3 sm:py-6 sm:px-12 xl:py-7 xl:px-8 bg-custom-header-bg border-1 border-custom-border-color">
         <div>
           <TypographyH5 className="mb-2">Category</TypographyH5>
           <div className="inline-flex py-[5px] px-[10px] bg-custom-background-main border border-custom-border-color rounded-[8px]">
