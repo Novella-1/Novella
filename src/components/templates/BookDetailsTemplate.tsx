@@ -4,6 +4,7 @@ import { BookAbout } from '../common/Details/BookAbout';
 import { BookCharacteristics } from '../common/Details/BookCharacteristics';
 import { BookInfo } from '../common/Details/BookInfo';
 import { BookPhotoContainer } from '../common/Details/BookPhotosContainers';
+import { CardsCarouselSection } from '../layout/CardsCarouselSection/CardsCarouselSection';
 import { TypographyH2, TypographyP } from '../ui/custom/typography';
 
 interface BookDetailsTemplateProps {
@@ -33,10 +34,10 @@ export async function BookDetailsTemplate({
             <TypographyP>{bookWithDetails?.author}</TypographyP>
           </div>
 
-          <div className="flex flex-col gap-4 sm:flex-col sm:gap-[34px] xl:flex-row xl:gap-[88px] xl:h-[524px] xl:items-start">
+          <div className="flex flex-col gap-4 sm:flex-col sm:gap-[34px] xl:flex-row xl:gap-[88px] xl:h-[524px]">
             <BookPhotoContainer images={bookWithDetails?.images} />
             <BookInfo
-              className="xl:w-1/3 xl:h-full"
+              className="xl:h-full"
               categories={bookWithDetails?.categories}
               author={bookWithDetails?.author}
               coverType={bookWithDetails?.paperDetails?.coverType}
@@ -65,6 +66,8 @@ export async function BookDetailsTemplate({
             illustrations={bookWithDetails?.paperDetails?.illustrations}
           />
         </div>
+
+        <CardsCarouselSection className="mb-10" />
       </div>
     </div>
   );
