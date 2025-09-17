@@ -65,7 +65,7 @@ export function BookInfo({
               <TypographyB>UA</TypographyB>
             </Button>
             <Button className="bg-custom-primary-bg border border-custom-border">
-              <TypographyB className="text-custom-button">ENG</TypographyB>
+              <TypographyB className="text-custom-button-text">ENG</TypographyB>
             </Button>
           </div>
         </div>
@@ -75,7 +75,7 @@ export function BookInfo({
             {priceDiscount ?
               <>
                 <TypographyH2>${priceDiscount}</TypographyH2>
-                <TypographyH3 className="line-through text-custom-icons">
+                <TypographyH3 className="line-through text-custom-border">
                   ${priceRegular}
                 </TypographyH3>
               </>

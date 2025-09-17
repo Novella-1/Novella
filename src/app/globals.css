@@ -59,9 +59,11 @@
   --breakpoint-xl: 75rem;
 
   --color-custom-primary-bg: var(--primary-bg);
+  --color-custom-primary-text: var(--primary-text);
   --color-custom-header-footer: var(--header-footer);
   --color-custom-border: var(--border);
   --color-custom-button: var(--button);
+  --color-custom-button-text: var(--button-text);
   --color-custom-hover-button: var(--hover-button);
   --color-custom-icons: var(--icons);
   --color-custom-icons-accent: var(--icons-accent);
@@ -105,43 +107,39 @@
   /* our custom styles */
 
   --primary-bg: #eeeade;
+  --primary-text: #2b1d0c;
   --header-footer: #fdfdf9;
-  --border: #f5e8da;
+  --border: #e1cfbc;
   --button: #2b1d0c;
+  --button-text: #fdfdf9;
   --hover-button: #4c412e;
   --icons: #958370;
   --icons-accent: #9faf38;
   --favourites-icon: #d95750;
   --separator: #d9cabb;
-
-  /* --primary-bg: #30200d;
-  --header-footer: #6c563d;
-  --border: #958370;
-  --button: #30200d;
-  --hover-button: #4c412e;
-  --icons: #ebe7da;
-  --icons-accent: #a7ba26;
-  --favourites-icon: #d95750;
-  --separator: #d9cabb; */
 }
 
 [data-theme='dark'] {
   --primary-bg: #30200d;
+  --primary-text: #f1ede1;
   --header-footer: #6c563d;
   --border: #958370;
   --button: #30200d;
+  --button-text: #f1ede1;
   --hover-button: #4c412e;
   --icons: #ebe7da;
   --icons-accent: #a7ba26;
   --favourites-icon: #d95750;
-  --separator: #d9cabb;
+  --separator: #86725e;
 }
 
 [data-theme='protanopia'] {
   --primary-bg: #e9e9dd;
+  --primary-text: #212112;
   --header-footer: #fdfdf9;
   --border: #ebebd9;
   --button: #212112;
+  --button-text: #fdfdf9;
   --hover-button: rgb(76, 66, 48);
   --icons: #99997f;
   --icons-accent: #9b9b57;
@@ -151,9 +149,11 @@
 
 [data-theme='tritanopia'] {
   --primary-bg: #eadfe0;
+  --primary-text: #241515;
   --header-footer: #fdfafa;
   --border: #f0dcdd;
   --button: #241515;
+  --button-text: #fdfafa;
   --hover-button: #2e1c1c;
   --icons: #a08384;
   --icons-accent: #966a6e;
@@ -161,16 +161,22 @@
   --separator: #d8c1c2;
 }
 
-[data-theme='achromatopsia'] {
-  --primary-bg: #e6e6e6;
-  --header-footer: #fcfcfc;
-  --border: #fcfcfc;
-  --button: #1d1d1d;
-  --hover-button: #323232;
-  --icons: #929292;
-  --icons-accent: #939393;
-  --favourites-icon: #757575;
-  --separator: #757575;
+[data-theme='deuteranopia'] {
+  --primary-bg: #eee8d8;
+  --primary-text: #241515;
+  --header-footer: #fdfdf8;
+  --border: #9d947d;
+  --button: #241515;
+  --button-text: #fdfdf8;
+  --hover-button: #2d2617;
+  --icons: #3a362b;
+  --icons-accent: #989f4d;
+  --favourites-icon: #b0714b;
+  --separator: #d6cdbd;
+}
+
+[data-theme='grayscale'] {
+  filter: grayscale(100%);
 }
 
 .dark {

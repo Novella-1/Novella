@@ -33,7 +33,7 @@ export function BookCharacteristics({
     >
       <div className="flex flex-col gap-4">
         <TypographyH3>Characteristics</TypographyH3>
-        <Separator className="border-1 border-custom-button" />
+        <Separator className="border-1 border-custom-primary-text" />
         <div className="flex flex-col gap-1.5">
           <div className="flex justify-between w-full">
             <TypographyP className="text-custom-icons">Author</TypographyP>

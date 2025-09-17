@@ -61,7 +61,7 @@ export function CardItem({ book }: { book: BookWithDetails }) {
       </div>
       <div className="flex flex-row gap-2 justify-between w-full">
         <Button className="flex-1 h-10 cursor-pointer bg-custom-button hover:bg-custom-hover-button transition-shadow duration-200 hover:shadow-[0_1px_10px_0_rgba(23,32,49,0.40)]">
-          <TypographyB className="text-white">Add to cart</TypographyB>
+          <TypographyB className="text-custom-">Add to cart</TypographyB>
         </Button>
         <AddToFavorite className="cursor-pointer hover:border-custom-border" />
       </div>

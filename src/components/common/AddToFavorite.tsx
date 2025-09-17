@@ -9,12 +9,12 @@ export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
   return (
     <div
       className={cn(
-        'flex w-10 h-10 p-3 items-center justify-center rounded-[8] border-1 border-main-elements-color',
+        'flex w-10 h-10 p-3 items-center justify-center rounded-[8] border-1 border-custom-border',
         className,
       )}
       {...props}
     >
-      <HeartIcon />
+      <HeartIcon className="text-custom-primary-text" />
     </div>
   );
 }
