@@ -11,7 +11,7 @@ interface BookCharacteristicsProps {
   publication?: string | null;
   format?: string | null;
   lang?: string | null;
-  illustrations?: string | null;
+  illustrations?: boolean | null;
 }
 
 export function BookCharacteristics({
@@ -88,7 +88,7 @@ export function BookCharacteristics({
             <TypographyP className="text-custom-text-secondary">
               Illustrations
             </TypographyP>
-            <TypographyP>{illustrations || '-'}</TypographyP>
+            <TypographyP>{illustrations ? 'Yes' : 'No'}</TypographyP>
           </div>
         </div>
       </div>

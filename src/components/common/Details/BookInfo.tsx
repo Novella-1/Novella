@@ -43,7 +43,7 @@ export function BookInfo({
         <div>
           <TypographyH5 className="mb-2">Category</TypographyH5>
           <div className="inline-flex py-[5px] px-[10px] bg-custom-background-main border border-custom-border-color rounded-[8px]">
-            <div className="overflow-y-auto h-11">
+            <div className="overflow-y-auto max-h-11">
               {categories?.length ?
                 <TypographyP>
                   {categories.map((cat, index) => (
