@@ -25,7 +25,7 @@ export function BookPhotoContainer({
         className={cn(className)}
         {...props}
       >
-        <ImageContainer className="w-full h-[424px] xl:h-[520px] bg-custom-header-bg border border-custom-border-color rounded-[14px] sm:rounded-[16px] xl:rounded-[20px]" />
+        <ImageContainer className="w-full h-[424px] xl:h-[520px] bg-custom-header-footer border border-custom-border rounded-[14px] sm:rounded-[16px] xl:rounded-[20px]" />
       </div>
     );
   }
@@ -41,11 +41,11 @@ export function BookPhotoContainer({
             <ImageContainer
               key={index}
               className={cn(
-                'flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-bg border-1 border-custom-border-color rounded-[4px] p-2 cursor-pointer',
+                'flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-footer border-1 border-custom-border rounded-[4px] p-2 cursor-pointer',
                 selectedImage === img ?
-                  'border-custom-border-color'
-                : 'border-custom-border-color',
-                'hover:border-custom-primary',
+                  'border-custom-border'
+                : 'border-custom-border',
+                'hover:border-custom-button',
               )}
               onClick={() => setSelectedImage(img)}
             >
@@ -62,7 +62,7 @@ export function BookPhotoContainer({
           ))}
         </div>
 
-        <ImageContainer className="w-full h-[424px] xl:w-[464px] xl:h-[520px] bg-custom-header-bg border border-custom-border-color rounded-[14px] sm:rounded-[16px] xl:rounded-[20px] flex items-center justify-center p-6">
+        <ImageContainer className="w-full h-[424px] xl:w-[464px] xl:h-[520px] bg-custom-header-footer border border-custom-border rounded-[14px] sm:rounded-[16px] xl:rounded-[20px] flex items-center justify-center p-6">
           {selectedImage && (
             <Image
               src={`/books/${selectedImage}`}
@@ -81,18 +81,18 @@ export function BookPhotoContainer({
 {
   /* <div className="flex flex-col-reverse gap-8 sm:flex-row xl:h-full xl:items-stretch">
         <div className="flex flex-row gap-2 overflow-x-auto sm:flex-col sm:overflow-x-visible">
-          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-bg border border-custom-border-color rounded-[4px]"></ImageContainer>
-          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-bg border border-custom-border-color rounded-[4px]" />
-          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-bg border border-custom-border-color rounded-[4px]" />
-          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-bg border border-custom-border-color rounded-[4px]" />
-          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-bg border border-custom-border-color rounded-[4px]" />
-          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-bg border border-custom-border-color rounded-[4px]" />
+          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-footer border border-custom-border rounded-[4px]"></ImageContainer>
+          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-footer border border-custom-border rounded-[4px]" />
+          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-footer border border-custom-border rounded-[4px]" />
+          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-footer border border-custom-border rounded-[4px]" />
+          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-footer border border-custom-border rounded-[4px]" />
+          <ImageContainer className="flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-footer border border-custom-border rounded-[4px]" />
           {/* {images.map((img, index) => (
             <ImageContainer
               key={index}
               className={cn(
-                'flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-bg border border-custom-border-color rounded-[4px] cursor-pointer',
-                selectedImage === img && 'ring-2 ring-custom-border-color',
+                'flex-shrink-0 w-16 h-16 xl:w-20 xl:h-20 bg-custom-header-footer border border-custom-border rounded-[4px] cursor-pointer',
+                selectedImage === img && 'ring-2 ring-custom-border',
               )}
               onClick={() => setSelectedImage(img)}
             >
@@ -105,5 +105,5 @@ export function BookPhotoContainer({
 }
 //   </div>
 
-//   <ImageContainer className="w-full h-full rounded-[14px] sm:w-full sm:h-[424px] sm:rounded-[16px] xl:w-[464px] xl:h-[520px] xl:rounded-[20px] bg-custom-header-bg border border-custom-border-color"></ImageContainer>
+//   <ImageContainer className="w-full h-full rounded-[14px] sm:w-full sm:h-[424px] sm:rounded-[16px] xl:w-[464px] xl:h-[520px] xl:rounded-[20px] bg-custom-header-footer border border-custom-border"></ImageContainer>
 // </div> */}

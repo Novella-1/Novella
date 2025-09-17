@@ -69,7 +69,7 @@ const HorizontalScroll = forwardRef<HTMLDivElement, HorizontalScrollProps>(
     return (
       <div
         ref={ref}
-        className="flex overflow-x-auto scrollbar-hide gap-4 py-[10px] rounded-md border"
+        className="flex overflow-x-auto scrollbar-hide gap-4 py-[10px]"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {items.map((_, i) => (

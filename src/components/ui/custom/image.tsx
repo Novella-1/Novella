@@ -1,10 +1,6 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-// interface BookImageProps {
-//   className?: string;
-// }
-
 export function BookImage({ src }: { src: string }) {
   return (
     <div

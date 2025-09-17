@@ -1,6 +1,8 @@
 import { CardsCarouselSection } from '../layout/CardsCarouselSection/CardsCarouselSection';
-import { CategorySection } from '../layout/CategorySection/CatagorySection';
+import { CategorySection } from '../layout/CategorySection/CategorySection';
+
 import { HomePageImage } from '../ui/custom/image';
+
 export const HomePageTemplate = () => {
   return (
     <div>
