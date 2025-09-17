@@ -1,8 +1,12 @@
 import React from 'react';
+import { getBooks } from '@/server/books';
 import { CardItem } from '../common/CardItem';
 import { TypographyH1, TypographyP } from '../ui/custom/typography';
 
-const FavoritesTemplate = () => {
+const FavoritesTemplate = async () => {
+  const booksData = await getBooks({
+    type: 'KINDLE',
+  });
   return (
     //pt-[64px]
     <section className="pt-[64px]  py-16">
@@ -18,11 +22,11 @@ const FavoritesTemplate = () => {
 
                 "
         >
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
+          {booksData.map((book) => (
+            <>
+              <CardItem book={book} />
+            </>
+          ))}
         </div>
       </div>
     </section>
