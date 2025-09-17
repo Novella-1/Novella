@@ -1,8 +1,8 @@
+import React from 'react';
 import { cn } from '@/lib/utils';
 
-interface ImageContainerProps {
+interface ImageContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
-  children?: React.ReactNode;
 }
 
 export function ImageContainer({
@@ -12,7 +12,7 @@ export function ImageContainer({
 }: ImageContainerProps) {
   return (
     <div
-      className={(cn(), className)}
+      className={cn(className)}
       {...props}
     >
       {children}

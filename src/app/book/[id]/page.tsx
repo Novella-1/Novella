@@ -1,10 +1,16 @@
 import { PageWrapper } from '@/components/common/PageWrapper';
 import { BookDetailsTemplate } from '@/components/templates/BookDetailsTemplate';
 
-function BookDetailPage({ params }: { params: { id: string } }) {
+type Props = {
+  params: {
+    slug: string;
+  };
+};
+
+function BookDetailPage({ params }: Props) {
   return (
     <PageWrapper>
-      <BookDetailsTemplate />
+      <BookDetailsTemplate slug={params.slug} />
     </PageWrapper>
   );
 }

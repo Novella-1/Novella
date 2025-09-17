@@ -4,10 +4,26 @@ import { cn } from '@/lib/utils';
 
 interface BookCharacteristicsProps {
   className?: string;
+  author?: string | null;
+  coverType?: string | null;
+  numberOfPages?: number | null;
+  publicationYear?: number | null;
+  publication?: string | null;
+  format?: string | null;
+  lang?: string | null;
+  illustrations?: boolean | null;
 }
 
 export function BookCharacteristics({
   className,
+  author,
+  coverType,
+  numberOfPages,
+  publicationYear,
+  publication,
+  format,
+  lang,
+  illustrations,
   ...props
 }: BookCharacteristicsProps) {
   return (
@@ -15,7 +31,7 @@ export function BookCharacteristics({
       className={cn(className)}
       {...props}
     >
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
         <TypographyH3>Characteristics</TypographyH3>
         <Separator className="border-1 border-custom-primary" />
         <div className="flex flex-col gap-1.5">
@@ -23,56 +39,56 @@ export function BookCharacteristics({
             <TypographyP className="text-custom-text-secondary">
               Author
             </TypographyP>
-            <TypographyP>Chris Miller</TypographyP>
+            <TypographyP>{author || '-'}</TypographyP>
           </div>
           <Separator className="border-1 border-custom-separator" />
           <div className="flex justify-between w-full">
             <TypographyP className="text-custom-text-secondary">
               Cover type
             </TypographyP>
-            <TypographyP>Cover type</TypographyP>
+            <TypographyP>{coverType || '-'}</TypographyP>
           </div>
           <Separator className="border-1 border-custom-separator" />
           <div className="flex justify-between w-full">
             <TypographyP className="text-custom-text-secondary">
               Number of pages
             </TypographyP>
-            <TypographyP>432</TypographyP>
+            <TypographyP>{numberOfPages || '-'}</TypographyP>
           </div>
           <Separator className="border-1 border-custom-separator" />
           <div className="flex justify-between w-full">
             <TypographyP className="text-custom-text-secondary">
               Year of publication
             </TypographyP>
-            <TypographyP>2024</TypographyP>
+            <TypographyP>{publicationYear || '-'}</TypographyP>
           </div>
           <Separator className="border-1 border-custom-separator" />
           <div className="flex justify-between w-full">
             <TypographyP className="text-custom-text-secondary">
               Publication
             </TypographyP>
-            <TypographyP>Nash Format</TypographyP>
+            <TypographyP>{publication || '-'}</TypographyP>
           </div>
           <Separator className="border-1 border-custom-separator" />
           <div className="flex justify-between w-full">
             <TypographyP className="text-custom-text-secondary">
               Format
             </TypographyP>
-            <TypographyP>140х210 mm</TypographyP>
+            <TypographyP>{format || '-'}</TypographyP>
           </div>
           <Separator className="border-1 border-custom-separator" />
           <div className="flex justify-between w-full">
             <TypographyP className="text-custom-text-secondary">
               LangLanguage
             </TypographyP>
-            <TypographyP>UA</TypographyP>
+            <TypographyP>{lang}</TypographyP>
           </div>
           <Separator className="border-1 border-custom-separator" />
           <div className="flex justify-between w-full">
             <TypographyP className="text-custom-text-secondary">
               Illustrations
             </TypographyP>
-            <TypographyP>No illustrations</TypographyP>
+            <TypographyP>{illustrations ? 'Yes' : 'No'}</TypographyP>
           </div>
         </div>
       </div>
