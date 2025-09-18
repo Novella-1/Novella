@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
-import { SessionProvider } from 'next-auth/react';
 import Footer from '@/components/common/Footer/Footer';
 import Header from '@/components/common/Header/Header';
 import './globals.css';
@@ -20,8 +19,10 @@ const manrope = Manrope({
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html
@@ -31,26 +32,31 @@ export default function RootLayout({
       <body
         className={`${manrope.className} ${manrope.variable} antialiased bg-custom-primary-bg flex flex-col min-h-screen`}
       >
-        <ThemeProvider
-          attribute="data-theme"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          storageKey="novella-theme"
-          themes={[
-            'system',
-            'light',
-            'dark',
-            'protanopia',
-            'tritanopia',
-            'deuteranopia',
-            'grayscale',
-          ]}
-        >
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider
+            attribute="data-theme"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            storageKey="novella-theme"
+            themes={[
+              'system',
+              'light',
+              'dark',
+              'protanopia',
+              'tritanopia',
+              'deuteranopia',
+              'grayscale',
+            ]}
+          >
+            <Header />
+            <main className="flex-grow">
+              {children}
+              {modal}
+            </main>
+            <Footer />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

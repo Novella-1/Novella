@@ -35,9 +35,9 @@ const Logo: FC<{ className?: string }> = ({ className }) => (
 const Header: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  // const { data, status } = useSession();
+  const { data, status } = useSession();
 
-  // console.log('data', data);
+  console.log(data, status);
 
   return (
     <header
@@ -47,6 +47,10 @@ const Header: FC = () => {
         <Logo className="h-10 w-auto cursor-pointer xl:h-14" />
 
         <Nav variant="desktop" />
+
+        <div>
+          {data?.user?.email}/{status}
+        </div>
 
         <div className="ml-auto flex items-center gap-4">
           <div className="hidden xl:flex p-4">

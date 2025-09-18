@@ -8,7 +8,6 @@ import {
   TypographyB,
   TypographyH3,
   TypographyH4,
-  TypographyH5,
   TypographyP,
 } from '../../ui/custom/typography';
 import { AddToFavorite } from './AddToFavorite';
