@@ -1,4 +1,5 @@
 import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { BookWithDetails } from '@/types/BookType';
 import { Button } from '../../ui/button';
 import { TruckIcon, HeadphonesIcon } from '../../ui/custom/icons';
@@ -13,7 +14,13 @@ import {
 import { AddToFavorite } from './AddToFavorite';
 import CardItemTitle from './CardItemTitle';
 
-export function CardItem({ book }: { book: BookWithDetails }) {
+export function CardItem({
+  book,
+  className,
+}: {
+  book: BookWithDetails;
+  className?: string;
+}) {
   //   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   //     e.preventDefault();
   //     //logic
@@ -22,7 +29,12 @@ export function CardItem({ book }: { book: BookWithDetails }) {
     book;
 
   return (
-    <Card className="flex flex-col items-start gap-4 w-[214px] h-[400px] p-5 rounded-2xl border border-custom-border bg-custom-header-footer sm:w-[272px] sm:h-[506px] sm:p-8 transition-transform duration-200 ease-in-out hover:scale-[1.02] hover:shadow-[0_2px_16px_0_rgba(0,0,0,0.10)]">
+    <Card
+      className={cn(
+        'flex flex-col items-start gap-4 w-[214px] h-[400px] p-5 rounded-2xl border border-custom-border bg-custom-header-footer sm:w-[272px] sm:h-[506px] sm:p-8 transition-transform duration-200 ease-in-out hover:scale-[1.02] hover:shadow-[0_2px_16px_0_rgba(0,0,0,0.10)]',
+        className,
+      )}
+    >
       <div className="relative w-full flex justify-center">
         <BookImage
           src={`/books/${images[0]}`}
