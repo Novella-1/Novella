@@ -5,6 +5,7 @@ import { Menu, Search, X } from 'lucide-react';
 import { Manrope } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import React, { FC, useState } from 'react';
 
 import IconNav from './IconNav';
@@ -35,6 +36,9 @@ const Logo: FC<{ className?: string }> = ({ className }) => (
 const Header: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { data, status } = useSession();
+
+  console.log(data, status);
 
   return (
     <>

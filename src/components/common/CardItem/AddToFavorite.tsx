@@ -2,6 +2,7 @@
 
 import lottie, { AnimationItem } from 'lottie-web';
 import { HeartIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import heartAnimation from '@/../public/lotties/heartAnimation.json';
 import { Button } from '@/components/ui/button';
@@ -66,8 +67,22 @@ export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
     }
   };
 
+  const router = useRouter();
+
+  const onClickHandler = () => {
+    router.push('/login');
+  };
   return (
     <div
+      role="button"
+      tabIndex={0}
+      onClick={onClickHandler}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClickHandler();
+        }
+      }}
       className={cn(
         'flex items-center justify-center rounded-[8px] border border-custom-border',
         className,

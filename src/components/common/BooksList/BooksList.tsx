@@ -28,14 +28,9 @@ const BooksList = async ({
   sortBy,
   sortOrder,
 }: Props) => {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  // const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
-  const res = await fetch(
-    `${baseUrl}/api/books?type=${type}&sortBy=${sortBy}&sortOrder=${sortOrder}&page=${page}&pageSize=${pageSize}`,
-    { cache: 'no-store' },
-  );
-  const books = await res.json();
-  console.log(books);
+  const books = await getBooks({ type, page, pageSize, sortBy, sortOrder });
 
   return (
     <div
@@ -52,7 +47,7 @@ const BooksList = async ({
     >
       {books.map((book: BookWithDetails) => (
         <CardItem
-          key={book.id}
+          key={book.slug}
           book={book}
           className={pageSize === 9 ? 'md:w-[300px] sm:w-[272px]' : ''}
         />
