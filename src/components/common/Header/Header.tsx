@@ -48,10 +48,6 @@ const Header: FC = () => {
 
         <Nav variant="desktop" />
 
-        <div>
-          {data?.user?.email}/{status}
-        </div>
-
         <div className="ml-auto flex items-center gap-4">
           <div className="hidden xl:flex p-4">
             <SearchBar variant="desktop" />
