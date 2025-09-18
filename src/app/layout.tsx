@@ -31,21 +31,26 @@ export default function RootLayout({
       <body
         className={`${manrope.className} ${manrope.variable} antialiased bg-custom-primary-bg flex flex-col min-h-screen`}
       >
-        {' '}
-        <AuthProvider>
-          <ThemeProvider
-            attribute="data-theme"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-            storageKey="novella-theme"
-            themes={['light', 'dark', 'protanopia']}
-          >
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </ThemeProvider>
-        </AuthProvider>
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+          storageKey="novella-theme"
+          themes={[
+            'system',
+            'light',
+            'dark',
+            'protanopia',
+            'tritanopia',
+            'deuteranopia',
+            'grayscale',
+          ]}
+        >
+          <Header />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
