@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { CardItem } from '@/components/common/CardItem';
+
 import { cn } from '@/lib/utils';
 import { getBooks } from '@/server/books';
 import {
@@ -9,6 +9,7 @@ import {
   SortOrder,
   BookWithDetails,
 } from '@/types/BookType';
+import { CardItem } from '../CardItem/CardItem';
 
 type Props = {
   className?: string;

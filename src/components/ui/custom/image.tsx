@@ -1,11 +1,32 @@
+'use client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
-export function BookImage({ src }: { src: string }) {
+export function BookImage({
+  src,
+  bookSlug,
+}: {
+  src: string;
+  bookSlug: string;
+}) {
+  const router = useRouter();
+
+  const obImageClickHandler = () => {
+    router.push(`/book/${bookSlug}`);
+  };
   return (
     <div
+      role="button"
+      tabIndex={0}
+      onClick={obImageClickHandler}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          obImageClickHandler();
+        }
+      }}
       className={cn(
-        'flex flex-col justify-center items-center self-stretch px-0 sm:px-[13.844px]',
+        'flex flex-col justify-center items-center self-stretch px-0 sm:px-[13.844px] cursor-pointer',
       )}
     >
       <Image

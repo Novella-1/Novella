@@ -1,6 +1,6 @@
 import React from 'react';
 import { getBooks } from '@/server/books';
-import { CardItem } from '../common/CardItem';
+import { CardItem } from '../common/CardItem/CardItem';
 import { TypographyH1, TypographyP } from '../ui/custom/typography';
 
 const FavoritesTemplate = async () => {

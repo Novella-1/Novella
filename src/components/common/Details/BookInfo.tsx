@@ -10,7 +10,7 @@ import {
   TypographyP,
 } from '@/components/ui/custom/typography';
 import { cn } from '@/lib/utils';
-import { AddToFavorite } from '../AddToFavorite';
+import { AddToFavorite } from '../CardItem/AddToFavorite';
 
 interface BookInfoProps {
   className?: string;
