@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
+import { SessionProvider } from 'next-auth/react';
 import Footer from '@/components/common/Footer/Footer';
 import Header from '@/components/common/Header/Header';
 import './globals.css';
+import { AuthProvider } from '@/providers/session-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
 
 export const metadata: Metadata = {
@@ -29,18 +31,21 @@ export default function RootLayout({
       <body
         className={`${manrope.className} ${manrope.variable} antialiased bg-custom-primary-bg flex flex-col min-h-screen`}
       >
-        <ThemeProvider
-          attribute="data-theme"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          storageKey="novella-theme"
-          themes={['light', 'dark', 'protanopia']}
-        >
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </ThemeProvider>
+        {' '}
+        <AuthProvider>
+          <ThemeProvider
+            attribute="data-theme"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            storageKey="novella-theme"
+            themes={['light', 'dark', 'protanopia']}
+          >
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
