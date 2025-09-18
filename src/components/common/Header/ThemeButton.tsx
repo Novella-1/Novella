@@ -14,6 +14,11 @@ import {
 
 const themeOptions = [
   {
+    value: 'system',
+    label: 'System',
+    icon: <Droplet className="!h-6 !w-6 text-rose-500" />,
+  },
+  {
     value: 'light',
     label: 'Light',
     icon: <Sun className="!h-6 !w-6 text-yellow-500" />,
