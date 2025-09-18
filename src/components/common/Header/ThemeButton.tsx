@@ -1,17 +1,76 @@
 'use client';
-import { Moon, Sun } from 'lucide-react';
+
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sun, Moon, Droplet, Contrast } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
+  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+const themeOptions = [
+  {
+    value: 'system',
+    label: 'System',
+    icon: <Droplet className="!h-6 !w-6 text-rose-500" />,
+  },
+  {
+    value: 'light',
+    label: 'Light',
+    icon: <Sun className="!h-6 !w-6 text-yellow-500" />,
+  },
+  {
+    value: 'dark',
+    label: 'Dark',
+    icon: <Moon className="!h-6 !w-6 text-black" />,
+  },
+  {
+    value: 'protanopia',
+    label: 'Protanopia',
+    icon: <Droplet className="!h-6 !w-6 text-rose-500" />,
+  },
+  {
+    value: 'deuteranopia',
+    label: 'Deuteranopia',
+    icon: <Droplet className="!h-6 !w-6 text-green-500" />,
+  },
+  {
+    value: 'tritanopia',
+    label: 'Tritanopia',
+    icon: <Droplet className="!h-6 !w-6 text-sky-500" />,
+  },
+  {
+    value: 'grayscale',
+    label: 'Grayscale',
+    icon: <Contrast className="!h-6 !w-6 text-gray-500" />,
+  },
+];
+
 export function ThemeButton() {
-  const { setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const current =
+    themeOptions.find((opt) => opt.value === resolvedTheme) ?? themeOptions[0];
+
+  if (!mounted) {
+    return (
+      <Button
+        variant="outline"
+        size="icon"
+        className="border-none"
+        aria-label="Select theme"
+      />
+    );
+  }
 
   return (
     <DropdownMenu>
@@ -19,37 +78,36 @@ export function ThemeButton() {
         <Button
           variant="outline"
           size="icon"
+          className="border-none"
+          aria-label="Select theme"
         >
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
+          <AnimatePresence
+            mode="wait"
+            initial={false}
+          >
+            <motion.div
+              key={current.value}
+              initial={{ opacity: 0, rotate: -30, scale: 0.8 }}
+              animate={{ opacity: 1, rotate: 0, scale: 1 }}
+              exit={{ opacity: 0, rotate: 30, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+            >
+              {current.icon}
+            </motion.div>
+          </AnimatePresence>
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          System
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('light')}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Dark
-        </DropdownMenuItem>
-
-        <DropdownMenuItem onClick={() => setTheme('protanopia')}>
-          Protanopia
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('deuteranopia')}>
-          Deuteranopia
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('tritanopia')}>
-          Tritanopia
-        </DropdownMenuItem>
-
-        <DropdownMenuItem onClick={() => setTheme('grayscale')}>
-          Grayscale
-        </DropdownMenuItem>
+        {themeOptions.map((opt) => (
+          <DropdownMenuItem
+            key={opt.value}
+            onClick={() => setTheme(opt.value)}
+          >
+            <span className="mr-2">{opt.icon}</span>
+            {opt.label}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

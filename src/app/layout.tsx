@@ -4,6 +4,7 @@ import Footer from '@/components/common/Footer/Footer';
 import Header from '@/components/common/Header/Header';
 import './globals.css';
 import { ThemeProvider } from '@/providers/theme-provider';
+import Loading from './loading'; // 👈 импортируем
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -45,6 +46,7 @@ export default function RootLayout({
             'grayscale',
           ]}
         >
+          <Loading /> {/* 👈 глобальный лоадер, будет сверху при переходах */}
           <Header />
           <main className="flex-grow">{children}</main>
           <Footer />
