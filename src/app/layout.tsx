@@ -5,6 +5,7 @@ import Header from '@/components/common/Header/Header';
 import './globals.css';
 import { AuthProvider } from '@/providers/session-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
+import Loading from './loading'; // 👈 импортируем
 
 export const metadata: Metadata = {
   title: 'Create Next App',
