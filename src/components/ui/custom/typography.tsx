@@ -11,7 +11,7 @@ export function TypographyH1({
   return (
     <h1
       className={cn(
-        'font-manrope text-3xl not-italic font-bold leading-[41px] tracking-[-0.32px] sm:text-5xl sm:leading-[56px] sm:tracking-[-0.96px]',
+        'font-manrope text-3xl not-italic font-bold leading-[41px] tracking-[-0.32px] sm:text-5xl sm:leading-[56px] sm:tracking-[-0.96px] text-custom-primary-text',
         className,
       )}
     >
@@ -30,7 +30,7 @@ export function TypographyH2({
   return (
     <h2
       className={cn(
-        'font-manrope text-2xl not-italic font-bold leading-[30.8px] sm:text-3xl sm:leading-[41px] sm:tracking-[-0.32px]',
+        'font-manrope text-2xl not-italic font-bold leading-[30.8px] sm:text-3xl sm:leading-[41px] sm:tracking-[-0.32px] text-custom-primary-text',
         className,
       )}
     >
@@ -49,7 +49,7 @@ export function TypographyH3({
   return (
     <h3
       className={cn(
-        'font-manrope text-2xl not-italic font-semibold leading-[30.8px]',
+        'font-manrope text-2xl not-italic font-semibold leading-[30.8px] text-custom-primary-text',
         className,
       )}
     >
@@ -68,7 +68,7 @@ export function TypographyH4({
   return (
     <h4
       className={cn(
-        'font-manrope text-xl not-italic font-semibold leading-normal',
+        'font-manrope text-xl not-italic font-semibold leading-normal text-custom-primary-text',
         className,
       )}
     >
@@ -87,7 +87,7 @@ export function TypographyH5({
   return (
     <h5
       className={cn(
-        'font-manrope text-base not-italic font-bold leading-6',
+        'font-manrope text-base not-italic font-bold leading-6 text-custom-primary-text',
         className,
       )}
     >
@@ -107,7 +107,7 @@ export function TypographyP({
   return (
     <p
       className={cn(
-        'font-manrope text-sm not-italic font-medium leading-[21px]',
+        'font-manrope text-sm not-italic font-medium leading-[21px] text-custom-primary-text',
         className,
       )}
     >
@@ -127,7 +127,7 @@ export function TypographyB({
   return (
     <p
       className={cn(
-        'font-manrope text-sm not-italic font-bold leading-[21px]',
+        'font-manrope text-sm not-italic font-bold leading-[21px] text-custom-button-text',
         className,
       )}
     >
@@ -147,7 +147,7 @@ export function TypographyU({
   return (
     <p
       className={cn(
-        'font-manrope text-xs not-italic font-bold leading-[11px] tracking-[0.12px] uppercase',
+        'font-manrope text-xs not-italic font-bold leading-[11px] tracking-[0.12px] uppercase text-custom-icons',
         className,
       )}
     >

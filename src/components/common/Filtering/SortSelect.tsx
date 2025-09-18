@@ -55,7 +55,7 @@ type SortSelectProps = {
 export const SortSelect: FC<SortSelectProps> = ({ className }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  // const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const [currentValue, setCurrentValue] = useState(
     searchParams.get('sortBy') && searchParams.get('sortOrder') ?
       `${searchParams.get('sortBy')}-${searchParams.get('sortOrder')}`
@@ -85,9 +85,9 @@ export const SortSelect: FC<SortSelectProps> = ({ className }) => {
     params.set('sortOrder', sortOrder);
     params.set('page', '1');
 
-    // startTransition(() => {
-    router.push(`?${params.toString()}`);
-    // });
+    startTransition(() => {
+      router.push(`?${params.toString()}`);
+    });
   }
 
   return (
@@ -97,10 +97,10 @@ export const SortSelect: FC<SortSelectProps> = ({ className }) => {
           value={currentValue}
           onValueChange={handleChange}
         >
-          <SelectTrigger className="w-[180px] bg-custom-elements cursor-pointer">
+          <SelectTrigger className="w-[180px] bg-custom-icons cursor-pointer">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
-          <SelectContent className="bg-custom-elements">
+          <SelectContent className="bg-custom-icons">
             {sortOptions.map((opt) => (
               <SelectItem
                 key={opt.value}
@@ -111,7 +111,13 @@ export const SortSelect: FC<SortSelectProps> = ({ className }) => {
             ))}
           </SelectContent>
         </Select>
-      : <Skeleton className="w-[180px] h-10 rounded-md bg-custom-primary/10" />}
+      : <Skeleton className="w-[180px] h-10 rounded-md bg-custom-button/10" />}
+
+      {isPending && (
+        <div className="relative">
+          <div className="w-5 h-5 border-2 border-custom-icons border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
     </div>
   );
 };

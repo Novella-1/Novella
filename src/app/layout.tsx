@@ -27,7 +27,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${manrope.className} ${manrope.variable} antialiased bg-custom-background-main flex flex-col min-h-screen`}
+        className={`${manrope.className} ${manrope.variable} antialiased bg-custom-primary-bg flex flex-col min-h-screen`}
       >
         <ThemeProvider
           attribute="data-theme"

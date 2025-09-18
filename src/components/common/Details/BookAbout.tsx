@@ -27,11 +27,16 @@ export function BookAbout({
     >
       <div className="flex flex-col gap-4">
         <TypographyH3>About</TypographyH3>
-        <Separator className="border-1 border-custom-primary" />
+        <Separator className="border-1 border-custom-primary-text" />
         {description.map((desc, index) =>
           index === 0 ?
             <TypographyH5 key={index}>{desc}</TypographyH5>
-          : <TypographyP key={index}>{desc}</TypographyP>,
+          : <TypographyP
+              className="border-custom-button"
+              key={index}
+            >
+              {desc}
+            </TypographyP>,
         )}
       </div>
     </div>

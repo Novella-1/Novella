@@ -8,24 +8,21 @@ const FavoritesTemplate = async () => {
     type: 'KINDLE',
   });
   return (
-    //pt-[64px]
     <section className="pt-[64px]  py-16">
-      <TypographyH1>Favourites</TypographyH1>
-      <TypographyP className="text-custom-text-secondary">8 books</TypographyP>
+      <TypographyH1 className="mb-2">Favourites</TypographyH1>
+      <TypographyP className="text-custom-icons pb-16">8 books</TypographyP>
       <div className="mx-auto max-w-7xl">
-        {/* // justify-items-center */}
         <div
           className="grid gap-6 
                 grid-cols-1 
                 sm:grid-cols-2 
-                lg:grid-cols-4
-
-                "
+                lg:grid-cols-4"
         >
           {booksData.map((book) => (
-            <>
-              <CardItem book={book} />
-            </>
+            <CardItem
+              key={book.id}
+              book={book}
+            />
           ))}
         </div>
       </div>

@@ -3,7 +3,7 @@ import { Skeleton } from '../ui/skeleton';
 
 const BookListSkeletonItem = () => {
   return (
-    <div className="flex flex-col items-start gap-4 w-[214px] h-[400px] p-5 rounded-2xl border border-custom-border-color bg-custom-primary/10 sm:w-[272px] sm:h-[506px] sm:p-8 animate-pulse">
+    <div className="flex flex-col items-start gap-4 w-[214px] h-[400px] p-5 rounded-2xl border border-custom-border bg-custom-button/10 sm:w-[272px] sm:h-[506px] sm:p-8 animate-pulse">
       <div className="relative w-full flex justify-center">
         <Skeleton className="w-full h-[180px] sm:h-[250px] rounded-lg" />
         <div className="absolute top-1 right-1 w-10 h-10">
