@@ -27,6 +27,9 @@ export function ThemeButton() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme('system')}>
+          System
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('light')}>
           Light
         </DropdownMenuItem>
