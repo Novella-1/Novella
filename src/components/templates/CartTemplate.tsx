@@ -1,8 +1,8 @@
 import { ChevronLeft } from 'lucide-react';
 import React from 'react';
 import { TypographyH1 } from '@/components/ui/custom/typography';
-import CartCard from '../common/CartCard';
-import CartCheckout from '../common/CartCheckout';
+import CartCard from '../common/Cart/CartCard';
+import CartCheckout from '../common/Cart/CartCheckout';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 

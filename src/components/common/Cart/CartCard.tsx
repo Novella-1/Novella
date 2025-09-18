@@ -6,7 +6,7 @@ import {
   TypographyH5,
   TypographyP,
 } from '@/components/ui/custom/typography';
-import { Card } from '../ui/card';
+import { Card } from '../../ui/card';
 
 const CartCard = () => {
   return (
