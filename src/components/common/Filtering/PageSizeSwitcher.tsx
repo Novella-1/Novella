@@ -62,8 +62,8 @@ export const PageSizeSwitcher: FC<PageSizeSwitcherProps> = ({ className }) => {
   if (!mounted) {
     return (
       <div className={cn('flex items-center gap-3', className)}>
-        <Skeleton className="w-7 h-7 rounded-md bg-custom-primary/10" />
-        <Skeleton className="w-7 h-7 rounded-md bg-custom-primary/10" />
+        <Skeleton className="w-7 h-7 rounded-md bg-custom-button/10" />
+        <Skeleton className="w-7 h-7 rounded-md bg-custom-button/10" />
       </div>
     );
   }

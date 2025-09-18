@@ -25,11 +25,11 @@ const AudiobookTemplate = async ({ searchParams }: Props) => {
   return (
     <div className="py-16">
       <div className="mb-10">
-        <TypographyH1 className="text-custom-text-primary mb-2">
+        <TypographyH1 className="text-custom-button mb-2">
           Paper books
         </TypographyH1>
 
-        <TypographyP className="text-custom-text-secondary">
+        <TypographyP className="text-custom-icons">
           {totalCount} books
         </TypographyP>
       </div>
