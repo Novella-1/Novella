@@ -96,7 +96,6 @@ export const SortSelect: FC<SortSelectProps> = ({ className }) => {
         <Select
           value={currentValue}
           onValueChange={handleChange}
-          disabled={isPending}
         >
           <SelectTrigger className="w-[180px] bg-custom-icons cursor-pointer">
             <SelectValue placeholder="Sort by" />
