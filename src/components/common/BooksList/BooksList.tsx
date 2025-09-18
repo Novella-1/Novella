@@ -35,6 +35,7 @@ const BooksList = async ({
     { cache: 'no-store' },
   );
   const books = await res.json();
+  console.log(books);
 
   return (
     <div
