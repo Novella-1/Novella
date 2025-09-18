@@ -35,14 +35,6 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// model Favorite {
-
-// }
-
-// model Cart {
-
-// }
-
 model Book {
   id              String   @id @default(uuid())
   type            BookType
