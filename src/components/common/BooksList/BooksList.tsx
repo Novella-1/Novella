@@ -40,7 +40,13 @@ const BooksList = async ({
   return (
     <div
       className={cn(
-        'flex flex-row flex-wrap gap-y-10 gap-x-4 sm:items-center justify-evenly',
+        'flex flex-row flex-wrap gap-y-10  sm:items-center justify-evenly',
+        {
+          'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gap-x-0 justify-center justify-items-center':
+            pageSize === 9,
+          'flex flex-row flex-wrap gap-y-10 gap-x-4 sm:items-center justify-evenly':
+            pageSize === 16,
+        },
         className,
       )}
     >
@@ -48,6 +54,7 @@ const BooksList = async ({
         <CardItem
           key={book.id}
           book={book}
+          className={pageSize === 9 ? 'md:w-[300px] sm:w-[272px]' : ''}
         />
       ))}
     </div>

@@ -36,7 +36,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
           storageKey="novella-theme"
-          themes={['light', 'dark', 'protanopia']}
+          themes={[
+            'system',
+            'light',
+            'dark',
+            'protanopia',
+            'tritanopia',
+            'deuteranopia',
+            'grayscale',
+          ]}
         >
           <Loading /> {/* 👈 глобальный лоадер, будет сверху при переходах */}
           <Header />
