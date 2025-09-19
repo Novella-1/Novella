@@ -12,9 +12,9 @@ export function CategoryItem({
   bookCount: string;
 }) {
   return (
-    <Card className="flex flex-col items-start w-[288px] h-[355px] border-0 shadow-none sm:w-[187px] sm:h-[263px] xl:w-[368px] xl:h-[365px] py-0 gap-4 bg-transparent">
+    <Card className="flex flex-col items-start w-[273px] border-0 shadow-none sm:w-[198px] md:w-[273px] sm:p-4 md:p-5  xl:w-[370px] p-6 gap-5 bg-transparent transition-transform duration-200 ease-in-out hover:scale-[1.02] hover:shadow-[0px_4px_16px_0px_rgba(0,0,0,0.25)]">
       <ShopCategoryImage src={imageSrc} />
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
         <TypographyH5 className="text-custom-button text-[20px]">
           {title}
         </TypographyH5>

@@ -30,13 +30,14 @@ export function BookImage({
 
 export function ShopCategoryImage({ src }: { src: string }) {
   return (
-    <Image
-      src={src}
-      alt="Shop category"
-      width={368}
-      height={289}
-      className="w-full h-[288px] sm:h-[187px] xl:h-[289px] object-cover rounded-md"
-    />
+    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
+      <Image
+        src={src}
+        alt="Shop category"
+        fill
+        className="object-cover"
+      />
+    </div>
   );
 }
 

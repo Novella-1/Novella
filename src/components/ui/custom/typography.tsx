@@ -96,7 +96,6 @@ export function TypographyH5({
   );
 }
 
-//for paragraphs
 export function TypographyP({
   children,
   className,
@@ -166,7 +165,7 @@ export function SectionTitle({
   return (
     <h2
       className={cn(
-        'font-manrope text-[22px] not-italic font-bold leading-[41px] sm:tracking-[-0.32px] mb-[23px] sm:text-[32px] ml-[15%] xl:ml-0',
+        'font-manrope text-[22px] not-italic font-bold leading-[41px] sm:tracking-[-0.32px] mb-[23px] sm:text-[32px]  xl:ml-0',
         className,
       )}
     >
