@@ -19,9 +19,9 @@ export function BookImage({
         <Image
           src={src}
           alt="Book cover"
-          width={208}
-          height={264}
-          className="w-[146px] h-[185px] sm:w-[208px] sm:h-[263px] object-cover rounded-md"
+          width={146}
+          height={186}
+          className="w-[146px] h-[186px] sm:w-[208px] sm:h-[263px] object-cover rounded-md"
         />
       </Link>
     </div>

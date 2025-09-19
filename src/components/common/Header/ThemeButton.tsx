@@ -16,7 +16,7 @@ const themeOptions = [
   {
     value: 'system',
     label: 'System',
-    icon: <Droplet className="!h-6 !w-6 text-rose-500" />,
+    icon: <Droplet className="!h-6 !w-6 text-gray" />,
   },
   {
     value: 'light',
@@ -78,7 +78,7 @@ export function ThemeButton() {
         <Button
           variant="outline"
           size="icon"
-          className="border-none"
+          className="border-none bg-transparent hover:bg-transparent cursor-pointer text-custom-icons"
           aria-label="Select theme"
         >
           <AnimatePresence
@@ -98,7 +98,10 @@ export function ThemeButton() {
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent
+        className="bg-custom-header-footer text-custom-icons"
+        align="end"
+      >
         {themeOptions.map((opt) => (
           <DropdownMenuItem
             key={opt.value}

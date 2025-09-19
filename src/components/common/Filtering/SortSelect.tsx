@@ -97,14 +97,18 @@ export const SortSelect: FC<SortSelectProps> = ({ className }) => {
           value={currentValue}
           onValueChange={handleChange}
         >
-          <SelectTrigger className="w-[180px] bg-custom-icons cursor-pointer">
-            <SelectValue placeholder="Sort by" />
+          <SelectTrigger className="w-[180px] bg-custom-header-footer text-custom-primary-text border-custom-border cursor-pointer">
+            <SelectValue
+              placeholder="Sort by"
+              className="text-custom-primary-text"
+            />
           </SelectTrigger>
-          <SelectContent className="bg-custom-icons">
+          <SelectContent className="bg-custom-header-footer border-custom-border">
             {sortOptions.map((opt) => (
               <SelectItem
                 key={opt.value}
                 value={opt.value}
+                className="text-custom-primary-text"
               >
                 {opt.label}
               </SelectItem>

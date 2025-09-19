@@ -65,6 +65,7 @@ const Header: FC = () => {
                 <Search
                   size={22}
                   strokeWidth={1.5}
+                  className="text-custom-icons"
                 />
               </button>
 
@@ -84,6 +85,7 @@ const Header: FC = () => {
                 <Menu
                   size={24}
                   strokeWidth={1}
+                  className="text-custom-icons"
                 />
               </button>
             </div>
@@ -117,7 +119,7 @@ const Header: FC = () => {
                 <button
                   onClick={() => setIsMenuOpen(false)}
                   aria-label="Close menu"
-                  className="p-2"
+                  className="p-2 text-custom-icons"
                 >
                   <X size={24} />
                 </button>
@@ -137,7 +139,7 @@ const Header: FC = () => {
               <div className="max-w-[720px] mx-auto">
                 <IconNav
                   variant="mobile"
-                  className="py-3"
+                  className="py-3 text-custom-icons"
                 />
               </div>
             </div>
