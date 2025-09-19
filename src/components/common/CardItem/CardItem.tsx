@@ -20,10 +20,6 @@ export function CardItem({
   book: BookWithDetails;
   className?: string;
 }) {
-  //   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //     e.preventDefault();
-  //     //logic
-  //   };
   const { author, name, priceRegular, priceDiscount, images, type, slug } =
     book;
 
@@ -75,7 +71,7 @@ export function CardItem({
         <Button className="flex-1 h-10 cursor-pointer bg-custom-button hover:bg-custom-hover-button transition-shadow duration-200 hover:shadow-[0_1px_10px_0_rgba(23,32,49,0.40)]">
           <TypographyB className="text-custom-">Add to cart</TypographyB>
         </Button>
-        <AddToFavorite className="cursor-pointer hover:border-custom-border" />
+        <AddToFavorite className="w-10 h-10 hover:border-custom-button cursor-pointer" />
       </div>
     </Card>
   );

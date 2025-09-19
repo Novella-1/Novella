@@ -43,7 +43,7 @@ const Header: FC = () => {
   return (
     <>
       <header
-        className={`${manrope.className} h-[48px] xl:h-[64px] border-b border-gray-200 bg-white shadow-md`}
+        className={`${manrope.className} fixed top-0 z-50 w-full h-[48px] xl:h-[64px] border-b border-custom-border bg-custom-header-footer shadow-md`}
       >
         <div className="relative flex h-full items-center px-6">
           <Logo className="h-10 w-auto cursor-pointer xl:h-14" />
@@ -91,7 +91,7 @@ const Header: FC = () => {
         </div>
 
         {isSearchOpen && (
-          <div className="absolute top-[48px] left-0 z-40 w-full border-b border-gray-200 bg-white px-4 py-3 md:block xl:hidden">
+          <div className="absolute top-[48px] left-0 z-40 w-full border-b border-custom-border bg-custom-header-footer shadow-md px-4 py-3 md:block xl:hidden">
             <div className="relative mx-auto md:max-w-[640px]">
               <SearchBar variant="mobile" />
             </div>
@@ -106,7 +106,7 @@ const Header: FC = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '-100%', opacity: 0 }}
             transition={{ duration: 0.28, ease: 'easeInOut' }}
-            className="fixed inset-0 z-50 flex flex-col bg-white"
+            className="fixed inset-0 z-50 flex flex-col bg-custom-header-footer"
           >
             {/* full-screen overlay header */}
             <div className="flex h-[48px] items-center border-b px-6 shadow-md xl:h-[64px]">

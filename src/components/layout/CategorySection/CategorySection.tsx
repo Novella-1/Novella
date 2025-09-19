@@ -1,6 +1,6 @@
 import { CategoryList } from '@/components/common/Category/CategoryList';
 import { cn } from '@/lib/utils';
-import { SectionTitle } from '../../ui/custom/typography';
+import { TypographyH2 } from '../../ui/custom/typography';
 
 interface CategorySectionProps {
   className?: string;
@@ -9,7 +9,7 @@ interface CategorySectionProps {
 export function CategorySection({ className }: CategorySectionProps) {
   return (
     <section className={cn('', className)}>
-      <SectionTitle>Shop by category</SectionTitle>
+      <TypographyH2>Shop by category</TypographyH2>
       <CategoryList />
     </section>
   );
