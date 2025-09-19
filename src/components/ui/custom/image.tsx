@@ -1,20 +1,29 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
-export function BookImage({ src }: { src: string }) {
+export function BookImage({
+  src,
+  bookSlug,
+}: {
+  src: string;
+  bookSlug: string;
+}) {
   return (
     <div
       className={cn(
-        'flex flex-col justify-center items-center self-stretch px-0 sm:px-[13.844px]',
+        'flex flex-col justify-center items-center self-stretch px-0 sm:px-[13.844px] cursor-pointer',
       )}
     >
-      <Image
-        src={src}
-        alt="Book cover"
-        width={208}
-        height={264}
-        className="w-[146px] h-[185px] sm:w-[208px] sm:h-[263px] object-cover rounded-md"
-      />
+      <Link href={`/book/${bookSlug}`}>
+        <Image
+          src={src}
+          alt="Book cover"
+          width={208}
+          height={264}
+          className="w-[146px] h-[185px] sm:w-[208px] sm:h-[263px] object-cover rounded-md"
+        />
+      </Link>
     </div>
   );
 }

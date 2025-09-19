@@ -69,6 +69,7 @@
   --color-custom-icons-accent: var(--icons-accent);
   --color-custom-favourites-icon: var(--favourites-icon);
   --color-custom-separator: var(--separator);
+  --color-custom-modal-bg: var(--modal-bg);
 }
 
 :root,
@@ -115,8 +116,9 @@
   --hover-button: #4c412e;
   --icons: #958370;
   --icons-accent: #9faf38;
-  --favourites-icon: #d95750;
+  --favourites-icon: #eb5757;
   --separator: #d9cabb;
+  --modal-bg: #000000;
 }
 
 [data-theme='dark'] {
@@ -129,8 +131,9 @@
   --hover-button: #4c412e;
   --icons: #ebe7da;
   --icons-accent: #a7ba26;
-  --favourites-icon: #d95750;
+  --favourites-icon: #eb5757;
   --separator: #86725e;
+  --modal-bg: #000000;
 }
 
 [data-theme='protanopia'] {
@@ -145,6 +148,7 @@
   --icons-accent: #9b9b57;
   --favourites-icon: #95944c;
   --separator: #d2d2be;
+  --modal-bg: #000000;
 }
 
 [data-theme='tritanopia'] {
@@ -159,6 +163,7 @@
   --icons-accent: #966a6e;
   --favourites-icon: #c14e4e;
   --separator: #d8c1c2;
+  --modal-bg: #000000;
 }
 
 [data-theme='deuteranopia'] {
@@ -173,6 +178,7 @@
   --icons-accent: #989f4d;
   --favourites-icon: #b0714b;
   --separator: #d6cdbd;
+  --modal-bg: #000000;
 }
 
 [data-theme='grayscale'] {

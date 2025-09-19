@@ -1,28 +1,55 @@
+// generator client {
+//   provider = "prisma-client-js"
+//   // output   = "../src/generated/prisma"
+// }
+
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
 generator client {
   provider = "prisma-client-js"
-  // output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String?   @unique
+  hashedPassword String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  Session        Session[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Book {
-  id               String     @id @default(uuid())
-  type             BookType
-  namespaceId      String
-  name             String
-  slug             String     @unique
-  priceRegular     Float
-  priceDiscount    Float?
-  images           String[]
-  langAvailable    String[]
-  lang             String
-  author           String
-  publicationYear  Int
-  publication      String
-  description      String[]
+  id              String   @id @default(uuid())
+  type            BookType
+  namespaceId     String
+  name            String
+  slug            String   @unique
+  priceRegular    Float
+  priceDiscount   Float?
+  images          String[]
+  langAvailable   String[]
+  lang            String
+  author          String
+  publicationYear Int
+  publication     String
+  description     String[]
 
   categories       BookCategory[]
   paperDetails     PaperDetails?
@@ -40,29 +67,29 @@ model BookCategory {
   bookId     String
   categoryId Int
 
-  book       Book     @relation(fields: [bookId], references: [id])
-  category   Category @relation(fields: [categoryId], references: [id])
+  book     Book     @relation(fields: [bookId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
 
   @@id([bookId, categoryId])
 }
 
 model PaperDetails {
-  bookId         String @id
-  coverType      String
-  numberOfPages  Int
-  format         String
-  illustrations  Boolean
+  bookId        String  @id
+  coverType     String
+  numberOfPages Int
+  format        String
+  illustrations Boolean
 
-  book           Book   @relation(fields: [bookId], references: [id])
+  book Book @relation(fields: [bookId], references: [id])
 }
 
 model KindleDetails {
-  bookId         String @id
-  numberOfPages  Int
-  format         String
-  illustrations  Boolean
+  bookId        String  @id
+  numberOfPages Int
+  format        String
+  illustrations Boolean
 
-  book           Book   @relation(fields: [bookId], references: [id])
+  book Book @relation(fields: [bookId], references: [id])
 }
 
 model AudiobookDetails {
@@ -70,7 +97,7 @@ model AudiobookDetails {
   narrator        String
   listeningLength BigInt
 
-  book            Book   @relation(fields: [bookId], references: [id])
+  book Book @relation(fields: [bookId], references: [id])
 }
 
 enum BookType {
@@ -78,4 +105,3 @@ enum BookType {
   KINDLE
   AUDIOBOOK
 }
-

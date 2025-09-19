@@ -2,13 +2,12 @@
 
 import React, { useRef } from 'react';
 
-import { CardItem } from '@/components/common/CardItem';
-
 import {
   HorizontalScroll,
   ScrollButtons,
 } from '@/components/ui/custom/scroll-area';
 import { BookWithDetails } from '@/types/BookType';
+import { CardItem } from '../CardItem/CardItem';
 
 export function CardCarousel({ books }: { books: BookWithDetails[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);

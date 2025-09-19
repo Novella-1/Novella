@@ -1,28 +1,44 @@
 import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { BookWithDetails } from '@/types/BookType';
-import { Button } from '../ui/button';
-import { TruckIcon, HeadphonesIcon } from '../ui/custom/icons';
-import { BookImage } from '../ui/custom/image';
+import { Button } from '../../ui/button';
+import { TruckIcon, HeadphonesIcon } from '../../ui/custom/icons';
+import { BookImage } from '../../ui/custom/image';
 import {
   TypographyB,
   TypographyH3,
   TypographyH4,
-  TypographyH5,
   TypographyP,
-} from '../ui/custom/typography';
+} from '../../ui/custom/typography';
 import { AddToFavorite } from './AddToFavorite';
+import CardItemTitle from './CardItemTitle';
 
-export function CardItem({ book }: { book: BookWithDetails }) {
+export function CardItem({
+  book,
+  className,
+}: {
+  book: BookWithDetails;
+  className?: string;
+}) {
   //   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   //     e.preventDefault();
   //     //logic
   //   };
-  const { author, name, priceRegular, priceDiscount, images, type } = book;
+  const { author, name, priceRegular, priceDiscount, images, type, slug } =
+    book;
 
   return (
-    <Card className="flex flex-col items-start gap-4 w-[214px] h-[400px] p-5 rounded-2xl border border-custom-border bg-custom-header-footer sm:w-[272px] sm:h-[506px] sm:p-8 transition-transform duration-200 ease-in-out hover:scale-[1.02] hover:shadow-[0_2px_16px_0_rgba(0,0,0,0.10)]">
+    <Card
+      className={cn(
+        'flex flex-col items-start gap-4 w-[214px] h-[400px] p-5 rounded-2xl border border-custom-border bg-custom-header-footer sm:w-[272px] sm:h-[506px] sm:p-8 transition-transform duration-200 ease-in-out hover:scale-[1.02] hover:shadow-[0_2px_16px_0_rgba(0,0,0,0.10)]',
+        className,
+      )}
+    >
       <div className="relative w-full flex justify-center">
-        <BookImage src={`/books/${images[0]}`} />
+        <BookImage
+          src={`/books/${images[0]}`}
+          bookSlug={slug}
+        />
         {type === 'AUDIOBOOK' && (
           <div className="absolute flex items-center justify-center top-1 right-1 w-10 h-10 bg-custom-icons-accent rounded-full p-1">
             <HeadphonesIcon className="w-6 h-6 text-white " />
@@ -31,9 +47,7 @@ export function CardItem({ book }: { book: BookWithDetails }) {
       </div>
       <div className="flex flex-col gap-2 w-full overflow-hidden">
         <div>
-          <TypographyH5 className="text-custom-button truncate w-full">
-            {name}
-          </TypographyH5>
+          <CardItemTitle bookSlug={slug}>{name}</CardItemTitle>
           <TypographyP className="text-custom-icons truncate w-full">
             {author}
           </TypographyP>

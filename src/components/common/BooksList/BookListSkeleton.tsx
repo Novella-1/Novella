@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { cn } from '@/lib/utils';
-import BookListSkeletonItem from '../BookListSkeletonItem';
+import BookListSkeletonItem from '../CardItem/BookListSkeletonItem';
 
 type Props = {
   pageSize: number;

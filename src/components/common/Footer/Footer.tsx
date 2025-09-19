@@ -63,15 +63,15 @@ const Footer: FC = () => {
           aria-label="Footer navigation"
           className="flex space-x-6 md:space-x-28"
         >
-          <Link href="/github">
+          <Link href="/#">
             <div className="hover:text-[#331F06] transition-colors">GITHUB</div>
           </Link>
-          <Link href="/contacts">
+          <Link href="/#">
             <div className="hover:text-[#331F06] transition-colors">
               CONTACTS
             </div>
           </Link>
-          <Link href="/rights">
+          <Link href="/#">
             <div className="hover:text-[#331F06] transition-colors">RIGHTS</div>
           </Link>
         </nav>
