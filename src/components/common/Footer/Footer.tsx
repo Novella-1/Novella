@@ -1,23 +1,24 @@
 'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
+import { RandomBookModal } from '../RandomReadModal/RandomReadModal';
 
 const Footer: FC = () => {
+  const [isRandomOpen, setRandomOpen] = useState(false);
+
   const smoothScrollToTop = () => {
-    // 1) Если у тебя есть элемент с id="top" (рекомендуется добавить в layout), используем его:
     const topEl = document.getElementById('top');
     if (topEl) {
       topEl.scrollIntoView({ behavior: 'smooth' });
       return;
     }
 
-    // 2) Попытка нативного smooth (современные браузеры)
     try {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
-    } catch (err) {}
+    } catch {}
 
     const start = window.scrollY || window.pageYOffset;
     const duration = 500;
@@ -35,9 +36,9 @@ const Footer: FC = () => {
   };
 
   return (
-    <footer className="bg-white text-[#BAA48C] font-bold py-6 w-full shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
-      <div className="container mx-auto px-4 flex flex-col items-center space-y-4 md:flex-row md:justify-between md:space-y-0">
-        <div className="flex items-center">
+    <>
+      <footer className="bg-white text-[#BAA48C] font-bold py-6 w-full shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <div className="container mx-auto px-4 flex flex-col items-center space-y-4 md:flex-row md:justify-between md:space-y-0">
           <Link
             href="/"
             className="flex-shrink-0"
@@ -57,50 +58,60 @@ const Footer: FC = () => {
               className="cursor-pointer sm:hidden h-10 w-auto xl:h-14"
             />
           </Link>
-        </div>
 
-        <nav
-          aria-label="Footer navigation"
-          className="flex space-x-6 md:space-x-28"
-        >
-          <Link href="/#">
-            <div className="hover:text-[#331F06] transition-colors">GITHUB</div>
-          </Link>
-          <Link href="/#">
-            <div className="hover:text-[#331F06] transition-colors">
-              CONTACTS
-            </div>
-          </Link>
-          <Link href="/#">
-            <div className="hover:text-[#331F06] transition-colors">RIGHTS</div>
-          </Link>
-        </nav>
-
-        <button
-          type="button"
-          onClick={smoothScrollToTop}
-          className="flex items-center hover:opacity-75 transition-opacity hover:text-[#331F06] bg-transparent hover:cursor-pointer font-bold"
-          aria-label="Back to top"
-        >
-          Back to top
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5 ml-2"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
+          <nav
+            aria-label="Footer navigation"
+            className="flex space-x-6 md:space-x-28"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 15l7-7 7 7"
-            />
-          </svg>
-        </button>
-      </div>
-    </footer>
+            <button
+              onClick={() => setRandomOpen(true)}
+              className="hover:text-[#331F06] transition-colors"
+            >
+              Random Read
+            </button>
+            <Link href="/#">
+              <div className="hover:text-[#331F06] transition-colors">
+                CONTACTS
+              </div>
+            </Link>
+            <Link href="/#">
+              <div className="hover:text-[#331F06] transition-colors">
+                RIGHTS
+              </div>
+            </Link>
+          </nav>
+
+          <button
+            type="button"
+            onClick={smoothScrollToTop}
+            className="flex items-center hover:opacity-75 transition-opacity hover:text-[#331F06] bg-transparent font-bold"
+            aria-label="Back to top"
+          >
+            Back to top
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5 ml-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 15l7-7 7 7"
+              />
+            </svg>
+          </button>
+        </div>
+      </footer>
+
+      <RandomBookModal
+        open={isRandomOpen}
+        onClose={() => setRandomOpen(false)}
+      />
+    </>
   );
 };
 
