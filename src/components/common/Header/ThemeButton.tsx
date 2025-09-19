@@ -98,7 +98,10 @@ export function ThemeButton() {
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent
+        className="bg-custom-header-footer text-custom-icons"
+        align="end"
+      >
         {themeOptions.map((opt) => (
           <DropdownMenuItem
             key={opt.value}

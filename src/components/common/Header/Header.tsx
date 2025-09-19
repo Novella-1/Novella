@@ -85,6 +85,7 @@ const Header: FC = () => {
                 <Menu
                   size={24}
                   strokeWidth={1}
+                  className="text-custom-icons"
                 />
               </button>
             </div>
@@ -138,7 +139,7 @@ const Header: FC = () => {
               <div className="max-w-[720px] mx-auto">
                 <IconNav
                   variant="mobile"
-                  className="py-3"
+                  className="py-3 text-custom-icons"
                 />
               </div>
             </div>

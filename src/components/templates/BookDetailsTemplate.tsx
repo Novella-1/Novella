@@ -25,7 +25,7 @@ export async function BookDetailsTemplate({
 
   return (
     <div className={cn(className)}>
-      <div className="py-8">
+      <div className="pt-32 pb-16">
         <div className="mb-8">
           <div className="mb-8">
             <TypographyH2 className="mb-1.5">

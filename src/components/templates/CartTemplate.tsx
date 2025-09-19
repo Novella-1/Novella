@@ -8,7 +8,7 @@ import { Card } from '../ui/card';
 
 const CartTemplate = () => {
   return (
-    <section className="flex flex-col items-center justify-center pt-6 md:pt-10">
+    <section className="flex flex-col items-center justify-center pt-32 pb-16 md:pt-10">
       <div className="w-full max-w-[1200px]">
         <Button variant={'link'}>
           <ChevronLeft />

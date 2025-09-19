@@ -48,7 +48,7 @@ const Nav: FC<NavProps> = ({ variant = 'desktop', className }) => {
               {isActive && (
                 <span
                   className={clsx(
-                    'absolute left-0 w-full h-[2px] bg-custom-primary-text transition-all duration-300',
+                    'absolute left-0 w-full h-[2px] bg-custom-icons transition-all duration-300',
                     'top-[20px] md:top-[34px] xl:top-[42px]',
                   )}
                 />
