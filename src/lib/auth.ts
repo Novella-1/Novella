@@ -1,5 +1,5 @@
 // auth.ts
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { prisma } from '../server/prisma';

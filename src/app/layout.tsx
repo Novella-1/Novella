@@ -5,7 +5,6 @@ import Header from '@/components/common/Header/Header';
 import './globals.css';
 import { AuthProvider } from '@/providers/session-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
-import Loading from './loading'; // 👈 импортируем
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,10 +19,8 @@ const manrope = Manrope({
 
 export default function RootLayout({
   children,
-  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
     <html
@@ -51,10 +48,7 @@ export default function RootLayout({
             ]}
           >
             <Header />
-            <main className="flex-grow">
-              {children}
-              {modal}
-            </main>
+            <main className="flex-grow">{children}</main>
             <Footer />
           </ThemeProvider>
         </AuthProvider>

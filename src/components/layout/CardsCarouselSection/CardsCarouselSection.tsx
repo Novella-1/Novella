@@ -21,5 +21,3 @@ export async function CardsCarouselSection({
     </section>
   );
 }
-// ""
-// flex flex-col items-center

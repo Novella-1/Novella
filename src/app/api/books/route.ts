@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { formatCategories } from '@/server/helpers/helpers';
 import { prisma } from '@/server/prisma';
 import {
   BookType,
@@ -8,20 +9,12 @@ import {
   SortType,
 } from '@/types/BookType';
 
-type PrismaCategory = {
-  bookId?: string;
-  categoryId?: number;
-  category: {
-    name: string;
-  };
-};
-
 function getInclude(type: BookType) {
   return {
     categories: { include: { category: true } },
-    paperDetails: type === 'PAPERBACK',
-    kindleDetails: type === 'KINDLE',
-    audiobookDetails: type === 'AUDIOBOOK',
+    paperDetails: type === 'PAPERBACK' ? true : undefined,
+    kindleDetails: type === 'KINDLE' ? true : undefined,
+    audiobookDetails: type === 'AUDIOBOOK' ? true : undefined,
   };
 }
 
@@ -38,13 +31,6 @@ function getOrder(sortBy?: SortType, sortOrder: SortOrder = 'asc') {
     default:
       return undefined;
   }
-}
-
-function formatCategories<T extends { categories: PrismaCategory[] }>(book: T) {
-  return {
-    ...book,
-    categories: book.categories.map((c) => c.category.name),
-  };
 }
 
 export async function GET(req: NextRequest) {
