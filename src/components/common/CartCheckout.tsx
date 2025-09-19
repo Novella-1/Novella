@@ -5,13 +5,21 @@ import { Card } from '../ui/card';
 
 const CartCheckout = () => {
   return (
-    <Card className="box-content flex  flex-col items-center justify-center w-[368px] h-[188px]">
-      <TypographyH2>₴1,623</TypographyH2>
-
-      <TypographyP>Total for 3 items</TypographyP>
+    <Card
+      className="
+        flex flex-col items-center justify-center
+        w-full max-w-full p-6 gap-4
+        border border-gray-200 rounded-lg
+        shadow-sm
+      "
+    >
+      <TypographyH2 className="text-2xl sm:text-3xl">₴1,623</TypographyH2>
+      <TypographyP className="text-sm sm:text-base">
+        Total for 3 items
+      </TypographyP>
       <Button
         variant="default"
-        className="w-[320px] h-[48px]"
+        className="w-full max-w-[320px] h-[48px] bg-black text-white"
       >
         Checkout
       </Button>

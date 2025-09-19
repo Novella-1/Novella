@@ -10,38 +10,64 @@ import { Card } from '../ui/card';
 
 const CartCard = () => {
   return (
-    <Card className="box-content flex flex-col sm:flex-row sm:items-center justify-between w-full sm:max-w-[752px] xl:h-[120px] p-6 gap-4">
-      {/* Left side       */}
-      <div className="flex items-center gap-4 min-w-0">
-        <X
-          size={16}
-          className="shrink-0"
-        />
+    <Card
+      className="
+        flex flex-col               /* мобильная: 2 ряда */
+        sm:flex-row sm:items-center /* планшет+ и десктоп: 1 ряд */
+        justify-between
+        w-full
+        p-4 sm:p-6
+        gap-4
+        border border-gray-200 rounded-lg
+        shadow-sm
+        hover:shadow-md transition-shadow duration-200
+      "
+    >
+      <div className="flex items-center gap-3 min-w-0">
+        <button
+          aria-label="Remove item"
+          className="shrink-0 text-gray-400 hover:text-gray-600 p-5"
+        >
+          <X size={16} />
+        </button>
+
         <Image
           src={'/cart-card-book-cover.png'}
-          alt="cart card-book-cover"
+          alt="Behind the Net — Stephanie Archer"
           width={80}
           height={80}
-          className="rounded-md shrink-0"
+          className="rounded-md shrink-0 object-cover"
         />
-        <div className="flex flex-col min-w-0">
-          <TypographyH5 className="truncate">Behind the Net</TypographyH5>
 
-          <TypographyP className="truncate">Stephanie Archer</TypographyP>
+        <div className="flex flex-col min-w-0 p-5">
+          <TypographyH5 className="truncate text-base sm:text-lg">
+            Behind the Net
+          </TypographyH5>
+          <TypographyP className="truncate text-sm sm:text-base text-muted-foreground">
+            Stephanie Archer
+          </TypographyP>
         </div>
       </div>
 
-      {/* Right side */}
-      <div className="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto">
-        <div className="flex items-center gap-2">
-          <Minus size={16} />
-          <p>1</p>
-          <Plus size={16} />
+      <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-3">
+        <div className="flex items-center gap-2 border border-gray-300 rounded-md px-2 py-1 bg-white hover:bg-gray-50 transition-colors">
+          <button aria-label="Decrease">
+            <Minus
+              size={16}
+              className="text-gray-600 hover:text-gray-800"
+            />
+          </button>
+          <p className="w-6 text-center text-base">1</p>
+          <button aria-label="Increase">
+            <Plus
+              size={16}
+              className="text-gray-600 hover:text-gray-800"
+            />
+          </button>
         </div>
-
-        <div>
-          <TypographyH3>₴541</TypographyH3>
-        </div>
+        <TypographyH3 className="whitespace-nowrap text-base sm:text-lg font-bold p-5">
+          ₴541
+        </TypographyH3>
       </div>
     </Card>
   );
