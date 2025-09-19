@@ -5,7 +5,7 @@ import { HomePageImage } from '../ui/custom/image';
 
 export const HomePageTemplate = () => {
   return (
-    <div>
+    <div className="relative">
       <HomePageImage className="my-[80px]" />
       <CardsCarouselSection title="New books" />
       <CategorySection className="mt-[50px]" />
