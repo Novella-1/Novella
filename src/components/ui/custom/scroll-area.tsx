@@ -1,7 +1,7 @@
 'use client';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import React, { forwardRef } from 'react';
+import { useEffect, useState, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 import { BookWithDetails } from '@/types/BookType';
 
@@ -87,6 +87,29 @@ const HorizontalScroll = forwardRef<HTMLDivElement, HorizontalScrollProps>(
 HorizontalScroll.displayName = 'HorizontalScroll';
 
 const ScrollButtons: React.FC<ScrollButtonsProps> = ({ scrollRef }) => {
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  useEffect(() => {
+    const checkScroll = () => {
+      if (!scrollRef.current) return;
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
+    };
+    if (!scrollRef.current) return;
+    checkScroll();
+    const el = scrollRef.current;
+
+    el.addEventListener('scroll', checkScroll);
+    window.addEventListener('resize', checkScroll);
+
+    return () => {
+      el.removeEventListener('scroll', checkScroll);
+      window.removeEventListener('resize', checkScroll);
+    };
+  }, [scrollRef]);
+
   const scrollBy = (direction: number) => {
     let actualOffset = direction * 290;
     if (typeof window !== 'undefined' && window.innerWidth < 640) {
@@ -102,20 +125,24 @@ const ScrollButtons: React.FC<ScrollButtonsProps> = ({ scrollRef }) => {
 
   return (
     <div className="invisible sm:visible flex justify-end gap-2 mb-4">
-      <button
-        className="rounded-full hover:bg-gray-100 flex items-center justify-center cursor-pointer"
-        onClick={() => scrollBy(-1)}
-        aria-label="Scroll left"
-      >
-        <ChevronLeft size={34} />
-      </button>
-      <button
-        className="rounded-full hover:bg-gray-100 flex items-center justify-center cursor-pointer"
-        onClick={() => scrollBy(1)}
-        aria-label="Scroll right"
-      >
-        <ChevronRight size={34} />
-      </button>
+      {canScrollLeft && (
+        <button
+          className="rounded-full  flex items-center justify-center cursor-pointer"
+          onClick={() => scrollBy(-1)}
+          aria-label="Scroll left"
+        >
+          <ChevronLeft size={34} />
+        </button>
+      )}
+      {canScrollRight && (
+        <button
+          className="rounded-full  flex items-center justify-center cursor-pointer"
+          onClick={() => scrollBy(1)}
+          aria-label="Scroll right"
+        >
+          <ChevronRight size={34} />
+        </button>
+      )}
     </div>
   );
 };
