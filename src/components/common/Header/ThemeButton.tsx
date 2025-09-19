@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, Droplet, Contrast } from 'lucide-react';
+import { Sun, Moon, Droplet, Contrast, MonitorCog } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,7 @@ const themeOptions = [
   {
     value: 'system',
     label: 'System',
-    icon: <Droplet className="!h-6 !w-6 text-gray" />,
+    icon: <MonitorCog className="!h-6 !w-6 text-purple-500" />,
   },
   {
     value: 'light',
