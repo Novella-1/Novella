@@ -96,6 +96,14 @@ model AudiobookDetails {
   book            Book   @relation(fields: [bookId], references: [id])
 }
 
+model Quote {
+  id        String   @id @default(cuid())
+  quote     String   @db.Text
+  author    String
+  work      String
+  createdAt DateTime @default(now())
+}
+
 enum BookType {
   PAPERBACK
   KINDLE
