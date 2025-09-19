@@ -4,7 +4,7 @@ import { TwainQuote } from '../layout/QuoteSection/QuoteSection';
 
 export const HomePageTemplate = () => {
   return (
-    <div>
+    <div className="relative">
       <TwainQuote />
       <CardsCarouselSection title="New books" />
       <CategorySection className="mt-[50px]" />
