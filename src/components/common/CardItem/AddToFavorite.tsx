@@ -70,7 +70,7 @@ export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
   const router = useRouter();
 
   const onClickHandler = () => {
-    router.push('/login');
+    // router.push('/login');
   };
   return (
     <div

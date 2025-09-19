@@ -52,9 +52,7 @@ export function CardItem({
           <div className="flex flex-row gap-2">
             {priceDiscount !== null ?
               <>
-                <TypographyH3>
-                  ${(priceRegular - (priceDiscount ?? 0)).toFixed(2)}
-                </TypographyH3>
+                <TypographyH3>${priceDiscount.toFixed(2)}</TypographyH3>
                 <TypographyH4 className="line-through decoration-1 text-custom-icons">
                   ${priceRegular}
                 </TypographyH4>

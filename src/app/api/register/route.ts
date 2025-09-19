@@ -2,26 +2,69 @@ import bcrypt from 'bcrypt';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/server/prisma';
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const body = await req.json();
-    const { email, password } = body;
+    const { email, password, firstName, lastName } = await request.json();
 
-    if (!email || !password) {
-      return NextResponse.error();
+    if (!email || !password || !firstName || !lastName) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 },
+      );
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      return NextResponse.json(
+        { error: 'User already exists' },
+        { status: 409 },
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await prisma.user.create({
       data: {
         email,
         hashedPassword,
+        Profile: {
+          create: {
+            firstName,
+            lastName,
+          },
+        },
+      },
+      select: {
+        id: true,
+        email: true,
+        Profile: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
       },
     });
 
-    return NextResponse.json(user);
-  } catch (e) {
-    NextResponse.error();
+    return NextResponse.json(
+      {
+        message: 'User registered successfully',
+        user,
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    console.error('Registration error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    );
   }
+}
+
+export async function GET() {
+  return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
 }
