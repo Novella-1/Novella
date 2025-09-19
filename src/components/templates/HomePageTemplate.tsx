@@ -6,9 +6,16 @@ export const HomePageTemplate = () => {
   return (
     <div className="relative">
       <TwainQuote />
-      <CardsCarouselSection title="New books" />
+      <CardsCarouselSection
+        title="New books"
+        type="new-books"
+      />
       <CategorySection className="mt-[50px]" />
-      <CardsCarouselSection className="my-[50px]" />
+      <CardsCarouselSection
+        className="my-[50px]"
+        type="discount"
+        title="Sale"
+      />
     </div>
   );
 };
