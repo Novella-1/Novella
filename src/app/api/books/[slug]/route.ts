@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { formatCategories } from '@/server/helpers/helpers';
 import { prisma } from '@/server/prisma';
 
 export async function GET(
-  request: Request,
-  { params }: { params: { slug: string } },
+  request: NextRequest,
+  context: { params: Promise<{ slug: string }> },
 ) {
-  const { slug } = params;
+  const { slug } = await context.params;
 
   try {
     const book = await prisma.book.findUnique({

@@ -1,45 +1,70 @@
-// pages/api/auth/register.ts
 import bcrypt from 'bcrypt';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { signIn } from 'next-auth/react';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/server/prisma';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  if (req.method !== 'POST') return res.status(405).end();
-
-  const { email, password, firstName, lastName } = req.body;
-
-  if (!email || !password || !firstName || !lastName) {
-    return res.status(400).json({ error: 'Missing fields' });
-  }
-
+export async function POST(request: NextRequest) {
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const { email, password, firstName, lastName } = await request.json();
+
+    if (!email || !password || !firstName || !lastName) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 },
+      );
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      return NextResponse.json(
+        { error: 'User already exists' },
+        { status: 409 },
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await prisma.user.create({
       data: {
         email,
         hashedPassword,
-        Profile: { create: { firstName, lastName } },
+        Profile: {
+          create: {
+            firstName,
+            lastName,
+          },
+        },
+      },
+      select: {
+        id: true,
+        email: true,
+        Profile: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
       },
     });
 
-    const result = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (result?.error) return res.status(401).json({ error: result.error });
-
-    return res
-      .status(200)
-      .json({ message: 'User registered and logged in', user });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Internal server error' });
+    return NextResponse.json(
+      {
+        message: 'User registered successfully',
+        user,
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    console.error('Registration error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    );
   }
+}
+
+export async function GET() {
+  return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
 }
