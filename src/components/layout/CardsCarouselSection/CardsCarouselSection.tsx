@@ -1,7 +1,7 @@
 import { CardCarousel } from '@/components/common/BooksScrollArea/ScrollArea';
 import { cn } from '@/lib/utils';
 import { getBooks } from '@/server/books';
-import { SectionTitle } from '../../ui/custom/typography';
+import { TypographyH2 } from '../../ui/custom/typography';
 
 export async function CardsCarouselSection({
   className,
@@ -15,8 +15,8 @@ export async function CardsCarouselSection({
   });
 
   return (
-    <section className={cn('', className)}>
-      <SectionTitle className="mb-[-42px] ">{title}</SectionTitle>
+    <section className={cn('mb-16', className)}>
+      <TypographyH2 className="mb-[-42px] ">{title}</TypographyH2>
       <CardCarousel books={booksData} />
     </section>
   );

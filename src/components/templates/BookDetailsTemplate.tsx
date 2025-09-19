@@ -34,7 +34,7 @@ export async function BookDetailsTemplate({
             <TypographyP>{bookWithDetails?.author}</TypographyP>
           </div>
 
-          <div className="flex flex-col gap-4 sm:flex-col sm:gap-[34px] xl:flex-row xl:gap-[88px] xl:h-[524px]">
+          <div className="flex flex-col gap-4 sm:flex-col sm:gap-[34px] xl:flex-row xl:gap-[88px] xl:h-[524px] xl:items-start">
             <BookPhotoContainer images={bookWithDetails?.images} />
             <BookInfo
               className="xl:h-full"
@@ -66,8 +66,7 @@ export async function BookDetailsTemplate({
             illustrations={bookWithDetails?.paperDetails?.illustrations}
           />
         </div>
-
-        <CardsCarouselSection className="mb-10" />
+        <CardsCarouselSection />
       </div>
     </div>
   );
