@@ -65,6 +65,7 @@ const Header: FC = () => {
                 <Search
                   size={22}
                   strokeWidth={1.5}
+                  className="text-custom-icons"
                 />
               </button>
 
@@ -117,7 +118,7 @@ const Header: FC = () => {
                 <button
                   onClick={() => setIsMenuOpen(false)}
                   aria-label="Close menu"
-                  className="p-2"
+                  className="p-2 text-custom-icons"
                 >
                   <X size={24} />
                 </button>

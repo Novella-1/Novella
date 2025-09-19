@@ -36,10 +36,10 @@ const Nav: FC<NavProps> = ({ variant = 'desktop', className }) => {
             key={href}
             href={href}
             className={clsx(
-              'relative font-bold transition-colors duration-200',
-              isActive ?
-                'text-custom-primary-text'
-              : 'text-custom-secondary hover:text-custom-primary',
+              'relative font-bold transition-colors duration-200 text-custom-icons',
+              isActive ? 'text-custom-icons' : (
+                'text-custom-secondary hover:text-custom-primary'
+              ),
               isMobile && 'font-bold hover:text-custom-primary',
             )}
           >
