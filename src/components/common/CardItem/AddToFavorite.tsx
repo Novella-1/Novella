@@ -84,14 +84,14 @@ export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
         }
       }}
       className={cn(
-        'flex items-center justify-center rounded-[8px] border border-custom-border',
+        'flex items-center justify-center rounded-[8px] border border-custom-border w-10 h-10',
         className,
       )}
       {...props}
     >
       <Button
         onClick={handleClick}
-        className="p-0 rounded-full bg-transparent hover:bg-transparent w-10 h-10 flex items-center justify-center"
+        className="p-0 rounded-full bg-transparent hover:bg-transparen flex items-center justify-center"
         variant="ghost"
         size="icon"
       >
@@ -100,7 +100,7 @@ export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
             ref={containerRef}
             className="w-10 h-10"
           />
-        : <HeartIcon className="text-custom-favourites-icon w-10 h-10 fill-custom-favourites-icon" />
+        : <HeartIcon className="text-custom-favourites-icon fill-custom-favourites-icon" />
         }
       </Button>
     </div>
