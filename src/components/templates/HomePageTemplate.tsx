@@ -1,12 +1,11 @@
 import { CardsCarouselSection } from '../layout/CardsCarouselSection/CardsCarouselSection';
 import { CategorySection } from '../layout/CategorySection/CategorySection';
-
-import { HomePageImage } from '../ui/custom/image';
+import { TwainQuote } from '../layout/QuoteSection/QuoteSection';
 
 export const HomePageTemplate = () => {
   return (
-    <div>
-      <HomePageImage className="my-[80px]" />
+    <div className="relative">
+      <TwainQuote />
       <CardsCarouselSection title="New books" />
       <CategorySection className="mt-[50px]" />
       <CardsCarouselSection className="my-[50px]" />

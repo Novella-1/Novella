@@ -5,6 +5,7 @@ import {
   SortOrder,
   SortType,
 } from '@/types/BookType';
+import { formatCategories } from './helpers/helpers';
 import { prisma } from './prisma';
 
 type BookInclude = {
@@ -20,14 +21,6 @@ type GetBooksOptions = {
   sortOrder?: SortOrder;
   page?: number;
   pageSize?: PageSize;
-};
-
-type PrismaCategory = {
-  bookId?: string;
-  categoryId?: number;
-  category: {
-    name: string;
-  };
 };
 
 function getInclude(type: BookType): BookInclude {
@@ -52,13 +45,6 @@ function getOrder(sortBy?: SortType, sortOrder: SortOrder = 'asc') {
     default:
       return undefined;
   }
-}
-
-function formatCategories<T extends { categories: PrismaCategory[] }>(book: T) {
-  return {
-    ...book,
-    categories: book.categories.map((c) => c.category.name),
-  };
 }
 
 export async function getBooks({

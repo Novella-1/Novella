@@ -5,6 +5,7 @@ import { Menu, Search, X } from 'lucide-react';
 import { Manrope } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import React, { FC, useState } from 'react';
 
 import IconNav from './IconNav';
@@ -35,11 +36,14 @@ const Logo: FC<{ className?: string }> = ({ className }) => (
 const Header: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { data, status } = useSession();
+
+  console.log(data, status);
 
   return (
     <>
       <header
-        className={`${manrope.className} h-[48px] xl:h-[64px] border-b border-gray-200 bg-white shadow-md`}
+        className={`${manrope.className} fixed top-0 z-50 w-full h-[48px] xl:h-[64px] border-b border-custom-border bg-custom-header-footer shadow-md`}
       >
         <div className="relative flex h-full items-center px-6">
           <Logo className="h-10 w-auto cursor-pointer xl:h-14" />
@@ -61,6 +65,7 @@ const Header: FC = () => {
                 <Search
                   size={22}
                   strokeWidth={1.5}
+                  className="text-custom-icons"
                 />
               </button>
 
@@ -80,6 +85,7 @@ const Header: FC = () => {
                 <Menu
                   size={24}
                   strokeWidth={1}
+                  className="text-custom-icons"
                 />
               </button>
             </div>
@@ -87,7 +93,7 @@ const Header: FC = () => {
         </div>
 
         {isSearchOpen && (
-          <div className="absolute top-[48px] left-0 z-40 w-full border-b border-gray-200 bg-white px-4 py-3 md:block xl:hidden">
+          <div className="absolute top-[48px] left-0 z-40 w-full border-b border-custom-border bg-custom-header-footer shadow-md px-4 py-3 md:block xl:hidden">
             <div className="relative mx-auto md:max-w-[640px]">
               <SearchBar variant="mobile" />
             </div>
@@ -102,7 +108,7 @@ const Header: FC = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '-100%', opacity: 0 }}
             transition={{ duration: 0.28, ease: 'easeInOut' }}
-            className="fixed inset-0 z-50 flex flex-col bg-white"
+            className="fixed inset-0 z-50 flex flex-col bg-custom-header-footer"
           >
             {/* full-screen overlay header */}
             <div className="flex h-[48px] items-center border-b px-6 shadow-md xl:h-[64px]">
@@ -113,7 +119,7 @@ const Header: FC = () => {
                 <button
                   onClick={() => setIsMenuOpen(false)}
                   aria-label="Close menu"
-                  className="p-2"
+                  className="p-2 text-custom-icons"
                 >
                   <X size={24} />
                 </button>
@@ -133,7 +139,7 @@ const Header: FC = () => {
               <div className="max-w-[720px] mx-auto">
                 <IconNav
                   variant="mobile"
-                  className="py-3"
+                  className="py-3 text-custom-icons"
                 />
               </div>
             </div>

@@ -19,9 +19,9 @@ export function BookImage({
         <Image
           src={src}
           alt="Book cover"
-          width={208}
-          height={264}
-          className="w-[146px] h-[185px] sm:w-[208px] sm:h-[263px] object-cover rounded-md"
+          width={146}
+          height={186}
+          className="w-[146px] h-[186px] sm:w-[208px] sm:h-[263px] object-cover rounded-md"
         />
       </Link>
     </div>
@@ -30,13 +30,14 @@ export function BookImage({
 
 export function ShopCategoryImage({ src }: { src: string }) {
   return (
-    <Image
-      src={src}
-      alt="Shop category"
-      width={368}
-      height={289}
-      className="w-full h-[288px] sm:h-[187px] xl:h-[289px] object-cover rounded-md"
-    />
+    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
+      <Image
+        src={src}
+        alt="Shop category"
+        fill
+        className="object-cover"
+      />
+    </div>
   );
 }
 

@@ -3,8 +3,8 @@ import { Manrope } from 'next/font/google';
 import Footer from '@/components/common/Footer/Footer';
 import Header from '@/components/common/Header/Header';
 import './globals.css';
+import { AuthProvider } from '@/providers/session-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
-import Loading from './loading'; // 👈 импортируем
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -30,27 +30,28 @@ export default function RootLayout({
       <body
         className={`${manrope.className} ${manrope.variable} antialiased bg-custom-primary-bg flex flex-col min-h-screen`}
       >
-        <ThemeProvider
-          attribute="data-theme"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          storageKey="novella-theme"
-          themes={[
-            'system',
-            'light',
-            'dark',
-            'protanopia',
-            'tritanopia',
-            'deuteranopia',
-            'grayscale',
-          ]}
-        >
-          <Loading /> {/* 👈 глобальный лоадер, будет сверху при переходах */}
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider
+            attribute="data-theme"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            storageKey="novella-theme"
+            themes={[
+              'system',
+              'light',
+              'dark',
+              'protanopia',
+              'tritanopia',
+              'deuteranopia',
+              'grayscale',
+            ]}
+          >
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

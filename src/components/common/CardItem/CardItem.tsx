@@ -8,7 +8,6 @@ import {
   TypographyB,
   TypographyH3,
   TypographyH4,
-  TypographyH5,
   TypographyP,
 } from '../../ui/custom/typography';
 import { AddToFavorite } from './AddToFavorite';
@@ -21,10 +20,6 @@ export function CardItem({
   book: BookWithDetails;
   className?: string;
 }) {
-  //   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //     e.preventDefault();
-  //     //logic
-  //   };
   const { author, name, priceRegular, priceDiscount, images, type, slug } =
     book;
 
@@ -46,7 +41,7 @@ export function CardItem({
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-2 w-full overflow-hidden">
+      <div className="flex flex-col gap-2 w-full">
         <div>
           <CardItemTitle bookSlug={slug}>{name}</CardItemTitle>
           <TypographyP className="text-custom-icons truncate w-full">
@@ -54,12 +49,10 @@ export function CardItem({
           </TypographyP>
         </div>
         <div className="flex flex-col gap-0.5">
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row items-center gap-2">
             {priceDiscount !== null ?
               <>
-                <TypographyH3>
-                  ${(priceRegular - (priceDiscount ?? 0)).toFixed(2)}
-                </TypographyH3>
+                <TypographyH3>${priceDiscount.toFixed(2)}</TypographyH3>
                 <TypographyH4 className="line-through decoration-1 text-custom-icons">
                   ${priceRegular}
                 </TypographyH4>
@@ -78,7 +71,7 @@ export function CardItem({
         <Button className="flex-1 h-10 cursor-pointer bg-custom-button hover:bg-custom-hover-button transition-shadow duration-200 hover:shadow-[0_1px_10px_0_rgba(23,32,49,0.40)]">
           <TypographyB className="text-custom-">Add to cart</TypographyB>
         </Button>
-        <AddToFavorite className="cursor-pointer hover:border-custom-border" />
+        <AddToFavorite className="w-10 h-10 cursor-pointer" />
       </div>
     </Card>
   );

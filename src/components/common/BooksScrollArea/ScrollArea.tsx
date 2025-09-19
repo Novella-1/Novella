@@ -13,7 +13,8 @@ export function CardCarousel({ books }: { books: BookWithDetails[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="relative w-[310px] md:w-[584px] xl:w-[1136px] m-auto">
+    // <div className="relative w-[310px] md:w-[584px] xl:w-[1136px] m-auto">
+    <div className="relative w-full   xl:max-w-[1136px] m-auto">
       <ScrollButtons scrollRef={scrollRef} />
       <HorizontalScroll
         ref={scrollRef}

@@ -49,7 +49,7 @@ export function TypographyH3({
   return (
     <h3
       className={cn(
-        'font-manrope text-2xl not-italic font-semibold leading-[30.8px] text-custom-primary-text',
+        'font-manrope text-xl not-italic font-semibold leading-[30.8px] text-custom-primary-text',
         className,
       )}
     >
@@ -68,7 +68,7 @@ export function TypographyH4({
   return (
     <h4
       className={cn(
-        'font-manrope text-xl not-italic font-semibold leading-normal text-custom-primary-text',
+        'font-manrope text-[16px] not-italic font-semibold leading-normal text-custom-primary-text',
         className,
       )}
     >
@@ -87,7 +87,7 @@ export function TypographyH5({
   return (
     <h5
       className={cn(
-        'font-manrope text-base not-italic font-bold leading-6 text-custom-primary-text',
+        'font-manrope text-[16px] not-italic font-bold leading-6 text-custom-primary-text',
         className,
       )}
     >
@@ -153,24 +153,5 @@ export function TypographyU({
     >
       {children}
     </p>
-  );
-}
-
-export function SectionTitle({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <h2
-      className={cn(
-        'font-manrope text-[22px] not-italic font-bold leading-[41px] sm:tracking-[-0.32px] mb-[23px] sm:text-[32px] ml-[15%] xl:ml-0',
-        className,
-      )}
-    >
-      {children}
-    </h2>
   );
 }
