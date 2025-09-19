@@ -132,7 +132,7 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
           placeholder="Find a book or author..."
           value={query}
           onChange={(e) => handleChange(e.target.value)}
-          className="w-full border-secondary placeholder:text-custom-secondary"
+          className="w-full placeholder:text-custom-icons border-custom-icons text-custom-icons"
         />
 
         {results.length > 0 && (
@@ -184,9 +184,9 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
         value={query}
         onChange={(e) => handleChange(e.target.value)}
         className="
-          w-full placeholder:text-custom-secondary font-bold 
-          bg-custom-header-bg border-secondary border-1 
-          rounded-md h-9 px-4 focus:outline-none focus:ring-0
+          w-full placeholder:text-custom-icons font-bold 
+          bg-custom-header-footer  border-custom-icons border-1 
+          rounded-md h-9 px-4 focus:outline-none focus:ring-0  text-custom-icons
         "
       />
 
