@@ -1,8 +1,8 @@
 import React from 'react';
 import { TypographyH1 } from '@/components/ui/custom/typography';
 import { BackButton } from '../common/BackButton/BackButton';
-import CartCard from '../common/CartCard';
-import CartCheckout from '../common/CartCheckout';
+import CartCard from '../common/Cart/CartCard';
+import CartCheckout from '../common/Cart/CartCheckout';
 
 const CartTemplate = () => {
   const cards = new Array(6).fill(0).map((_, i) => <CartCard key={i} />);
