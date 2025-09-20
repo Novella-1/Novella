@@ -11,7 +11,7 @@ const CardItemTitle = ({
 }) => {
   return (
     <Link href={`/book/${bookSlug}`}>
-      <TypographyH5 className="text-custom-button truncate w-full cursor-pointer">
+      <TypographyH5 className="truncate w-full cursor-pointer">
         {children}
       </TypographyH5>
     </Link>

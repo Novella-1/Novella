@@ -84,14 +84,14 @@ export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
         }
       }}
       className={cn(
-        'flex items-center justify-center rounded-[8px] border border-custom-border w-10 h-10',
+        'flex items-center justify-center rounded-[8px] border border-custom-border w-10 h-10 hover:bg-custom-primary-bg cursor-pointer',
         className,
       )}
       {...props}
     >
       <Button
         onClick={handleClick}
-        className="p-0 rounded-full bg-transparent hover:bg-transparen flex items-center justify-center"
+        className="p-0 rounded-full bg-transparent hover:bg-transparent flex items-center justify-center cursor-pointer hover:border-custom-primary-bg"
         variant="ghost"
         size="icon"
       >

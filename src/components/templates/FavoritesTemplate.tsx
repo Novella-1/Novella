@@ -8,7 +8,7 @@ const FavoritesTemplate = async () => {
     type: 'KINDLE',
   });
   return (
-    <section className="pt-[64px]  py-16">
+    <section className="pt-32 pb-16">
       <TypographyH1 className="mb-2">Favourites</TypographyH1>
       <TypographyP className="text-custom-icons pb-16">8 books</TypographyP>
       <div className="mx-auto max-w-7xl">

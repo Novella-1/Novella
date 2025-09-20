@@ -29,7 +29,7 @@ const IconNav: FC<IconNavProps> = ({ variant = 'desktop', className }) => {
       <Link
         href="/favourites"
         aria-label="Favourites"
-        className="flex items-center justify-center"
+        className="flex items-center justify-center text-custom-icons"
       >
         <Heart
           size={size}
@@ -39,7 +39,7 @@ const IconNav: FC<IconNavProps> = ({ variant = 'desktop', className }) => {
       <Link
         href="/cart"
         aria-label="Cart"
-        className="flex items-center justify-center"
+        className="flex items-center justify-center text-custom-icons"
       >
         <ShoppingBag
           size={size}

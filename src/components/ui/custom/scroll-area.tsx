@@ -65,21 +65,14 @@ function ScrollBar({
 }
 
 const HorizontalScroll = forwardRef<HTMLDivElement, HorizontalScrollProps>(
-  ({ items, children }, ref) => {
+  ({ children }, ref) => {
     return (
       <div
         ref={ref}
         className="flex overflow-x-auto scrollbar-hide gap-4 py-[10px]"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {items.map((_, i) => (
-          <div
-            key={i}
-            className="flex flex-shrink-0 w-[214px] h-[400px] sm:w-[272px] sm:h-[506px]"
-          >
-            {children}
-          </div>
-        ))}
+        {children}
       </div>
     );
   },

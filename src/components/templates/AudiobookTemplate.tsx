@@ -23,13 +23,13 @@ const AudiobookTemplate = async ({ searchParams }: Props) => {
   const totalCount = await getBooksQuantityByType('AUDIOBOOK');
 
   return (
-    <div className="py-16">
+    <div className="pt-24 pb-10">
       <div className="mb-10">
-        <TypographyH1 className="text-custom-button mb-2">
-          Paper books
+        <TypographyH1 className="text-custom-primary-text mb-2">
+          Audiobooks
         </TypographyH1>
 
-        <TypographyP className="text-custom-icons">
+        <TypographyP className="text-custom-primary-text">
           {totalCount} books
         </TypographyP>
       </div>

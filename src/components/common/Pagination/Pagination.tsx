@@ -58,7 +58,7 @@ const AppPagination: FC<Props> = ({ page, pageSize, totalCount }) => {
               if (page > 1) goToPage(page - 1);
             }}
             className={cn(
-              'border border-custom-border hover:border-1 hover:border-custom-border hover:bg-custom-border',
+              'border border-custom-border bg-custom-header-footer hover:border-1 hover:border-custom-border hover:bg-custom-border',
               { 'pointer-events-none opacity-50': page === 1 },
             )}
           />
@@ -91,7 +91,7 @@ const AppPagination: FC<Props> = ({ page, pageSize, totalCount }) => {
               }}
               isActive={pageNum === page}
               className={cn(
-                'border border-custom-border hover:border-1 hover:border-custom-border hover:bg-custom-border',
+                'border border-custom-border bg-custom-header-footer hover:border-1 hover:border-custom-border hover:bg-custom-border',
                 {
                   'bg-custom-button text-white': pageNum === page,
                 },
@@ -127,7 +127,7 @@ const AppPagination: FC<Props> = ({ page, pageSize, totalCount }) => {
               if (page < totalPages) goToPage(page + 1);
             }}
             className={cn(
-              'border border-custom-border hover:border-1 hover:border-custom-border hover:bg-custom-border',
+              'border border-custom-border bg-custom-header-footer hover:border-1 hover:border-custom-border hover:bg-custom-border',
               { 'pointer-events-none opacity-50': page === totalPages },
             )}
           />
