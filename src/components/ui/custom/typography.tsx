@@ -155,3 +155,24 @@ export function TypographyU({
     </p>
   );
 }
+
+//for decoration
+
+// export function TypographyD({
+//   children,
+//   className,
+// }: {
+//   children: ReactNode;
+//   className?: string;
+// }) {
+//   return (
+//     <p
+//       className={cn(
+//         'font-martel text-xs not-italic leading-[11px] tracking-[0.12px] uppercase text-custom-icons',
+//         className,
+//       )}
+//     >
+//       {children}
+//     </p>
+//   );
+// }

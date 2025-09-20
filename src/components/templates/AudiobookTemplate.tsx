@@ -7,6 +7,7 @@ import { FilteringSection } from '@/components/layout/FilteringSection/Filtering
 import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
 import { getBooksQuantityByType } from '@/server/books';
 import { PageSize, SortOrder, SortType } from '@/types/BookType';
+import { BackgroundText } from '../common/backgroundText';
 
 type Props = {
   searchParams: Promise<FilterBooksParams>;
@@ -24,34 +25,37 @@ const AudiobookTemplate = async ({ searchParams }: Props) => {
 
   return (
     <div className="pt-24 pb-10">
-      <div className="mb-10">
-        <TypographyH1 className="text-custom-primary-text mb-2">
-          Audiobooks
-        </TypographyH1>
+      <BackgroundText />
+      <div className="relative z-10">
+        <div className="mb-10">
+          <TypographyH1 className="text-custom-primary-text mb-2">
+            Audiobooks
+          </TypographyH1>
 
-        <TypographyP className="text-custom-primary-text">
-          {totalCount} books
-        </TypographyP>
-      </div>
+          <TypographyP className="text-custom-primary-text">
+            {totalCount} books
+          </TypographyP>
+        </div>
 
-      <FilteringSection className="mb-6" />
+        <FilteringSection className="mb-6" />
 
-      <Suspense fallback={<BookListSkeleton pageSize={pageSize} />}>
-        <BooksList
-          className="mb-10"
-          type="AUDIOBOOK"
+        <Suspense fallback={<BookListSkeleton pageSize={pageSize} />}>
+          <BooksList
+            className="mb-10"
+            type="AUDIOBOOK"
+            page={page}
+            pageSize={pageSize}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+          />
+        </Suspense>
+
+        <Pagination
           page={page}
           pageSize={pageSize}
-          sortBy={sortBy}
-          sortOrder={sortOrder}
+          totalCount={totalCount}
         />
-      </Suspense>
-
-      <Pagination
-        page={page}
-        pageSize={pageSize}
-        totalCount={totalCount}
-      />
+      </div>
     </div>
   );
 };
