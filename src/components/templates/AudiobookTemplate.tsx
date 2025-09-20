@@ -1,10 +1,15 @@
-import React, { Suspense } from 'react';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
+import React from 'react';
 import { FilterBooksParams } from '@/app/paper/page';
-import BookListSkeleton from '@/components/common/BooksList/BookListSkeleton';
 import BooksList from '@/components/common/BooksList/BooksList';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { FilteringSection } from '@/components/layout/FilteringSection/FilteringSection';
 import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
+import { fetchBooks } from '@/lib/fetchBooks';
 import { getBooksQuantityByType } from '@/server/books';
 import { PageSize, SortOrder, SortType } from '@/types/BookType';
 
@@ -22,6 +27,19 @@ const AudiobookTemplate = async ({ searchParams }: Props) => {
 
   const totalCount = await getBooksQuantityByType('AUDIOBOOK');
 
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ['books', 'AUDIOBOOK', page, pageSize, sortBy, sortOrder],
+    queryFn: () =>
+      fetchBooks({
+        type: 'AUDIOBOOK',
+        page,
+        pageSize,
+        sortBy,
+        sortOrder,
+      }),
+  });
+
   return (
     <div className="pt-24 pb-10">
       <div className="mb-10">
@@ -36,7 +54,7 @@ const AudiobookTemplate = async ({ searchParams }: Props) => {
 
       <FilteringSection className="mb-6" />
 
-      <Suspense fallback={<BookListSkeleton pageSize={pageSize} />}>
+      <HydrationBoundary state={dehydrate(queryClient)}>
         <BooksList
           className="mb-10"
           type="AUDIOBOOK"
@@ -45,7 +63,7 @@ const AudiobookTemplate = async ({ searchParams }: Props) => {
           sortBy={sortBy}
           sortOrder={sortOrder}
         />
-      </Suspense>
+      </HydrationBoundary>
 
       <Pagination
         page={page}

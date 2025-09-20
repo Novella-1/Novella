@@ -1,7 +1,10 @@
-import React, { FC } from 'react';
+'use client';
 
+import { useQuery } from '@tanstack/react-query';
+import React from 'react';
+
+import { fetchBooks } from '@/lib/fetchBooks';
 import { cn } from '@/lib/utils';
-import { getBooks } from '@/server/books';
 import {
   BookType,
   PageSize,
@@ -10,6 +13,7 @@ import {
   BookWithDetails,
 } from '@/types/BookType';
 import { CardItem } from '../CardItem/CardItem';
+import BookListSkeleton from './BookListSkeleton';
 
 type Props = {
   className?: string;
@@ -20,7 +24,7 @@ type Props = {
   sortOrder: SortOrder;
 };
 
-const BooksList = async ({
+const BooksList = ({
   className,
   type,
   page,
@@ -28,9 +32,18 @@ const BooksList = async ({
   sortBy,
   sortOrder,
 }: Props) => {
-  // const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const { data, isLoading, isFetching, error } = useQuery({
+    queryKey: [type, page, pageSize, sortBy, sortOrder],
+    queryFn: () => fetchBooks({ type, page, pageSize, sortBy, sortOrder }),
+  });
 
-  const books = await getBooks({ type, page, pageSize, sortBy, sortOrder });
+  if (isLoading || isFetching) {
+    return <BookListSkeleton pageSize={pageSize} />;
+  }
+
+  if (error) {
+    throw new Error('Books loading error');
+  }
 
   return (
     <div
@@ -45,7 +58,7 @@ const BooksList = async ({
         className,
       )}
     >
-      {books.map((book: BookWithDetails) => (
+      {data?.map((book: BookWithDetails) => (
         <CardItem
           key={book.slug}
           book={book}
