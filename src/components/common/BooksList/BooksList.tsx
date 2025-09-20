@@ -33,7 +33,7 @@ const BooksList = ({
   sortOrder,
 }: Props) => {
   const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: [type, pageSize, sortBy],
+    queryKey: [type, page, pageSize, sortBy, sortOrder],
     queryFn: () => fetchBooks({ type, page, pageSize, sortBy, sortOrder }),
   });
 
