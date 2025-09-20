@@ -28,7 +28,7 @@ const AuthModal = () => {
         email,
         password,
         // TODO: REDIRECT ???
-        // redirect: false,
+        redirect: false,
         // callbackUrl: '/',
       });
     } catch (e) {
@@ -43,19 +43,23 @@ const AuthModal = () => {
     lastName: string,
   ) => {
     try {
-      const response = await fetch('/api/register', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/register`,
+        {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+            password,
+          }),
         },
-        body: JSON.stringify({
-          email,
-          password,
-          firstName,
-          lastName,
-        }),
-      });
+      );
 
+      // console.log(email, password, firstName, lastName);
       // const data = await response.json();
 
       // login(data.email, data.password);
@@ -121,6 +125,9 @@ const AuthModal = () => {
 
     onSubmit: async (values) => {
       const { firstName, lastName, email, password } = values;
+
+      console.log('aa', email, password, firstName, lastName);
+
       if (authVariant === 'login') {
         await login(email, password);
       } else {
