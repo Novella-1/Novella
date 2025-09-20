@@ -3,7 +3,9 @@ import { Manrope, Martel_Sans } from 'next/font/google';
 import Footer from '@/components/common/Footer/Footer';
 import Header from '@/components/common/Header/Header';
 import './globals.css';
+
 import { AuthProvider } from '@/providers/session-provider';
+import { TanstackProviders } from '@/providers/tanstack-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
 
 export const metadata: Metadata = {
@@ -39,28 +41,30 @@ export default function RootLayout({
           'font-sans antialiased bg-custom-primary-bg flex flex-col min-h-screen'
         }
       >
-        <AuthProvider>
-          <ThemeProvider
-            attribute="data-theme"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-            storageKey="novella-theme"
-            themes={[
-              'system',
-              'light',
-              'dark',
-              'protanopia',
-              'tritanopia',
-              'deuteranopia',
-              'grayscale',
-            ]}
-          >
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </ThemeProvider>
-        </AuthProvider>
+        <TanstackProviders>
+          <AuthProvider>
+            <ThemeProvider
+              attribute="data-theme"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+              storageKey="novella-theme"
+              themes={[
+                'system',
+                'light',
+                'dark',
+                'protanopia',
+                'tritanopia',
+                'deuteranopia',
+                'grayscale',
+              ]}
+            >
+              <Header />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </ThemeProvider>
+          </AuthProvider>
+        </TanstackProviders>
       </body>
     </html>
   );

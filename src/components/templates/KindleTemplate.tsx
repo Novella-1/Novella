@@ -1,10 +1,15 @@
-import React, { Suspense } from 'react';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
+import React from 'react';
 import { FilterBooksParams } from '@/app/paper/page';
-import BookListSkeleton from '@/components/common/BooksList/BookListSkeleton';
 import BooksList from '@/components/common/BooksList/BooksList';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { FilteringSection } from '@/components/layout/FilteringSection/FilteringSection';
 import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
+import { fetchBooks } from '@/lib/fetchBooks';
 import { getBooksQuantityByType } from '@/server/books';
 import { PageSize, SortOrder, SortType } from '@/types/BookType';
 import { BackgroundText } from '../common/backgroundText';
@@ -23,6 +28,19 @@ const KindleTemplate = async ({ searchParams }: Props) => {
 
   const totalCount = await getBooksQuantityByType('KINDLE');
 
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ['books', 'KINDLE', page, pageSize, sortBy, sortOrder],
+    queryFn: () =>
+      fetchBooks({
+        type: 'KINDLE',
+        page,
+        pageSize,
+        sortBy,
+        sortOrder,
+      }),
+  });
+
   return (
     <div className="pt-24 pb-10">
       <BackgroundText />
@@ -39,7 +57,7 @@ const KindleTemplate = async ({ searchParams }: Props) => {
 
         <FilteringSection className="mb-6" />
 
-        <Suspense fallback={<BookListSkeleton pageSize={pageSize} />}>
+        <HydrationBoundary state={dehydrate(queryClient)}>
           <BooksList
             className="mb-10"
             type="KINDLE"
@@ -48,7 +66,7 @@ const KindleTemplate = async ({ searchParams }: Props) => {
             sortBy={sortBy}
             sortOrder={sortOrder}
           />
-        </Suspense>
+        </HydrationBoundary>
 
         <Pagination
           page={page}
