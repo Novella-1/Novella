@@ -74,7 +74,7 @@ const Footer: FC = () => {
             </TypographyP>
           </div>
 
-          {/* 2 колонка: Навігація */}
+          {/* 2 колонка: Навигация */}
           <div className="flex flex-col items-start sm:items-start md:items-center lg:items-center text-left">
             <TypographyH3 className="mb-4 text-lg text-[#331F06]">
               Navigation
@@ -138,7 +138,7 @@ const Footer: FC = () => {
             <TypographyH3 className="mb-4 text-lg text-[#331F06]">
               Follow us
             </TypographyH3>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 mb-4">
               <a
                 href="https://www.facebook.com/book.ua/?locale=uk_UA"
                 aria-label="Facebook"
@@ -164,8 +164,18 @@ const Footer: FC = () => {
                 <Instagram size={28} />
               </a>
             </div>
+
+            {/* Кнопка открытия RandomBookModal */}
+            <button
+              type="button"
+              onClick={() => setRandomOpen(true)}
+              className="px-4 py-2 bg-[#5A4632] text-white rounded-md font-bold hover:bg-[#4a3826] transition"
+            >
+              Let Fate Decide 📚
+            </button>
           </div>
         </div>
+
         <div className="container mx-auto px-4 mt-10 flex justify-center">
           <button
             type="button"
@@ -189,14 +199,15 @@ const Footer: FC = () => {
                 d="M5 15l7-7 7 7"
               />
             </svg>
+            <RandomBookModal
+              open={isRandomOpen}
+              onClose={() => setRandomOpen(false)}
+            />
           </button>
         </div>
       </footer>
 
-      <RandomBookModal
-        open={isRandomOpen}
-        onClose={() => setRandomOpen(false)}
-      />
+      {/* Модалка */}
     </>
   );
 };
