@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Manrope } from 'next/font/google';
+import { Manrope, Martel_Sans } from 'next/font/google';
 import Footer from '@/components/common/Footer/Footer';
 import Header from '@/components/common/Header/Header';
 import './globals.css';
@@ -19,6 +19,12 @@ const manrope = Manrope({
   variable: '--font-manrope',
 });
 
+const martel = Martel_Sans({
+  subsets: ['latin'],
+  weight: ['900'],
+  variable: '--font-martel',
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,9 +34,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
+      className={`${manrope.variable} ${martel.variable}`}
     >
       <body
-        className={`${manrope.className} ${manrope.variable} antialiased bg-custom-primary-bg flex flex-col min-h-screen`}
+        className={
+          'font-sans antialiased bg-custom-primary-bg flex flex-col min-h-screen'
+        }
       >
         <TanstackProviders>
           <AuthProvider>

@@ -12,6 +12,7 @@ import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
 import { fetchBooks } from '@/lib/fetchBooks';
 import { getBooksQuantityByType } from '@/server/books';
 import { PageSize, SortOrder, SortType } from '@/types/BookType';
+import { BackgroundText } from '../common/backgroundText';
 
 type Props = {
   searchParams: Promise<FilterBooksParams>;
@@ -42,34 +43,37 @@ const AudiobookTemplate = async ({ searchParams }: Props) => {
 
   return (
     <div className="pt-24 pb-10">
-      <div className="mb-10">
-        <TypographyH1 className="text-custom-primary-text mb-2">
-          Audiobooks
-        </TypographyH1>
+      <BackgroundText />
+      <div className="relative z-10">
+        <div className="mb-10">
+          <TypographyH1 className="text-custom-primary-text mb-2">
+            Audiobooks
+          </TypographyH1>
 
-        <TypographyP className="text-custom-primary-text">
-          {totalCount} books
-        </TypographyP>
-      </div>
+          <TypographyP className="text-custom-primary-text">
+            {totalCount} books
+          </TypographyP>
+        </div>
 
-      <FilteringSection className="mb-6" />
+        <FilteringSection className="mb-6" />
 
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <BooksList
-          className="mb-10"
-          type="AUDIOBOOK"
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <BooksList
+            className="mb-10"
+            type="AUDIOBOOK"
+            page={page}
+            pageSize={pageSize}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+          />
+        </HydrationBoundary>
+
+        <Pagination
           page={page}
           pageSize={pageSize}
-          sortBy={sortBy}
-          sortOrder={sortOrder}
+          totalCount={totalCount}
         />
-      </HydrationBoundary>
-
-      <Pagination
-        page={page}
-        pageSize={pageSize}
-        totalCount={totalCount}
-      />
+      </div>
     </div>
   );
 };
