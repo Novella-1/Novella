@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Manrope, Martel_Sans } from 'next/font/google';
+import { Manrope, Martel_Sans, Marcellus } from 'next/font/google';
 import Footer from '@/components/common/Footer/Footer';
 import Header from '@/components/common/Header/Header';
 import './globals.css';
@@ -23,6 +23,12 @@ const martel = Martel_Sans({
   variable: '--font-martel',
 });
 
+const marcellus = Marcellus({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-marcellus',
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,7 +38,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${manrope.variable} ${martel.variable}`}
+      className={`${manrope.variable} ${martel.variable} ${marcellus.variable}`}
     >
       <body
         className={

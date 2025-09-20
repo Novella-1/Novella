@@ -7,7 +7,7 @@ import { FilteringSection } from '@/components/layout/FilteringSection/Filtering
 import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
 import { getBooksQuantityByType } from '@/server/books';
 import { PageSize, SortOrder, SortType } from '@/types/BookType';
-import { BackgroundText } from '../common/backgroundText';
+import { BackgroundText } from '../common/BackgroundText';
 
 type Props = {
   searchParams: Promise<FilterBooksParams>;
