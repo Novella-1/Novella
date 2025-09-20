@@ -15,15 +15,8 @@ const CartTemplate = () => {
 
         <div className="flex flex-col xl:flex-row xl:items-start gap-6">
           <div className="w-full xl:flex-1 min-h-0">
-            <div
-              className="
-                overflow-y-auto pr-2 space-y-4
-                max-h-[400px]        /* mobile: ~2.5 cards × 160px */
-                sm:max-h-[320px]     /* tablet: ~2.5 cards × 128px */
-                xl:max-h-[416px]     /* desktop: 3 cards (3×128px + 2×16px gaps) */
-              "
-            >
-              {cards}
+            <div className="bg-custom-header-footer rounded-lg p-4 shadow-sm h-full">
+              <div className="space-y-4">{cards}</div>
             </div>
           </div>
 
