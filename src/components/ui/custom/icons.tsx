@@ -13,6 +13,7 @@ import {
   ChevronRight,
   ChevronUp,
   ChevronDown,
+  User,
 } from 'lucide-react';
 import * as React from 'react';
 
@@ -70,4 +71,8 @@ export function ArrowLeftIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export function ArrowRightIcon(props: React.SVGProps<SVGSVGElement>) {
   return <ChevronRight {...props} />;
+}
+
+export function UserIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <User {...props} />;
 }

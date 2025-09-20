@@ -48,7 +48,9 @@ export default function RootLayout({
             ]}
           >
             <Header />
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow">
+              {children} <div id="modal-root"></div>
+            </main>
             <Footer />
           </ThemeProvider>
         </AuthProvider>
