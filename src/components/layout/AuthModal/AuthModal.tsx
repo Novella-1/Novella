@@ -51,10 +51,10 @@ const AuthModal = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            firstName,
-            lastName,
             email,
             password,
+            firstName,
+            lastName,
           }),
         },
       );
@@ -115,23 +115,23 @@ const AuthModal = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
       email: '',
       password: '',
       confirmPassword: '',
+      firstName: '',
+      lastName: '',
     },
     validationSchema: authValidationSchema,
 
     onSubmit: async (values) => {
-      const { firstName, lastName, email, password } = values;
+      const { email, password, firstName, lastName } = values;
 
-      console.log('aa', email, password, firstName, lastName);
+      // console.log('aa', email, password, firstName, lastName);
 
       if (authVariant === 'login') {
         await login(email, password);
       } else {
-        await register(firstName, lastName, email, password);
+        await register(email, password, firstName, lastName);
       }
     },
   });
