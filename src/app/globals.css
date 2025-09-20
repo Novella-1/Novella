@@ -233,3 +233,7 @@
 .font-martel {
   font-family: var(--font-martel);
 }
+
+.clip-path-bookmark-horizontal-left {
+  clip-path: polygon(0 0, 15% 50%, 0 100%, 100% 100%, 100% 0);
+}
