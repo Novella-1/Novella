@@ -12,7 +12,7 @@ export const BackButton = () => {
         onClick={() => {
           router.back();
         }}
-        className="mb-4 flex items-center gap-1 p-0"
+        className="mb-4 flex items-center gap-1 pt-5"
       >
         <ChevronLeft />
         <span>Back</span>

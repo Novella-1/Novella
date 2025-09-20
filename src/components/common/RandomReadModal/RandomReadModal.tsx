@@ -1,5 +1,7 @@
 'use client';
 
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
@@ -11,7 +13,6 @@ import {
   DialogTitle,
   DialogDescription,
   DialogClose,
-  DialogOverlay,
 } from '@/components/ui/dialog';
 
 interface RandomBookModalProps {
@@ -19,43 +20,55 @@ interface RandomBookModalProps {
   onClose: () => void;
 }
 
-const books = [
-  {
-    title: 'The Great Gatsby',
-    author: 'F. Scott Fitzgerald',
-    cover: '/images/books/gatsby.jpg',
-    url: '/books/gatsby',
-  },
-  {
-    title: '1984',
-    author: 'George Orwell',
-    cover: '/images/books/1984.jpg',
-    url: '/books/1984',
-  },
-  {
-    title: 'To Kill a Mockingbird',
-    author: 'Harper Lee',
-    cover: '/images/books/mockingbird.jpg',
-    url: '/books/mockingbird',
-  },
-  {
-    title: 'Moby-Dick',
-    author: 'Herman Melville',
-    cover: '/images/books/mobydick.jpg',
-    url: '/books/mobydick',
-  },
-];
+interface Book {
+  title: string;
+  author: string;
+  slug: string;
+  coverImage: string;
+  categories?: string[];
+}
 
 export const RandomBookModal: React.FC<RandomBookModalProps> = ({
   open,
   onClose,
 }) => {
-  const [book, setBook] = React.useState(books[0]);
+  const [book, setBook] = React.useState<Book | null>(null);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
+  const fetchRandomBook = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/random`,
+      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const data = await res.json();
+
+      const cover = `/books/${data.images[0]}`;
+
+      setBook({
+        title: data.name,
+        author: data.author,
+        slug: data.slug,
+        coverImage: cover,
+        categories: data.categories || [],
+      });
+    } catch (err) {
+      console.error('Error fetching book:', err);
+      setError('Не удалось загрузить книгу. Попробуйте ещё раз.');
+      setBook(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   React.useEffect(() => {
     if (open) {
-      const random = books[Math.floor(Math.random() * books.length)];
-      setBook(random);
+      fetchRandomBook();
     }
   }, [open]);
 
@@ -64,146 +77,99 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
       open={open}
       onOpenChange={onClose}
     >
-      {/* Оверлей */}
-      <DialogOverlay
-        style={{
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          position: 'fixed',
-          inset: 0,
-          zIndex: 50,
-        }}
-      />
-
-      <DialogContent
-        style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          backgroundColor: '#6C563D',
-          color: 'white',
-          borderRadius: '12px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
-          maxWidth: '400px',
-          width: '100%',
-          padding: '20px',
-          zIndex: 51,
-          border: '2px solid #958370',
-        }}
-      >
-        {/* Убираем крестик */}
-        <style>{`
-          [data-radix-dialog-close] {
-            display: none !important;
-          }
-          @keyframes bookFadeIn {
-            0% {
-              opacity: 0;
-              transform: scale(0.9) translateY(10px);
-            }
-            60% {
-              opacity: 1;
-              transform: scale(1.05) translateY(0);
-            }
-            100% {
-              opacity: 1;
-              transform: scale(1) translateY(0);
-            }
-          }
-        `}</style>
-
-        <DialogHeader>
-          <DialogTitle style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-            Not sure what to read next?
-          </DialogTitle>
-          <DialogDescription style={{ color: 'rgba(255,255,255,0.8)' }}>
-            With one click, we’ll surprise you with a random book from our
-            collection. Discover hidden gems and step into a new story today.
-          </DialogDescription>
-        </DialogHeader>
-
-        <div
-          key={book.title} // чтобы анимация срабатывала при смене книги
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '16px',
-            marginTop: '16px',
-            animation: 'bookFadeIn 0.6s ease forwards',
-          }}
-        >
-          <Image
-            src={book.cover}
-            alt={book.title}
-            width={160}
-            height={240}
-            style={{
-              borderRadius: '8px',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
-            }}
-          />
-          <div style={{ textAlign: 'center' }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>
-              {book.title}
-            </h3>
-            <p style={{ color: 'rgba(255,255,255,0.7)' }}>{book.author}</p>
-          </div>
+      <DialogContent className="fixed top-1/2 left-1/2 z-[51] w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-[#958370] bg-[#6C563D] p-0 text-white shadow-xl overflow-hidden">
+        <div className="bg-[#5A4632] px-6 py-5 text-center">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold tracking-wide">
+              Not sure what to read next?
+            </DialogTitle>
+            <DialogDescription className="mt-1 text-white/80 text-base">
+              Let fate decide! We’ll surprise you with a random book from our
+              collection.
+            </DialogDescription>
+          </DialogHeader>
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            gap: '8px',
-            marginTop: '24px',
-            flexWrap: 'wrap',
-          }}
-        >
-          <Button
-            style={{
-              backgroundColor: 'white',
-              color: '#8B5E3C',
-              fontWeight: 'bold',
-              flex: '1',
-            }}
-            onClick={() => {
-              const random = books[Math.floor(Math.random() * books.length)];
-              setBook(random);
-            }}
+        <div className="p-6 flex flex-col items-center">
+          <div
+            className="flex flex-col items-center gap-4 justify-center"
+            style={{ minHeight: 360 }}
           >
-            Reroll
-          </Button>
+            {loading && (
+              <div className="flex justify-center items-center w-full h-full">
+                <DotLottieReact
+                  src="https://lottie.host/752e52c2-fcaa-47ff-99ed-0687fea87c59/WrJsDQktAl.lottie"
+                  loop
+                  autoplay
+                  style={{ width: 150, height: 150 }}
+                />
+              </div>
+            )}
 
-          <Link
-            href={book.url}
-            style={{ flex: '1' }}
-          >
-            <Button
-              style={{
-                backgroundColor: '#FFD700',
-                color: '#5C3B23',
-                fontWeight: 'bold',
-                width: '100%',
-              }}
-              onClick={onClose}
-            >
-              Get Book
-            </Button>
-          </Link>
+            {error && !loading && (
+              <p className="text-center text-red-300">{error}</p>
+            )}
 
-          <DialogClose asChild>
+            {book && !loading && !error && (
+              <motion.div
+                key={book.title}
+                initial={{ opacity: 0, scale: 0.85, rotateY: -10 }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  rotateY: 0,
+                }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
+                className="flex flex-col items-center gap-4"
+              >
+                <Image
+                  src={book.coverImage}
+                  alt={book.title || 'Book cover'}
+                  width={180}
+                  height={260}
+                  className="rounded-md shadow-lg object-cover border border-[#958370]"
+                />
+                <div className="text-center">
+                  <h3 className="text-lg font-semibold">{book.title}</h3>
+                  <p className="text-white/70">{book.author}</p>
+                  {book.categories && book.categories.length > 0 && (
+                    <p className="mt-1 text-sm text-yellow-300">
+                      {book.categories.join(', ')}
+                    </p>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </div>
+
+          <div className="mt-6 flex flex-wrap justify-between gap-2 w-full">
             <Button
-              style={{
-                backgroundColor: '#5C3B23',
-                color: 'white',
-                fontWeight: 'bold',
-                flex: '1',
-              }}
+              className="flex-1 font-bold text-[#8B5E3C] bg-white hover:bg-gray-200"
+              onClick={fetchRandomBook}
             >
-              Close
+              Reroll
             </Button>
-          </DialogClose>
+
+            {book && !error && (
+              <Link
+                href={`/books/${book.slug}`}
+                className="flex-1"
+              >
+                <Button
+                  className="w-full flex-1 font-bold text-[#5C3B23] bg-yellow-400 hover:bg-yellow-300"
+                  onClick={onClose}
+                >
+                  Get Book
+                </Button>
+              </Link>
+            )}
+
+            <DialogClose asChild>
+              <Button className="flex-1 font-bold bg-[#5C3B23] text-white hover:bg-[#4a2f1a]">
+                Close
+              </Button>
+            </DialogClose>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

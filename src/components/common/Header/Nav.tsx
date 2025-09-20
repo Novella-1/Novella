@@ -8,6 +8,7 @@ import { FC } from 'react';
 interface NavProps {
   variant?: 'desktop' | 'mobile';
   className?: string;
+  onLinkClick?: () => void;
 }
 
 const navLinks = [
@@ -17,7 +18,7 @@ const navLinks = [
   { name: 'AUDIOBOOK', href: '/audiobook' },
 ];
 
-const Nav: FC<NavProps> = ({ variant = 'desktop', className }) => {
+const Nav: FC<NavProps> = ({ variant = 'desktop', className, onLinkClick }) => {
   const pathname = usePathname();
   const isMobile = variant === 'mobile';
 
@@ -35,6 +36,7 @@ const Nav: FC<NavProps> = ({ variant = 'desktop', className }) => {
           <Link
             key={href}
             href={href}
+            onClick={onLinkClick}
             className={clsx(
               'relative font-bold transition-colors duration-200 text-custom-icons',
               isActive ? 'text-custom-icons' : (

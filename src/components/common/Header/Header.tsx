@@ -51,7 +51,6 @@ const Header: FC = () => {
           <Nav variant="desktop" />
 
           <div className="ml-auto flex items-center">
-            {/* Desktop & Tablet */}
             <div className="hidden md:flex items-center gap-4">
               <div className="hidden xl:flex p-4">
                 <SearchBar variant="desktop" />
@@ -70,11 +69,9 @@ const Header: FC = () => {
               </button>
 
               <IconNav variant="desktop" />
-
               <ThemeButton />
             </div>
 
-            {/* Mobile */}
             <div className="flex md:hidden items-center gap-2">
               <ThemeButton />
               <button
@@ -110,10 +107,8 @@ const Header: FC = () => {
             transition={{ duration: 0.28, ease: 'easeInOut' }}
             className="fixed inset-0 z-50 flex flex-col bg-custom-header-footer"
           >
-            {/* full-screen overlay header */}
             <div className="flex h-[48px] items-center border-b px-6 shadow-md xl:h-[64px]">
               <Logo className="h-8 w-auto" />
-
               <div className="ml-auto flex items-center gap-2">
                 <ThemeButton />
                 <button
@@ -128,7 +123,10 @@ const Header: FC = () => {
 
             <div className="flex-1 overflow-y-auto p-6">
               <div className="max-w-xs mx-auto">
-                <Nav variant="mobile" />
+                <Nav
+                  variant="mobile"
+                  onLinkClick={() => setIsMenuOpen(false)}
+                />
                 <div className="mt-6">
                   <SearchBar variant="mobile" />
                 </div>
