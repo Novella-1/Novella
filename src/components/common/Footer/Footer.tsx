@@ -18,30 +18,32 @@ const Footer: FC = () => {
   const [isRandomOpen, setRandomOpen] = useState(false);
 
   const smoothScrollToTop = () => {
-    const topEl = document.getElementById('top');
-    if (topEl) {
-      topEl.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
+    // const topEl = document.getElementById('top');
+    // if (topEl) {
+    //   topEl.scrollIntoView({ behavior: 'smooth' });
+    //   return;
+    // }
 
-    try {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    } catch {}
+    // try {
 
-    const start = window.scrollY || window.pageYOffset;
-    const duration = 500;
-    const startTime = performance.now();
+    //   return;
+    // } catch {}
 
-    const step = (now: number) => {
-      const elapsed = now - startTime;
-      const t = Math.min(elapsed / duration, 1);
-      const eased = 0.5 - Math.cos(Math.PI * t) / 2;
-      window.scrollTo(0, Math.round(start * (1 - eased)));
-      if (t < 1) requestAnimationFrame(step);
-    };
+    // const start = window.scrollY || window.pageYOffset;
+    // const duration = 500;
+    // const startTime = performance.now();
 
-    requestAnimationFrame(step);
+    // const step = (now: number) => {
+    //   const elapsed = now - startTime;
+    //   const t = Math.min(elapsed / duration, 1);
+    //   const eased = 0.5 - Math.cos(Math.PI * t) / 2;
+    //   window.scrollTo(0, Math.round(start * (1 - eased)));
+    //   if (t < 1) requestAnimationFrame(step);
+    // };
+
+    // requestAnimationFrame(step);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -113,8 +115,8 @@ const Footer: FC = () => {
             </ul>
           </div>
 
-          {/* 3 колонка: Контакты */}
-          <div className="flex flex-col items-start sm:items-start md:items-start lg:items-center text-left">
+          {/* 3 колонка: Контакти */}
+          <div className="flex flex-col items-start sm:items-start md:items-start lg:items-start text-left">
             <TypographyH3 className="mb-4 text-lg text-[#331F06]">
               Contacts
             </TypographyH3>
@@ -131,8 +133,8 @@ const Footer: FC = () => {
             </ul>
           </div>
 
-          {/* 4 колонка: Соцсети + кнопка открытия модалки */}
-          <div className="flex flex-col items-start sm:items-start md:items-center lg:items-center">
+          {/* 4 колонка: Соцмережі */}
+          <div className="flex flex-col items-start sm:items-start md:items-start lg:items-start">
             <TypographyH3 className="mb-4 text-lg text-[#331F06]">
               Follow us
             </TypographyH3>

@@ -10,6 +10,7 @@
     var(--font-manrope), ui-sans-serif, system-ui, -apple-system, Segoe UI,
     Roboto, Arial, sans-serif;
   --font-martel: var(--font-martel), serif;
+  --font-marcellus: var(--font-marcellus), sans-serif;
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
     monospace;

@@ -9,7 +9,7 @@ interface CategorySectionProps {
 export function CategorySection({ className }: CategorySectionProps) {
   return (
     <section className={cn('', className)}>
-      <TypographyH2>Shop by category</TypographyH2>
+      <TypographyH2 className="mb-[34px]">Shop by category</TypographyH2>
       <CategoryList />
     </section>
   );

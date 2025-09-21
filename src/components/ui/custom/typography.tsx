@@ -30,7 +30,7 @@ export function TypographyH2({
   return (
     <h2
       className={cn(
-        'font-manrope text-2xl not-italic font-bold leading-[30.8px] sm:text-3xl sm:leading-[41px] sm:tracking-[-0.32px] text-custom-primary-text',
+        'font-manrope text-2xl not-italic font-bold xl:leading-3 md:text-3xl text-custom-primary-text',
         className,
       )}
     >
@@ -38,7 +38,6 @@ export function TypographyH2({
     </h2>
   );
 }
-
 export function TypographyH3({
   children,
   className,
@@ -156,23 +155,42 @@ export function TypographyU({
   );
 }
 
-//for decoration
+//for quotes
+export function TypographyQ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <p
+      className={cn(
+        'font-marcellus text-[14px] xl:text-[20px] italic leading-[14px] xl:leading-[24px] tracking-[0.12px] text-custom-primary-text',
+        className,
+      )}
+    >
+      {children}
+    </p>
+  );
+}
 
-// export function TypographyD({
-//   children,
-//   className,
-// }: {
-//   children: ReactNode;
-//   className?: string;
-// }) {
-//   return (
-//     <p
-//       className={cn(
-//         'font-martel text-xs not-italic leading-[11px] tracking-[0.12px] uppercase text-custom-icons',
-//         className,
-//       )}
-//     >
-//       {children}
-//     </p>
-//   );
-// }
+//for quotes details
+export function TypographyQD({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <p
+      className={cn(
+        'font-marcellus text-[12px] leading-[11px] xl:text-[16px] xl:leading-[21px] tracking-[0.12px] text-custom-primary-text',
+        className,
+      )}
+    >
+      {children}
+    </p>
+  );
+}
