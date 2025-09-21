@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+
 import { BookWithDetails } from '@/types/BookType';
 import BookDetailsSection from '../layout/BookDetailsSection/BookDetailsSection';
 import { CardsCarouselSection } from '../layout/CardsCarouselSection/CardsCarouselSection';
