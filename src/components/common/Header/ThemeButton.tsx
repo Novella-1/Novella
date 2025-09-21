@@ -64,6 +64,8 @@ export function ThemeButton() {
   if (!mounted) {
     return (
       <Button
+        variant="outline"
+        size="icon"
         className="border-none"
         aria-label="Select theme"
       />
@@ -74,6 +76,8 @@ export function ThemeButton() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
+          variant="outline"
+          size="icon"
           className="border-none bg-transparent hover:bg-transparent cursor-pointer text-custom-icons"
           aria-label="Select theme"
         >

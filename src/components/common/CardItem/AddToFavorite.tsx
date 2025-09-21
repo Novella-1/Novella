@@ -110,6 +110,7 @@ export function AddToFavorite({
       <Button
         onClick={handleClick}
         className="p-0 rounded-full bg-transparent hover:bg-transparent flex items-center justify-center cursor-pointer hover:border-custom-primary-bg"
+        variant="ghost"
       >
         {showAnimation ?
           <div
