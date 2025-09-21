@@ -12,7 +12,7 @@ import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
 import { fetchBooks } from '@/lib/fetchBooks';
 import { getBooksQuantityByType } from '@/server/books';
 import { PageSize, SortOrder, SortType } from '@/types/BookType';
-import { BackgroundText } from '../common/BackgroundText';
+import { BackgroundText } from '../ui/backgroundText';
 
 type Props = {
   searchParams: Promise<FilterBooksParams>;
