@@ -78,7 +78,7 @@ export function AddToFavorite({
         }
       }, 50);
     } else if (name) {
-      showToast('removeFromFav', name);
+      showToast('removeFromFav', name ?? 'Unknown book');
 
       setIsFav(false);
       setShowAnimation(true);
