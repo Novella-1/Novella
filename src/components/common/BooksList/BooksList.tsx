@@ -4,8 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import React from 'react';
 
-import { fetchBooks } from '@/lib/fetchBooks';
 import { cn } from '@/lib/utils';
+import { fetchBooks } from '@/services/fetchBooks';
 import {
   BookType,
   PageSize,

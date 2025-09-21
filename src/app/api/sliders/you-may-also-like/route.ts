@@ -4,53 +4,65 @@ import { prisma } from '@/server/prisma';
 import { BookWithDetails } from '@/types/BookType';
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const genreQuery = searchParams.get('genres');
-  const authorQuery = searchParams.get('author');
-
-  if (!genreQuery && !authorQuery) {
-    return NextResponse.json([], { status: 200 });
-  }
-
-  const genreNames =
-    genreQuery ?
-      genreQuery.split(',').map((g) => decodeURIComponent(g.trim()))
-    : [];
-
   try {
-    const author = authorQuery ?? undefined;
+    const { searchParams } = req.nextUrl;
 
-    const booksByAuthor = await prisma.book.findMany({
-      where: { author: author },
-      include: {
-        categories: { include: { category: true } },
-        paperDetails: true,
-        kindleDetails: true,
-        audiobookDetails: true,
-      },
-      take: 2,
-    });
+    const genreQuery = searchParams.get('genres');
+    const authorQuery = searchParams.get('author');
 
-    const booksByGenre = await prisma.book.findMany({
-      where: {
-        categories: {
-          some: {
-            category: { name: { in: genreNames } },
+    const genreNames =
+      genreQuery ?
+        genreQuery
+          .split(',')
+          .map((g) => g.trim())
+          .filter(Boolean)
+      : [];
+
+    const author = authorQuery?.trim() || undefined;
+
+    if (genreNames.length === 0 && !author) {
+      return NextResponse.json([], { status: 200 });
+    }
+
+    const booksByAuthor =
+      author ?
+        await prisma.book.findMany({
+          where: { author },
+          include: {
+            categories: { include: { category: true } },
+            paperDetails: true,
+            kindleDetails: true,
+            audiobookDetails: true,
           },
-        },
+          take: 2,
+        })
+      : [];
 
-        NOT:
-          authorQuery ?
-            { id: { in: booksByAuthor.map((b) => b.id) } }
-          : undefined,
-      },
-      include: {
-        categories: { include: { category: true } },
-        paperDetails: true,
-        kindleDetails: true,
-        audiobookDetails: true,
-      },
-    });
+    const excludeIds = booksByAuthor.map((b) => b.id);
+
+    const booksByGenre =
+      genreNames.length > 0 ?
+        await prisma.book.findMany({
+          where: {
+            categories: {
+              some: {
+                category: {
+                  name: { in: genreNames },
+                },
+              },
+            },
+            ...(excludeIds.length > 0 ?
+              { NOT: { id: { in: excludeIds } } }
+            : {}),
+          },
+          include: {
+            categories: { include: { category: true } },
+            paperDetails: true,
+            kindleDetails: true,
+            audiobookDetails: true,
+          },
+        })
+      : [];
 
     const shuffledGenreBooks = booksByGenre
       .sort(() => Math.random() - 0.5)
@@ -60,11 +72,11 @@ export async function GET(req: NextRequest) {
       formatCategories,
     ) as BookWithDetails[];
 
-    return NextResponse.json(finalBooks);
-  } catch (err) {
-    console.error('Error fetching similar books:', err);
+    return NextResponse.json(finalBooks, { status: 200 });
+  } catch (error) {
+    console.error('[GET /api/similar-books] Error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal Server Error', message: (error as Error).message },
       { status: 500 },
     );
   }

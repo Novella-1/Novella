@@ -21,6 +21,9 @@ interface BookInfoProps {
   publicationYear?: number | null;
   priceRegular?: number | null;
   priceDiscount?: number | null;
+  handleLangChange: (lang: string) => void;
+  langAvailable?: string[];
+  lang?: string;
 }
 
 export function BookInfo({
@@ -32,6 +35,9 @@ export function BookInfo({
   publicationYear,
   priceRegular,
   priceDiscount,
+  langAvailable,
+  handleLangChange,
+  lang,
   ...props
 }: BookInfoProps) {
   return (
@@ -61,12 +67,23 @@ export function BookInfo({
         <div>
           <TypographyH5 className="mb-2">Select language</TypographyH5>
           <div className="flex gap-2">
-            <Button className="bg-custom-button hover:bg-custom-hover-button">
-              <TypographyB>UA</TypographyB>
-            </Button>
-            <Button className="bg-custom-primary-bg border border-custom-border">
-              <TypographyB className="text-custom-button-text">ENG</TypographyB>
-            </Button>
+            {langAvailable?.length ?
+              langAvailable.map((availableLang) => (
+                <Button
+                  key={availableLang}
+                  onClick={() => handleLangChange(availableLang)}
+                  className={cn(
+                    'bg-custom-button border border-custom-border hover:bg-custom-hover-button cursor-pointer',
+                    lang === availableLang && 'bg-custom-primary-bg',
+                  )}
+                  disabled={lang === availableLang}
+                >
+                  <TypographyB className="text-custom-button-text">
+                    {availableLang.toUpperCase()}
+                  </TypographyB>
+                </Button>
+              ))
+            : <TypographyP>-</TypographyP>}
           </div>
         </div>
         <Separator className="border-1 border-custom-separator" />

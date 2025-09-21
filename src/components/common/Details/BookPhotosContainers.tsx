@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ImageContainer } from '@/components/ui/custom/imageContainer';
 import { cn } from '@/lib/utils';
 
@@ -18,6 +18,10 @@ export function BookPhotoContainer({
   const [selectedImage, setSelectedImage] = useState<string | undefined>(
     images[0],
   );
+
+  useEffect(() => {
+    setSelectedImage(images[0]);
+  }, [images]);
 
   if (!images.length) {
     return (

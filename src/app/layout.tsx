@@ -66,7 +66,7 @@ export default function RootLayout({
               ]}
             >
               <Header />
-              <main className="flex-grow">{children}</main>
+              <main className="flex-grow min-h-screen">{children}</main>
               <Footer />
             </ThemeProvider>
           </AuthProvider>
