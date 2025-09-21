@@ -4,13 +4,15 @@ import { TypographyH5 } from '@/components/ui/custom/typography';
 
 const CardItemTitle = ({
   children,
-  bookSlug,
+  lang,
+  namespaceId,
 }: {
   children: string;
-  bookSlug: string;
+  namespaceId: string;
+  lang: string;
 }) => {
   return (
-    <Link href={`/book/${bookSlug}`}>
+    <Link href={`/book/${namespaceId}/${lang}`}>
       <TypographyH5 className="truncate w-full cursor-pointer">
         {children}
       </TypographyH5>
