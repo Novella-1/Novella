@@ -54,7 +54,7 @@ export function AddToFavorite({
   const handleClick = () => {
     if (isAnimating) return;
 
-    if (!isFav) {
+    if (!isFav && name) {
       showToast('addToFav', name);
       setIsAnimating(true);
       setShowAnimation(true);
