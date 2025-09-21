@@ -78,7 +78,7 @@ export function AddToFavorite({
         }
       }, 50);
     } else if (name) {
-      showToast('removeFromFav', name);
+      showToast('removeFromFav', name ?? 'Unknown book');
 
       setIsFav(false);
       setShowAnimation(true);
@@ -110,6 +110,7 @@ export function AddToFavorite({
       <Button
         onClick={handleClick}
         className="p-0 rounded-full bg-transparent hover:bg-transparent flex items-center justify-center cursor-pointer hover:border-custom-primary-bg"
+        variant="ghost"
       >
         {showAnimation ?
           <div
