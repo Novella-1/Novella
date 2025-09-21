@@ -1,4 +1,7 @@
+'use client';
+
 import { Separator } from '@radix-ui/react-select';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ImageContainer } from '@/components/ui/custom/imageContainer';
@@ -21,6 +24,9 @@ interface BookInfoProps {
   publicationYear?: number | null;
   priceRegular?: number | null;
   priceDiscount?: number | null;
+  lang?: string | null;
+  langAvailable?: string[] | null;
+  namespaceId: string;
 }
 
 export function BookInfo({
@@ -32,14 +38,23 @@ export function BookInfo({
   publicationYear,
   priceRegular,
   priceDiscount,
+  lang,
+  langAvailable,
+  namespaceId,
   ...props
 }: BookInfoProps) {
+  const router = useRouter();
+
+  const handleLangChange = (availableLang: string) => {
+    router.push(`/books/${namespaceId}?lang=${availableLang}`);
+  };
+
   return (
     <div
       className={cn(className)}
       {...props}
     >
-      <ImageContainer className="flex gap-4 flex-col w-full rounded-[14px] md:rounded-[20px] xl:w-full xl:h-full py-4 px-3 md:py-6 md:px-12 xl:py-7 xl:px-8 bg-custom-header-footer border-1 border-custom-border">
+      <ImageContainer className="flex gap-4 flex-col rounded-[14px] md:rounded-[20px] xl:w-full xl:h-full py-4 px-3 md:py-6 md:px-12 xl:py-7 xl:px-8 bg-custom-header-footer border-1 border-custom-border">
         <div>
           <TypographyH5 className="mb-2">Category</TypographyH5>
           <div className="inline-flex py-[5px] px-[10px] bg-custom-button-bg border border-custom-border rounded-[8px] bg-custom-primary-bg">
@@ -57,20 +72,34 @@ export function BookInfo({
             </div>
           </div>
         </div>
+
         <Separator className="border-1 border-custom-separator" />
+
         <div>
           <TypographyH5 className="mb-2">Select language</TypographyH5>
           <div className="flex gap-2">
-            <Button className="bg-custom-button hover:bg-custom-hover-button">
-              <TypographyB>UA</TypographyB>
-            </Button>
-            <Button className="bg-custom-primary-bg border border-custom-border">
-              <TypographyB className="text-custom-button-text">ENG</TypographyB>
-            </Button>
+            {langAvailable?.length ?
+              langAvailable.map((availableLang) => (
+                <Button
+                  key={availableLang}
+                  onClick={() => handleLangChange(availableLang)}
+                  className={cn(
+                    'bg-custom-button border border-custom-border hover:bg-custom-hover-button cursor-pointer',
+                    lang === availableLang && 'bg-custom-primary-bg',
+                  )}
+                >
+                  <TypographyB className="text-custom-button-text">
+                    {availableLang.toUpperCase()}
+                  </TypographyB>
+                </Button>
+              ))
+            : <TypographyP>-</TypographyP>}
           </div>
         </div>
+
         <Separator className="border-1 border-custom-separator" />
-        <div>
+
+        <div className="flex flex-col">
           <div className="flex gap-2 items-center mb-4">
             {priceDiscount ?
               <>
@@ -82,7 +111,7 @@ export function BookInfo({
             : <TypographyH2>${priceRegular ?? '-'}</TypographyH2>}
           </div>
           <div className="flex gap-2 mb-6">
-            <Button className="flex-1 h-10 bg-custom-button hover:bg-custom-hover-button">
+            <Button className="flex-1 h-10 bg-custom-button hover:bg-custom-hover-button cursor-pointer">
               <TypographyB>Add to cart</TypographyB>
             </Button>
             <AddToFavorite />
