@@ -5,7 +5,6 @@ import {
 } from '@tanstack/react-query';
 import React from 'react';
 import { FilterBooksParams } from '@/app/paper/page';
-import { BackgroundText } from '@/components/common/BackgroundText';
 import BooksList from '@/components/common/BooksList/BooksList';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { FilteringSection } from '@/components/layout/FilteringSection/FilteringSection';
@@ -13,6 +12,7 @@ import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
 import { fetchBooks } from '@/lib/fetchBooks';
 import { getBooksQuantityByType } from '@/server/books';
 import { PageSize, SortOrder, SortType } from '@/types/BookType';
+import { BackgroundText } from '../common/BackgroundText';
 
 type Props = {
   searchParams: Promise<FilterBooksParams>;
