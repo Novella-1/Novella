@@ -8,8 +8,6 @@ import heartAnimation from '@/../public/lotties/heartAnimation.json';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { showToast } from '../ShowToast';
-// import 'react-toastify/dist/ReactToastify.css';
-
 interface AddToFavoriteProps {
   className?: string;
   name?: string;
@@ -43,13 +41,6 @@ export function AddToFavorite({
       animRef.current?.destroy();
     };
   }, [showAnimation]);
-
-  // const showToast = () => {
-  //   toast.info(`Added to favorites!`, {
-  //     description: `${name} has been added to your favorites`,
-  //     duration: 5000,
-  //   });
-  // };
 
   const handleClick = () => {
     if (isAnimating) return;
@@ -110,7 +101,6 @@ export function AddToFavorite({
       <Button
         onClick={handleClick}
         className="p-0 rounded-full bg-transparent hover:bg-transparent flex items-center justify-center cursor-pointer hover:border-custom-primary-bg"
-        variant="ghost"
       >
         {showAnimation ?
           <div
