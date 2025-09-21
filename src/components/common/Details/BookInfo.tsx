@@ -1,5 +1,3 @@
-'use client';
-
 import { Separator } from '@radix-ui/react-select';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -19,14 +17,15 @@ interface BookInfoProps {
   className?: string;
   categories?: string[];
   author?: string;
+  name?: string;
   coverType?: string | null;
   numberOfPages?: number | null;
   publicationYear?: number | null;
   priceRegular?: number | null;
   priceDiscount?: number | null;
-  lang?: string | null;
-  langAvailable?: string[] | null;
-  namespaceId: string;
+  handleLangChange: (lang: string) => void;
+  langAvailable?: string[];
+  lang?: string;
 }
 
 export function BookInfo({
@@ -38,17 +37,12 @@ export function BookInfo({
   publicationYear,
   priceRegular,
   priceDiscount,
-  lang,
   langAvailable,
-  namespaceId,
+  handleLangChange,
+  name,
+  lang,
   ...props
 }: BookInfoProps) {
-  const router = useRouter();
-
-  const handleLangChange = (availableLang: string) => {
-    router.push(`/books/${namespaceId}?lang=${availableLang}`);
-  };
-
   return (
     <div
       className={cn(className)}
@@ -87,6 +81,7 @@ export function BookInfo({
                     'bg-custom-button border border-custom-border hover:bg-custom-hover-button cursor-pointer',
                     lang === availableLang && 'bg-custom-primary-bg',
                   )}
+                  disabled={lang === availableLang}
                 >
                   <TypographyB className="text-custom-button-text">
                     {availableLang.toUpperCase()}
@@ -112,9 +107,10 @@ export function BookInfo({
           </div>
           <div className="flex gap-2 mb-6">
             <Button className="flex-1 h-10 bg-custom-button hover:bg-custom-hover-button cursor-pointer">
+              {' '}
               <TypographyB>Add to cart</TypographyB>
             </Button>
-            <AddToFavorite />
+            <AddToFavorite name={name} />
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex justify-between w-full">

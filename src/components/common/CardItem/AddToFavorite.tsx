@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 import { showToast } from '../ShowToast';
 interface AddToFavoriteProps {
   className?: string;
-  name: string;
+  name?: string;
 }
 
 export function AddToFavorite({
@@ -45,7 +45,7 @@ export function AddToFavorite({
   const handleClick = () => {
     if (isAnimating) return;
 
-    if (!isFav) {
+    if (!isFav && name) {
       showToast('addToFav', name);
       setIsAnimating(true);
       setShowAnimation(true);
@@ -68,8 +68,8 @@ export function AddToFavorite({
           animRef.current.addEventListener('complete', handleComplete);
         }
       }, 50);
-    } else {
-      showToast('removeFromFav', name);
+    } else if (name) {
+      showToast('removeFromFav', name ?? 'Unknown book');
 
       setIsFav(false);
       setShowAnimation(true);

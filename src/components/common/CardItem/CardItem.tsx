@@ -20,8 +20,17 @@ export function CardItem({
   book: BookWithDetails;
   className?: string;
 }) {
-  const { author, name, priceRegular, priceDiscount, images, type, slug } =
-    book;
+  const {
+    author,
+    name,
+    priceRegular,
+    priceDiscount,
+    images,
+    type,
+    slug,
+    namespaceId,
+    lang,
+  } = book;
 
   return (
     <Card
@@ -33,7 +42,8 @@ export function CardItem({
       <div className="relative w-full flex justify-center">
         <BookImage
           src={`/books/${images[0]}`}
-          bookSlug={slug}
+          namespaceId={namespaceId}
+          lang={lang}
         />
         {type === 'AUDIOBOOK' && (
           <div className="absolute flex items-center justify-center top-1 right-1 w-10 h-10 bg-custom-icons-accent rounded-full p-1">
@@ -43,7 +53,12 @@ export function CardItem({
       </div>
       <div className="flex flex-col gap-2 w-full">
         <div>
-          <CardItemTitle bookSlug={slug}>{name}</CardItemTitle>
+          <CardItemTitle
+            namespaceId={namespaceId}
+            lang={lang}
+          >
+            {name}
+          </CardItemTitle>
           <TypographyP className="text-custom-icons truncate w-full">
             {author}
           </TypographyP>
