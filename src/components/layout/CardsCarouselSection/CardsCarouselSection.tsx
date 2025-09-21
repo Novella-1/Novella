@@ -43,8 +43,10 @@ export async function CardsCarouselSection({
 
   return (
     <section className={cn('mb-16', className)}>
-      <TypographyH2 className="mb-[-42px] ">{title}</TypographyH2>
-      <CardCarousel books={booksData} />
+      <CardCarousel
+        books={booksData}
+        title={title}
+      />
     </section>
   );
 }

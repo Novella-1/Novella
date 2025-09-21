@@ -25,16 +25,16 @@ export async function BookDetailsTemplate({
 
   return (
     <div className={cn(className)}>
-      <div className="pt-32 pb-16">
+      <div className="pt-24 pb-16">
         <div className="mb-8">
           <div className="mb-8">
-            <TypographyH2 className="mb-1.5">
+            <TypographyH2 className="mb-3">
               {bookWithDetails?.name}
             </TypographyH2>
             <TypographyP>{bookWithDetails?.author}</TypographyP>
           </div>
 
-          <div className="flex flex-col gap-4 sm:flex-col sm:gap-[34px] xl:flex-row xl:gap-[88px] xl:h-[524px] xl:items-start">
+          <div className="flex flex-col gap-4 md:gap-[34px] xl:flex-row xl:gap-[88px] xl:h-[524px] xl:items-start">
             <BookPhotoContainer images={bookWithDetails?.images} />
             <BookInfo
               className="xl:h-full"
