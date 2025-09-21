@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Manrope, Martel_Sans, Marcellus } from 'next/font/google';
+import { Toaster } from 'sonner';
 import Footer from '@/components/common/Footer/Footer';
 import Header from '@/components/common/Header/Header';
 import './globals.css';
@@ -67,6 +68,21 @@ export default function RootLayout({
             >
               <Header />
               <main className="flex-grow">{children}</main>
+              <Toaster
+                position="top-center"
+                toastOptions={{
+                  classNames: {
+                    toast:
+                      '!top-10 [@media(min-width:1200px)]:!top-12 !border-custom-border !bg-custom-header-footer',
+                    title:
+                      '!text-custom-primary-text !font-bold !font-marcellus',
+                    description: '!text-custom-primary-text !font-manrope',
+                  },
+                }}
+                icons={{
+                  info: null,
+                }}
+              />
               <Footer />
             </ThemeProvider>
           </AuthProvider>
