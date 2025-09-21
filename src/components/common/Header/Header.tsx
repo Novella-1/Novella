@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, Search, X } from 'lucide-react';
+import { Menu, Search, UserIcon, X } from 'lucide-react';
 import { Manrope } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -63,6 +63,14 @@ const Header: FC = () => {
               >
                 <Search
                   size={22}
+                  strokeWidth={1.5}
+                  className="text-custom-icons"
+                />
+              </button>
+
+              <button>
+                <UserIcon
+                  size={24}
                   strokeWidth={1.5}
                   className="text-custom-icons"
                 />
