@@ -11,7 +11,7 @@ export function TypographyH1({
   return (
     <h1
       className={cn(
-        'font-manrope text-3xl not-italic font-bold leading-[41px] tracking-[-0.32px] sm:text-5xl sm:leading-[56px] sm:tracking-[-0.96px] text-custom-primary-text',
+        'font-manrope text-3xl not-italic font-bold leading-auto tracking-[-0.32px] sm:text-5xl sm:tracking-[-0.96px] text-custom-primary-text',
         className,
       )}
     >
@@ -30,7 +30,7 @@ export function TypographyH2({
   return (
     <h2
       className={cn(
-        'font-manrope text-2xl not-italic font-bold xl:leading-3 md:text-3xl text-custom-primary-text',
+        'font-manrope leading-[30.8px] text-2xl not-italic font-bold md:text-3xl text-custom-primary-text',
         className,
       )}
     >

@@ -1,5 +1,6 @@
+import { notFound } from 'next/navigation';
+import { fetchBook } from '@/lib/fetchBooks';
 import { cn } from '@/lib/utils';
-import { getBookBySlug } from '@/server/books';
 import { BookAbout } from '../common/Details/BookAbout';
 import { BookCharacteristics } from '../common/Details/BookCharacteristics';
 import { BookInfo } from '../common/Details/BookInfo';
@@ -14,14 +15,18 @@ interface BookDetailsTemplateProps {
 
 export async function BookDetailsTemplate({
   className,
-  // slug,
+  slug,
 }: BookDetailsTemplateProps) {
   // const book = await getBookBySlug(slug);
-  const bookWithDetails = await getBookBySlug('hannibal-uk-hardcover');
+  // const bookWithDetails = await getBookBySlug('hannibal-uk-hardcover');
 
-  console.log(bookWithDetails);
+  // console.log(bookWithDetails);
 
-  if (bookWithDetails === undefined) return;
+  const bookWithDetails = await fetchBook(slug);
+
+  if (bookWithDetails === undefined) {
+    notFound();
+  }
 
   return (
     <div className={cn(className)}>
@@ -37,7 +42,7 @@ export async function BookDetailsTemplate({
           <div className="flex flex-col gap-4 md:gap-[34px] xl:flex-row xl:gap-[88px] xl:h-[524px] xl:items-start">
             <BookPhotoContainer images={bookWithDetails?.images} />
             <BookInfo
-              className="xl:h-full"
+              className="xl:h-full w-full"
               categories={bookWithDetails?.categories}
               author={bookWithDetails?.author}
               coverType={bookWithDetails?.paperDetails?.coverType}
@@ -45,6 +50,9 @@ export async function BookDetailsTemplate({
               publicationYear={bookWithDetails?.publicationYear}
               priceRegular={bookWithDetails?.priceRegular}
               priceDiscount={bookWithDetails?.priceDiscount}
+              lang={bookWithDetails?.lang}
+              langAvailable={bookWithDetails?.langAvailable}
+              namespaceId={bookWithDetails?.namespaceId}
             />
           </div>
         </div>
@@ -66,7 +74,11 @@ export async function BookDetailsTemplate({
             illustrations={bookWithDetails?.paperDetails?.illustrations}
           />
         </div>
-        <CardsCarouselSection />
+        <CardsCarouselSection
+          title="You may also like"
+          author={bookWithDetails?.author}
+          query={bookWithDetails?.categories.join(',')}
+        />
       </div>
     </div>
   );

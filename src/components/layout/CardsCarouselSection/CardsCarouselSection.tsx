@@ -1,7 +1,5 @@
 import { CardCarousel } from '@/components/common/BooksScrollArea/ScrollArea';
 import { cn } from '@/lib/utils';
-import { getBooks } from '@/server/books';
-import { TypographyH2 } from '../../ui/custom/typography';
 
 const sliderUrlBuilder = (
   type: string | undefined,
