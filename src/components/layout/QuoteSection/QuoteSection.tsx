@@ -11,10 +11,10 @@ export async function TwainQuote() {
   const quote = await res.json();
 
   return (
-    <section className="flex w-full items-center justify-center mb-[70px]">
+    <section className="flex w-full items-center justify-center mb-[40px] xl:mb-[70px] xl:pt-26">
       <div className="w-full max-w-4xl px-4">
         <figure>
-          <TypographyQ className="border-l-2 border-custom-button pl-6">
+          <TypographyQ className="border-l-2 border-custom-button pl-6 text-custom-primary-text">
             {quote.quote}
           </TypographyQ>
 

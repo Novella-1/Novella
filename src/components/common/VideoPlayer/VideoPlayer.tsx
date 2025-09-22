@@ -21,8 +21,8 @@ export const VideoPlayer = ({ className }: { className?: string }) => {
         loop
         muted
         playsInline
-        className="w-full h-full  object-cover brightness-50"
-        poster="/homePage-cover.png"
+        className="w-full h-full object-cover brightness-50"
+        poster="/hero-cover.png"
         ref={videoRef}
       >
         <source
