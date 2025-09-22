@@ -1,0 +1,39 @@
+import { signIn } from 'next-auth/react';
+
+export const login = async (email: string, password: string) => {
+  try {
+    await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const register = async (
+  email: string,
+  password: string,
+  firstName: string,
+  lastName: string,
+) => {
+  try {
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/register`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        firstName,
+        lastName,
+      }),
+    });
+
+    login(email, password);
+  } catch (e) {
+    console.log(e);
+  }
+};
