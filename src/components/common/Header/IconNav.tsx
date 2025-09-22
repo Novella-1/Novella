@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { Heart, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
-import Modal from '@/components/layout/AuthModal/Modal';
 import { UserIcon } from '@/components/ui/custom/icons';
 
 interface IconNavProps {
@@ -24,8 +23,6 @@ const IconNav: FC<IconNavProps> = ({ variant = 'desktop', className }) => {
 
   return (
     <div className={clsx(containerClasses, className)}>
-      <Modal />
-
       <Link
         href="/favourites"
         aria-label="Favourites"
