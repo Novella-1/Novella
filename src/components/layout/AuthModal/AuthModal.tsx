@@ -144,7 +144,10 @@ const AuthModal = () => {
             </Tabs>
           </DialogHeader>
           <DialogFooter>
-            <button type="submit">
+            <button
+              type="submit"
+              className="cursor-pointer"
+            >
               {authVariant === 'login' ?
                 <span>Sign In</span>
               : <span>Sign Up</span>}
