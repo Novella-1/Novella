@@ -84,7 +84,8 @@ const Footer: FC = () => {
             </ul>
           </div>
 
-          <div className="flex flex-col items-start sm:items-start md:items-start lg:items-center text-left">
+          {/* 3 колонка: Контакти */}
+          <div className="flex flex-col items-start sm:items-start md:items-start lg:items-start text-left">
             <TypographyH3 className="mb-4 text-lg text-[#331F06]">
               Contacts
             </TypographyH3>
@@ -121,7 +122,8 @@ const Footer: FC = () => {
             </ul>
           </div>
 
-          <div className="flex flex-col items-start sm:items-start md:items-center lg:items-center">
+          {/* 4 колонка: Соцмережі */}
+          <div className="flex flex-col items-start sm:items-start md:items-start lg:items-start">
             <TypographyH3 className="mb-4 text-lg text-[#331F06]">
               Follow us
             </TypographyH3>

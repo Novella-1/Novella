@@ -70,9 +70,7 @@ export function BookCharacteristics({
           </div>
           <Separator className="border-1 border-custom-separator" />
           <div className="flex justify-between w-full">
-            <TypographyP className="text-custom-icons">
-              LangLanguage
-            </TypographyP>
+            <TypographyP className="text-custom-icons">Language</TypographyP>
             <TypographyP>{lang}</TypographyP>
           </div>
           <Separator className="border-1 border-custom-separator" />

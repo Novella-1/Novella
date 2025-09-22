@@ -9,10 +9,10 @@ import BooksList from '@/components/common/BooksList/BooksList';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { FilteringSection } from '@/components/layout/FilteringSection/FilteringSection';
 import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
-import { fetchBooks } from '@/lib/fetchBooks';
 import { getBooksQuantityByType } from '@/server/books';
+import { fetchBooks } from '@/services/fetchBooks';
 import { PageSize, SortOrder, SortType } from '@/types/BookType';
-import { BackgroundText } from '../common/backgroundText';
+import { BackgroundText } from '../ui/backgroundText';
 
 type Props = {
   searchParams: Promise<FilterBooksParams>;

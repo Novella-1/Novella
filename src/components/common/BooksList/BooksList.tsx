@@ -1,10 +1,11 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import React from 'react';
 
-import { fetchBooks } from '@/lib/fetchBooks';
 import { cn } from '@/lib/utils';
+import { fetchBooks } from '@/services/fetchBooks';
 import {
   BookType,
   PageSize,
@@ -22,6 +23,20 @@ type Props = {
   pageSize: PageSize;
   sortBy: SortType;
   sortOrder: SortOrder;
+};
+
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  show: { opacity: 1, y: 0, scale: 1 },
 };
 
 const BooksList = ({
@@ -46,7 +61,7 @@ const BooksList = ({
   }
 
   return (
-    <div
+    <motion.div
       className={cn(
         'flex flex-row flex-wrap gap-y-10  sm:items-center justify-evenly',
         {
@@ -57,15 +72,23 @@ const BooksList = ({
         },
         className,
       )}
+      variants={container}
+      initial="hidden"
+      animate="show"
     >
       {data?.map((book: BookWithDetails) => (
-        <CardItem
+        <motion.div
           key={book.slug}
-          book={book}
-          className={pageSize === 9 ? 'md:w-[300px] sm:w-[272px]' : ''}
-        />
+          variants={item}
+        >
+          <CardItem
+            key={book.slug}
+            book={book}
+            className={pageSize === 9 ? 'md:w-[300px] sm:w-[272px]' : ''}
+          />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 };
 

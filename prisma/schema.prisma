@@ -9,13 +9,14 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(uuid())
-  email          String    @unique
+  id             String      @id @default(uuid())
+  email          String      @unique
   hashedPassword String
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
   Session        Session[]
   Profile        Profile?
+  Favourite      Favourite[]
 }
 
 model Profile {
@@ -55,6 +56,7 @@ model Book {
   categories       BookCategory[]
   kindleDetails    KindleDetails?
   paperDetails     PaperDetails?
+  Favourite        Favourite[]
 }
 
 model Category {
@@ -102,6 +104,18 @@ model Quote {
   author    String
   work      String
   createdAt DateTime @default(now())
+}
+
+model Favourite {
+  id        String   @id @default(uuid())
+  userId    String
+  bookId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
 }
 
 enum BookType {

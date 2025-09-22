@@ -1,7 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { BookWithDetails } from '@/types/BookType';
-import { Button } from '../../ui/button';
 import { TruckIcon, HeadphonesIcon } from '../../ui/custom/icons';
 import { BookImage } from '../../ui/custom/image';
 import {
@@ -12,6 +11,7 @@ import {
 } from '../../ui/custom/typography';
 import { AddToFavorite } from './AddToFavorite';
 import CardItemTitle from './CardItemTitle';
+import { AddToCart } from './CartButton';
 
 export function CardItem({
   book,
@@ -20,8 +20,17 @@ export function CardItem({
   book: BookWithDetails;
   className?: string;
 }) {
-  const { author, name, priceRegular, priceDiscount, images, type, slug } =
-    book;
+  const {
+    author,
+    name,
+    priceRegular,
+    priceDiscount,
+    images,
+    type,
+    slug,
+    namespaceId,
+    lang,
+  } = book;
 
   return (
     <Card
@@ -33,7 +42,8 @@ export function CardItem({
       <div className="relative w-full flex justify-center">
         <BookImage
           src={`/books/${images[0]}`}
-          bookSlug={slug}
+          namespaceId={namespaceId}
+          lang={lang}
         />
         {type === 'AUDIOBOOK' && (
           <div className="absolute flex items-center justify-center top-1 right-1 w-10 h-10 bg-custom-icons-accent rounded-full p-1">
@@ -43,7 +53,12 @@ export function CardItem({
       </div>
       <div className="flex flex-col gap-2 w-full">
         <div>
-          <CardItemTitle bookSlug={slug}>{name}</CardItemTitle>
+          <CardItemTitle
+            namespaceId={namespaceId}
+            lang={lang}
+          >
+            {name}
+          </CardItemTitle>
           <TypographyP className="text-custom-icons truncate w-full">
             {author}
           </TypographyP>
@@ -68,10 +83,11 @@ export function CardItem({
         </div>
       </div>
       <div className="flex flex-row gap-2 justify-between w-full">
-        <Button className="flex-1 h-10 cursor-pointer bg-custom-button hover:bg-custom-hover-button transition-shadow duration-200 hover:shadow-[0_1px_10px_0_rgba(23,32,49,0.40)]">
-          <TypographyB className="text-custom-">Add to cart</TypographyB>
-        </Button>
-        <AddToFavorite className="w-10 h-10 cursor-pointer" />
+        <AddToCart name={name} />
+        <AddToFavorite
+          name={name}
+          className="cursor-pointer"
+        />
       </div>
     </Card>
   );

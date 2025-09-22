@@ -10,6 +10,7 @@
     var(--font-manrope), ui-sans-serif, system-ui, -apple-system, Segoe UI,
     Roboto, Arial, sans-serif;
   --font-martel: var(--font-martel), serif;
+  --font-marcellus: var(--font-marcellus), sans-serif;
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
     monospace;
@@ -232,4 +233,8 @@
 
 .font-martel {
   font-family: var(--font-martel);
+}
+
+.clip-path-bookmark-horizontal-left {
+  clip-path: polygon(0 0, 15% 50%, 0 100%, 100% 100%, 100% 0);
 }

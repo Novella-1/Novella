@@ -10,7 +10,12 @@ export const VideoPlayer = ({ className }: { className?: string }) => {
     }
   }, []);
   return (
-    <div className={cn('w-full aspect-video overflow-hidden pt-10', className)}>
+    <div
+      className={cn(
+        'w-full h-[400px] xl:h-156 overflow-hidden pt-10',
+        className,
+      )}
+    >
       <video
         autoPlay
         loop

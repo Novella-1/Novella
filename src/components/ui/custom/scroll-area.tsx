@@ -117,7 +117,7 @@ const ScrollButtons: React.FC<ScrollButtonsProps> = ({ scrollRef }) => {
   };
 
   return (
-    <div className="invisible sm:visible flex justify-end gap-2 mb-4">
+    <div className="invisible sm:visible flex justify-end gap-2 [@media(max-width:639px)]:hidden">
       {canScrollLeft && (
         <button
           className="rounded-full  flex items-center justify-center cursor-pointer"

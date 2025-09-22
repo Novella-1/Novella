@@ -4,13 +4,13 @@ import { prisma } from '@/server/prisma';
 
 export async function GET(
   request: NextRequest,
-  context: { params: Promise<{ slug: string }> },
+  context: { params: Promise<{ namespaceId: string; lang: string }> },
 ) {
-  const { slug } = await context.params;
+  const { namespaceId, lang } = await context.params;
 
   try {
-    const book = await prisma.book.findUnique({
-      where: { slug },
+    const book = await prisma.book.findFirst({
+      where: { namespaceId, lang },
       include: {
         categories: { include: { category: true } },
         paperDetails: true,

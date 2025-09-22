@@ -19,7 +19,7 @@ const CartCheckout = () => {
       </TypographyP>
       <Button
         variant="default"
-        className="w-full max-w-[320px] h-[48px] bg-black text-white"
+        className="w-full max-w-[320px] h-[48px] bg-custom-button text-custom-button-text"
       >
         Checkout
       </Button>

@@ -95,14 +95,13 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
   const renderResults = () => {
     if (!open || results.length === 0) return null;
 
+    const containerClasses =
+      variant === 'mobile' ?
+        'absolute top-full left-0 right-0 mx-auto w-full max-w-2xl mt-2 bg-custom-header-footer border border-custom-border rounded-md shadow-lg z-50 p-4 max-h-[300px] overflow-y-auto custom-scrollbar'
+      : 'absolute top-full left-1/2 mt-4 bg-custom-header-footer rounded-xl z-50 p-4 max-h-[290px] overflow-y-auto custom-scrollbar w-[480px] -translate-x-1/2';
+
     return (
-      <div
-        className={
-          variant === 'mobile' ?
-            'absolute top-full left-0 right-0 mx-auto w-full max-w-2xl mt-2 bg-custom-secondary border border-custom-main-elements rounded-md shadow-lg z-50 p-4 max-h-[300px] overflow-y-auto custom-scrollbar'
-          : 'absolute top-full left-1/2 mt-4 bg-custom-header-footer rounded-xl z-50 p-4 max-h-[290px] overflow-y-auto custom-scrollbar w-[480px] -translate-x-1/2'
-        }
-      >
+      <div className={containerClasses}>
         {results.map((book) => (
           <Link
             href={`/book/${book.slug}`}
@@ -145,13 +144,13 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
                     : 'text-custom-secondary text-sm'
                   }
                 >
-                  {variant === 'mobile' ? book.priceRegular : book.author}
+                  {variant === 'mobile' ? `$${book.priceRegular}` : book.author}
                 </span>
               </div>
             </div>
             {variant !== 'mobile' && (
               <span className="text-custom-primary font-semibold text-xl">
-                {book.priceRegular}$
+                ${book.priceRegular}
               </span>
             )}
           </Link>
