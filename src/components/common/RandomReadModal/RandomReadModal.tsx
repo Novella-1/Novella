@@ -48,7 +48,6 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
       const data = await res.json();
-
       const cover = `/books/${data.images[0]}`;
 
       setBook({
@@ -100,7 +99,7 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
                   src="https://lottie.host/752e52c2-fcaa-47ff-99ed-0687fea87c59/WrJsDQktAl.lottie"
                   loop
                   autoplay
-                  style={{ width: 150, height: 150 }}
+                  className="w-[150px] h-[200px]"
                 />
               </div>
             )}
@@ -112,23 +111,30 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
             {book && !loading && !error && (
               <motion.div
                 key={book.title}
-                initial={{ opacity: 0, scale: 0.85, rotateY: -10 }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  rotateY: 0,
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  duration: 0.6,
+                  ease: 'easeOut',
                 }}
-                transition={{ duration: 0.8, ease: 'easeOut' }}
                 className="flex flex-col items-center gap-4"
               >
-                <Image
-                  src={book.coverImage}
-                  alt={book.title || 'Book cover'}
-                  width={180}
-                  height={260}
-                  className="rounded-md shadow-lg object-cover border border-custom-border"
-                />
-                <div className="text-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.6, ease: 'easeOut' }}
+                  className="w-[150px] h-[200px] flex-shrink-0"
+                >
+                  <Image
+                    src={book.coverImage}
+                    alt={book.title || 'Book cover'}
+                    width={200}
+                    height={200}
+                    className="rounded-md shadow-lg object-cover border border-custom-border w-full h-full"
+                  />
+                </motion.div>
+
+                <div className="text-center flex flex-col items-center">
                   <TypographyH3 className="text-lg font-semibold text-custom-primary-bg">
                     {book.title}
                   </TypographyH3>
@@ -155,7 +161,7 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
 
           {book && !error && (
             <Link
-              href={`/books/${book.slug}`}
+              href={`/book/${book.slug}`}
               className="flex-1"
             >
               <Button

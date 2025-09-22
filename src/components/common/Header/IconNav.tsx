@@ -1,9 +1,9 @@
 'use client';
 
-import clsx from 'clsx';
 import { Heart, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
+import { cn } from '@/lib/utils';
 
 interface IconNavProps {
   variant?: 'desktop' | 'mobile';
@@ -21,7 +21,7 @@ const IconNav: FC<IconNavProps> = ({ variant = 'desktop', className }) => {
   const size = 22;
 
   return (
-    <div className={clsx(containerClasses, className)}>
+    <div className={cn(containerClasses, className)}>
       <Link
         href="/favourites"
         aria-label="Favourites"
