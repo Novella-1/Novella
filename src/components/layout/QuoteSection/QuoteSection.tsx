@@ -1,4 +1,4 @@
-import { TypographyP } from '../../ui/custom/typography';
+import { TypographyQ, TypographyQD } from '../../ui/custom/typography';
 
 export async function TwainQuote() {
   const res = await fetch(
@@ -11,16 +11,16 @@ export async function TwainQuote() {
   const quote = await res.json();
 
   return (
-    <section className="flex w-full items-center justify-center mb-[70px]">
+    <section className="flex w-full items-center justify-center mb-[40px] xl:mb-[70px] xl:pt-26">
       <div className="w-full max-w-4xl px-4">
         <figure>
-          <TypographyP className="border-l-2 border-stone-400 pl-6 font-serif text-xl not-italic italic text-stone-800">
+          <TypographyQ className="border-l-2 border-custom-button pl-6 text-custom-primary-text">
             {quote.quote}
-          </TypographyP>
+          </TypographyQ>
 
-          <TypographyP className="mt-4 text-right !font-normal text-stone-600">
+          <TypographyQD className="mt-4 text-right text-3">
             - {quote.work} by {quote.author}
-          </TypographyP>
+          </TypographyQD>
         </figure>
       </div>
     </section>

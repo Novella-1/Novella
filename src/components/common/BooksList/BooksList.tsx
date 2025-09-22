@@ -1,7 +1,11 @@
-import React, { FC } from 'react';
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import React from 'react';
 
 import { cn } from '@/lib/utils';
-import { getBooks } from '@/server/books';
+import { fetchBooks } from '@/services/fetchBooks';
 import {
   BookType,
   PageSize,
@@ -10,6 +14,7 @@ import {
   BookWithDetails,
 } from '@/types/BookType';
 import { CardItem } from '../CardItem/CardItem';
+import BookListSkeleton from './BookListSkeleton';
 
 type Props = {
   className?: string;
@@ -20,7 +25,21 @@ type Props = {
   sortOrder: SortOrder;
 };
 
-const BooksList = async ({
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  show: { opacity: 1, y: 0, scale: 1 },
+};
+
+const BooksList = ({
   className,
   type,
   page,
@@ -28,12 +47,21 @@ const BooksList = async ({
   sortBy,
   sortOrder,
 }: Props) => {
-  // const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const { data, isLoading, isFetching, error } = useQuery({
+    queryKey: [type, page, pageSize, sortBy, sortOrder],
+    queryFn: () => fetchBooks({ type, page, pageSize, sortBy, sortOrder }),
+  });
 
-  const books = await getBooks({ type, page, pageSize, sortBy, sortOrder });
+  if (isLoading || isFetching) {
+    return <BookListSkeleton pageSize={pageSize} />;
+  }
+
+  if (error) {
+    throw new Error('Books loading error');
+  }
 
   return (
-    <div
+    <motion.div
       className={cn(
         'flex flex-row flex-wrap gap-y-10  sm:items-center justify-evenly',
         {
@@ -44,15 +72,23 @@ const BooksList = async ({
         },
         className,
       )}
+      variants={container}
+      initial="hidden"
+      animate="show"
     >
-      {books.map((book: BookWithDetails) => (
-        <CardItem
+      {data?.map((book: BookWithDetails) => (
+        <motion.div
           key={book.slug}
-          book={book}
-          className={pageSize === 9 ? 'md:w-[300px] sm:w-[272px]' : ''}
-        />
+          variants={item}
+        >
+          <CardItem
+            key={book.slug}
+            book={book}
+            className={pageSize === 9 ? 'md:w-[300px] sm:w-[272px]' : ''}
+          />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 };
 

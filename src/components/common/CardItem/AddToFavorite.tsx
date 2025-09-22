@@ -7,12 +7,17 @@ import { useEffect, useRef, useState } from 'react';
 import heartAnimation from '@/../public/lotties/heartAnimation.json';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-
+import { showToast } from '../ShowToast';
 interface AddToFavoriteProps {
   className?: string;
+  name?: string;
 }
 
-export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
+export function AddToFavorite({
+  className,
+  name,
+  ...props
+}: AddToFavoriteProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<AnimationItem | null>(null);
   const [isFav, setIsFav] = useState(false);
@@ -40,14 +45,15 @@ export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
   const handleClick = () => {
     if (isAnimating) return;
 
-    if (!isFav) {
+    if (!isFav && name) {
+      showToast('addToFav', name);
       setIsAnimating(true);
       setShowAnimation(true);
 
       setTimeout(() => {
         if (animRef.current) {
           const totalFrames = animRef.current.totalFrames;
-          const redHeartFrame = Math.floor(totalFrames * 0.6);
+          const redHeartFrame = Math.floor(totalFrames * 0.3);
 
           animRef.current.playSegments([0, redHeartFrame], true);
 
@@ -55,13 +61,16 @@ export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
             setIsFav(true);
             setIsAnimating(false);
             setShowAnimation(false);
+
             animRef.current?.removeEventListener('complete', handleComplete);
           };
 
           animRef.current.addEventListener('complete', handleComplete);
         }
       }, 50);
-    } else {
+    } else if (name) {
+      showToast('removeFromFav', name ?? 'Unknown book');
+
       setIsFav(false);
       setShowAnimation(true);
     }
@@ -92,15 +101,13 @@ export function AddToFavorite({ className, ...props }: AddToFavoriteProps) {
       <Button
         onClick={handleClick}
         className="p-0 rounded-full bg-transparent hover:bg-transparent flex items-center justify-center cursor-pointer hover:border-custom-primary-bg"
-        variant="ghost"
-        size="icon"
       >
         {showAnimation ?
           <div
             ref={containerRef}
-            className="w-10 h-10"
+            className="w-11 h-11"
           />
-        : <HeartIcon className="text-custom-favourites-icon fill-custom-favourites-icon" />
+        : <HeartIcon className=" w-12 h-12 text-custom-favourites-icon fill-custom-favourites-icon" />
         }
       </Button>
     </div>

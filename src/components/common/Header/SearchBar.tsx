@@ -2,238 +2,187 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import { Input } from '@/components/ui/input';
-
-export interface Book {
-  id: number;
-  title: string;
-  image: string;
-  price: string;
-  maintext?: string;
-  nonmaintext?: string;
-}
+import { BookWithDetails } from '@/types/BookType';
 
 export interface SearchBarProps {
   variant: 'desktop' | 'mobile';
 }
 
-const bookImages = [
-  '/img/paperback/1984/en/00.webp',
-  '/img/paperback/1984/en/01.webp',
-  '/img/paperback/1984/en/02.webp',
-  '/img/paperback/1984/en/03.webp',
-  '/img/paperback/1984/en/04.webp',
-];
-
-const mobileBooks: Book[] = [
-  { id: 1, title: 'Елеанор і Парк', image: bookImages[0], price: '₴250' },
-  { id: 2, title: 'Електра', image: bookImages[1], price: '₴300' },
-  {
-    id: 3,
-    title: 'Електромеханічний конструктор. Аеромобіль',
-    image: bookImages[2],
-    price: '₴1200',
-  },
-  { id: 4, title: 'Ерагон', image: bookImages[3], price: '₴400' },
-];
-
-const desktopBooks: Book[] = [
-  {
-    id: 1,
-    title: 'Елеанор і Парк',
-    image: bookImages[0],
-    price: '₴300',
-    maintext: 'The Goldfinch',
-    nonmaintext: 'Donna Tartt',
-  },
-  {
-    id: 2,
-    title: 'Електра',
-    image: bookImages[1],
-    price: '₴300',
-    maintext: 'Електра',
-    nonmaintext: 'Триллер',
-  },
-  {
-    id: 3,
-    title: 'Електромеханічний конструктор. Аеромобіль',
-    image: bookImages[2],
-    price: '₴300',
-    maintext: 'Конструктор',
-    nonmaintext: 'Технічна література',
-  },
-  {
-    id: 4,
-    title: 'Книга 4',
-    image: bookImages[3],
-    price: '₴400',
-    maintext: 'Другая книга',
-    nonmaintext: 'Другой автор',
-  },
-  {
-    id: 5,
-    title: 'Книга 5',
-    image: bookImages[4],
-    price: '₴500',
-    maintext: 'Пятая книга',
-    nonmaintext: 'Автор пять',
-  },
-  {
-    id: 6,
-    title: 'Книга 6',
-    image: bookImages[0],
-    price: '₴600',
-    maintext: 'Шестая книга',
-    nonmaintext: 'Шестой автор',
-  },
-  {
-    id: 7,
-    title: 'Книга 7',
-    image: bookImages[1],
-    price: '₴700',
-    maintext: 'Седьмая книга',
-    nonmaintext: 'Седьмой автор',
-  },
-];
-
 const SearchBar: FC<SearchBarProps> = ({ variant }) => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<Book[]>([]);
+  const [results, setResults] = useState<BookWithDetails[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const handleChange = (value: string) => {
-    setQuery(value);
-    if (!value.trim()) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (!query.trim()) {
       setResults([]);
+      setOpen(false);
       return;
     }
 
-    const term = value.toLowerCase();
-    const source = variant === 'desktop' ? desktopBooks : mobileBooks;
+    const timeout = setTimeout(() => {
+      setLoading(true);
+      fetch(`/api/search/books?query=${encodeURIComponent(query)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setResults(data);
+          setOpen(true);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    }, 300);
 
-    const filtered = source.filter((book) => {
-      if (variant === 'desktop') {
-        return (
-          book.title.toLowerCase().includes(term) ||
-          book.maintext?.toLowerCase().includes(term) ||
-          book.nonmaintext?.toLowerCase().includes(term)
-        );
-      }
-      return book.title.toLowerCase().includes(term);
-    });
+    return () => clearTimeout(timeout);
+  }, [query]);
 
-    setResults(filtered);
-  };
+  const renderResults = () => {
+    if (!open || results.length === 0) return null;
 
-  if (variant === 'mobile') {
-    return (
-      <div className="relative w-full">
-        <Input
-          placeholder="Find a book or author..."
-          value={query}
-          onChange={(e) => handleChange(e.target.value)}
-          className="w-full placeholder:text-custom-icons border-custom-icons text-custom-icons"
-        />
-
-        {results.length > 0 && (
-          <div
-            className="
-              absolute top-full left-0 right-0 mx-auto 
-              w-full max-w-2xl mt-2 
-              bg-custom-secondary border border-custom-main-elements 
-              rounded-md shadow-lg z-50 p-4 
-              max-h-[300px] overflow-y-auto custom-scrollbar
-            "
-          >
-            {results.map((book) => (
-              <Link
-                href={`/book/${book.id}`}
-                key={book.id}
-                className="
-                  flex items-center space-x-4 p-3 border rounded-lg 
-                  bg-custom-header-bg hover:bg-custom-main-elements 
-                  transition mb-2 last:mb-0
-                "
-              >
-                <div className="w-16 h-20 relative flex-shrink-0">
-                  <Image
-                    src={book.image}
-                    alt={book.title}
-                    fill
-                    className="object-cover rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-bold text-primary">{book.title}</span>
-                  <span className="text-secondary font-semibold">
-                    {book.price}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative w-[290px]">
-      <Input
-        placeholder="Find a book or author"
-        value={query}
-        onChange={(e) => handleChange(e.target.value)}
-        className="
-          w-full placeholder:text-custom-icons font-bold 
-          bg-custom-header-footer  border-custom-icons border-1 
-          rounded-md h-9 px-4 focus:outline-none focus:ring-0  text-custom-icons
-        "
-      />
-
-      {results.length > 0 && (
-        <div
-          className="
-            absolute top-full left-1/2 mt-4 
-            bg-custom-secondary rounded-xl z-50 p-4 
-            max-h-[290px] overflow-y-auto custom-scrollbar
-          "
-          style={{ width: '480px', transform: 'translateX(-50%)' }}
-        >
+    if (variant === 'mobile') {
+      return (
+        <div className="absolute top-full left-0 right-0 mx-auto w-full max-w-2xl mt-2 bg-custom-header-footer border border-custom-border rounded-md shadow-lg z-50 p-4 max-h-[300px] overflow-y-auto custom-scrollbar">
           {results.map((book) => (
             <Link
-              href={`/book/${book.id}`}
+              href={`/book/${book.slug}`}
               key={book.id}
-              className="
-                flex items-center justify-between space-x-4 p-4 rounded-xl 
-                bg-custom-header-bg transition hover:bg-gray-50 
-                mb-2 last:mb-0
-              "
+              className="flex items-center space-x-4 p-3 border rounded-lg hover:bg-custom-primary-bg transition mb-2 last:mb-0"
             >
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-[80px] relative flex-shrink-0">
-                  <Image
-                    src={book.image}
-                    alt={book.title}
-                    fill
-                    className="object-cover rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-bold text-custom-primary-text">
-                    {book.maintext}
-                  </span>
-                  <span className="text-custom-secondary text-sm">
-                    {book.nonmaintext}
-                  </span>
-                </div>
+              <div className="w-16 h-20 relative flex-shrink-0">
+                <Image
+                  src={`/books/${book.images[0]}`}
+                  alt={book.name}
+                  fill
+                  className="object-cover rounded"
+                />
               </div>
-              <span className="text-custom-primary font-semibold text-xl">
-                {book.price}
-              </span>
+              <div className="flex flex-col">
+                <span className="font-bold text-primary">{book.name}</span>
+                <span className="text-secondary font-semibold">
+                  ${book.priceRegular}
+                </span>
+              </div>
             </Link>
           ))}
         </div>
+      );
+    }
+
+    return (
+      <div
+        className="absolute top-full left-1/2 mt-4 bg-custom-header-footer border border-custom-border rounded-xl z-50 p-4 max-h-[290px] overflow-y-auto custom-scrollbar"
+        style={{ width: '480px', transform: 'translateX(-50%)' }}
+      >
+        {results.map((book) => (
+          <Link
+            href={`book/${book.slug}`}
+            key={book.id}
+            className="flex items-center justify-between space-x-4 p-4 rounded-xl border transition hover:bg-custom-primary-bg mb-2 last:mb-0"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-[80px] relative flex-shrink-0">
+                <Image
+                  src={`/books/${book.images[0]}`}
+                  alt={book.name}
+                  fill
+                  className="object-cover rounded"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-custom-primary-text">
+                  {book.name}
+                </span>
+                <span className="text-custom-secondary text-sm">
+                  {book.author}
+                </span>
+              </div>
+            </div>
+            <span className="text-custom-primary font-semibold text-xl">
+              ${book.priceRegular}
+            </span>
+          </Link>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className={
+        variant === 'mobile' ? 'relative w-full' : 'relative w-[290px]'
+      }
+    >
+      <Input
+        placeholder="Find a book or author..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onFocus={() => results.length > 0 && setOpen(true)}
+        className={
+          variant === 'mobile' ?
+            'w-full placeholder:text-custom-icons border-custom-icons text-custom-icons'
+          : 'w-full placeholder:text-custom-icons font-bold bg-custom-header-footer border-custom-icons border-1 rounded-md h-9 px-4 focus:outline-none focus:ring-0 text-custom-icons'
+        }
+      />
+      {/* SKELETON */}
+      {loading && (
+        <>
+          {variant === 'mobile' ?
+            <div className="absolute top-full mt-2 w-full max-w-2xl bg-custom-header-footer border border-custom-main-elements rounded-md shadow-lg z-50 p-4">
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="flex items-center space-x-4 mb-3 animate-pulse"
+                >
+                  <div className="w-16 h-20 bg-custom-icons/40 rounded"></div>
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 bg-custom-icons/40 rounded w-3/4"></div>
+                    <div className="h-3 bg-custom-icons/40 rounded w-1/2"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          : <div
+              className="absolute top-full left-1/2 mt-4 bg-custom-header-footer rounded-xl z-50 p-6 max-h-[290px] overflow-y-auto custom-scrollbar shadow-lg"
+              style={{ width: '480px', transform: 'translateX(-50%)' }}
+            >
+              {[...Array(4)].map((_, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between space-x-6 mb-4 animate-pulse"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="w-20 h-[100px] bg-custom-icons/40 rounded-lg"></div>
+                    <div className="flex flex-col space-y-3">
+                      <div className="h-5 bg-custom-icons/40 rounded w-40"></div>
+                      <div className="h-4 bg-custom-icons/40 rounded w-28"></div>
+                    </div>
+                  </div>
+                  <div className="h-6 w-16 bg-custom-icons/40 rounded"></div>
+                </div>
+              ))}
+            </div>
+          }
+        </>
       )}
+      {renderResults()}
     </div>
   );
 };

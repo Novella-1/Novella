@@ -1,12 +1,21 @@
 import React from 'react';
-import { getBooks } from '@/server/books';
-import { CardItem } from '../common/CardItem/CardItem';
+import FavouritesList from '../common/FavouritesList/FavouritesList';
 import { TypographyH1, TypographyP } from '../ui/custom/typography';
 
 const FavoritesTemplate = async () => {
-  const booksData = await getBooks({
-    type: 'KINDLE',
-  });
+  // const queryClient = new QueryClient();
+  // await queryClient.prefetchQuery({
+  //   queryKey: ['books', 'AUDIOBOOK', page, pageSize, sortBy, sortOrder],
+  //   queryFn: () =>
+  //     fetchBooks({
+  //       type: 'AUDIOBOOK',
+  //       page,
+  //       pageSize,
+  //       sortBy,
+  //       sortOrder,
+  //     }),
+  // });
+
   return (
     <section className="pt-32 pb-16">
       <TypographyH1 className="mb-2">Favourites</TypographyH1>
@@ -18,12 +27,7 @@ const FavoritesTemplate = async () => {
                 sm:grid-cols-2 
                 lg:grid-cols-4"
         >
-          {booksData.map((book) => (
-            <CardItem
-              key={book.id}
-              book={book}
-            />
-          ))}
+          <FavouritesList />
         </div>
       </div>
     </section>

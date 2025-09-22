@@ -10,14 +10,19 @@ export const VideoPlayer = ({ className }: { className?: string }) => {
     }
   }, []);
   return (
-    <div className={cn('w-full aspect-video overflow-hidden pt-10', className)}>
+    <div
+      className={cn(
+        'w-full h-[400px] xl:h-156 overflow-hidden pt-10',
+        className,
+      )}
+    >
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="w-full h-full  object-cover brightness-50"
-        poster="/homePage-cover.png"
+        className="w-full h-full object-cover brightness-50"
+        poster="/hero-cover.png"
         ref={videoRef}
       >
         <source

@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { Heart, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
-import { UserIcon } from '@/components/ui/custom/icons';
 
 interface IconNavProps {
   variant?: 'desktop' | 'mobile';

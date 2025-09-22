@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
-import { Manrope } from 'next/font/google';
+import { Manrope, Martel_Sans, Marcellus } from 'next/font/google';
+import { Toaster } from 'sonner';
 import Footer from '@/components/common/Footer/Footer';
 import Header from '@/components/common/Header/Header';
 import './globals.css';
+
 import { AuthProvider } from '@/providers/session-provider';
+import { TanstackProviders } from '@/providers/tanstack-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
 
 export const metadata: Metadata = {
@@ -17,6 +20,18 @@ const manrope = Manrope({
   variable: '--font-manrope',
 });
 
+const martel = Martel_Sans({
+  subsets: ['latin'],
+  weight: ['900'],
+  variable: '--font-martel',
+});
+
+const marcellus = Marcellus({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-marcellus',
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,32 +41,52 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
+      className={`${manrope.variable} ${martel.variable} ${marcellus.variable}`}
     >
       <body
-        className={`${manrope.className} ${manrope.variable} antialiased bg-custom-primary-bg flex flex-col min-h-screen`}
+        className={
+          'font-sans antialiased bg-custom-primary-bg flex flex-col min-h-screen'
+        }
       >
-        <AuthProvider>
-          <ThemeProvider
-            attribute="data-theme"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-            storageKey="novella-theme"
-            themes={[
-              'system',
-              'light',
-              'dark',
-              'protanopia',
-              'tritanopia',
-              'deuteranopia',
-              'grayscale',
-            ]}
-          >
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </ThemeProvider>
-        </AuthProvider>
+        <TanstackProviders>
+          <AuthProvider>
+            <ThemeProvider
+              attribute="data-theme"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+              storageKey="novella-theme"
+              themes={[
+                'system',
+                'light',
+                'dark',
+                'protanopia',
+                'tritanopia',
+                'deuteranopia',
+                'grayscale',
+              ]}
+            >
+              <Header />
+              <main className="flex-grow min-h-screen">{children}</main>
+              <Toaster
+                position="top-center"
+                toastOptions={{
+                  classNames: {
+                    toast:
+                      '!top-10 [@media(min-width:1200px)]:!top-12 !border-custom-border !bg-custom-header-footer',
+                    title:
+                      '!text-custom-primary-text !font-bold !font-marcellus',
+                    description: '!text-custom-primary-text !font-manrope',
+                  },
+                }}
+                icons={{
+                  info: null,
+                }}
+              />
+              <Footer />
+            </ThemeProvider>
+          </AuthProvider>
+        </TanstackProviders>
       </body>
     </html>
   );
