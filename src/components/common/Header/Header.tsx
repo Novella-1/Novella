@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import React, { FC, useState } from 'react';
 
+import AuthModal from '@/components/layout/AuthModal/AuthModal';
 import IconNav from './IconNav';
 import Nav from './Nav';
 import SearchBar from './SearchBar';
@@ -68,13 +69,11 @@ const Header: FC = () => {
                 />
               </button>
 
-              <button>
-                <UserIcon
-                  size={24}
-                  strokeWidth={1.5}
-                  className="text-custom-icons"
-                />
-              </button>
+              {/* AUTH */}
+              {status === 'authenticated' ?
+                <span>{`Hello, ${data?.user?.firstName ?? 'user'}`}</span>
+              : ''}
+              <AuthModal />
 
               <IconNav variant="desktop" />
               <ThemeButton />
