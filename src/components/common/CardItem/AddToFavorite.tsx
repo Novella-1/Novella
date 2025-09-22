@@ -1,23 +1,33 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import lottie, { AnimationItem } from 'lottie-web';
 import { HeartIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import heartAnimation from '@/../public/lotties/heartAnimation.json';
 import { Button } from '@/components/ui/button';
+import {
+  addToLocalFavourites,
+  isInLocalFavourites,
+  removeFromLocalFavourites,
+} from '@/lib/localStorage';
 import { cn } from '@/lib/utils';
+import { BookWithDetails } from '@/types/BookType';
 import { showToast } from '../ShowToast';
 interface AddToFavoriteProps {
   className?: string;
   name?: string;
+  book: BookWithDetails;
 }
 
 export function AddToFavorite({
   className,
   name,
+  book,
   ...props
 }: AddToFavoriteProps) {
+  const queryClient = useQueryClient();
   const containerRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<AnimationItem | null>(null);
   const [isFav, setIsFav] = useState(false);
@@ -44,7 +54,15 @@ export function AddToFavorite({
 
   const handleClick = () => {
     if (isAnimating) return;
-
+    if (isInLocalFavourites(book.slug)) {
+      removeFromLocalFavourites(book.slug);
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: ['FAVOURITES'] });
+      }, 200);
+    } else {
+      addToLocalFavourites(book);
+      queryClient.invalidateQueries({ queryKey: ['FAVOURITES'] });
+    }
     if (!isFav && name) {
       showToast('addToFav', name);
       setIsAnimating(true);
@@ -78,20 +96,10 @@ export function AddToFavorite({
 
   const router = useRouter();
 
-  const onClickHandler = () => {
-    // router.push('/login');
-  };
   return (
     <div
       role="button"
       tabIndex={0}
-      onClick={onClickHandler}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClickHandler();
-        }
-      }}
       className={cn(
         'flex items-center justify-center rounded-[8px] border border-custom-border w-10 h-10 hover:bg-custom-primary-bg cursor-pointer',
         className,

@@ -1,11 +1,23 @@
 import React from 'react';
 import { PageWrapper } from '@/components/common/PageWrapper';
 import FavoritesTemplate from '@/components/templates/FavoritesTemplate';
+import { SortOrder, SortType } from '@/types/BookType';
 
-const FavouritesPage = () => {
+export type FavouritesParams = {
+  sortBy?: SortType;
+  sortOrder?: SortOrder;
+  page?: string;
+  pageSize?: string;
+};
+
+const FavouritesPage = ({
+  searchParams,
+}: {
+  searchParams: Promise<FavouritesParams>;
+}) => {
   return (
     <PageWrapper>
-      <FavoritesTemplate />
+      <FavoritesTemplate searchParams={searchParams} />
     </PageWrapper>
   );
 };

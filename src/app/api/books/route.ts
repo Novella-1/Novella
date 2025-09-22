@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { formatCategories } from '@/server/helpers/helpers';
+import {
+  formatCategories,
+  getInclude,
+  getOrder,
+} from '@/server/helpers/helpers';
 import { prisma } from '@/server/prisma';
 import {
   BookType,
@@ -8,30 +12,6 @@ import {
   SortOrder,
   SortType,
 } from '@/types/BookType';
-
-function getInclude(type: BookType) {
-  return {
-    categories: { include: { category: true } },
-    paperDetails: type === 'PAPERBACK' ? true : undefined,
-    kindleDetails: type === 'KINDLE' ? true : undefined,
-    audiobookDetails: type === 'AUDIOBOOK' ? true : undefined,
-  };
-}
-
-function getOrder(sortBy?: SortType, sortOrder: SortOrder = 'asc') {
-  switch (sortBy) {
-    case 'name':
-      return { name: sortOrder };
-    case 'author':
-      return { author: sortOrder };
-    case 'priceRegular':
-      return { priceRegular: sortOrder };
-    case 'publicationYear':
-      return { publicationYear: sortOrder };
-    default:
-      return undefined;
-  }
-}
 
 export async function GET(req: NextRequest) {
   try {

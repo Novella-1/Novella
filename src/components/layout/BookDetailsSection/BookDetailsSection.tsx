@@ -31,6 +31,7 @@ const BookDetailsSection = ({ initialBook }: Props) => {
   const switchLang = (newLang: string) => {
     setLang(newLang);
     const newUrl = `/book/${initialBook.namespaceId}/${newLang}`;
+    // for sharing
     window.history.replaceState(null, '', newUrl);
   };
 

@@ -17,7 +17,7 @@ export function FilteringSection({
       className={cn('flex justify-between', className)}
       {...props}
     >
-      <SortSelect />
+      {/* <SortSelect /> */}
       <PageSizeSwitcher className="hidden sm:flex" />
     </section>
   );
