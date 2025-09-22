@@ -67,6 +67,7 @@
   --color-custom-separator: var(--separator);
   --color-custom-modal-bg: var(--modal-bg);
   --color-custom-text-decoration: var(--text-decoration);
+  --color-custom-hero-bg: var(--hero-bg);
 }
 
 :root,
@@ -117,6 +118,7 @@
   --separator: #d9cabb;
   --modal-bg: #000000;
   --text-decoration: rgba(48, 32, 13, 0.06);
+  --hero-bg: #0b0101;
 }
 
 [data-theme='dark'] {
