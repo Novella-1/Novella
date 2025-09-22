@@ -10,7 +10,7 @@ const CartCheckout = () => {
         flex flex-col items-center justify-center
         w-full max-w-full p-6 gap-4
         border border-gray-200 rounded-lg
-        shadow-sm
+        shadow-sm mb-5
       "
     >
       <TypographyH2 className="text-2xl sm:text-3xl">₴1,623</TypographyH2>

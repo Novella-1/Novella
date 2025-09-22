@@ -1,10 +1,12 @@
 'use client';
 
+import { AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { FC, useState, useEffect, useRef } from 'react';
+import React, { FC, useState, useEffect, useRef, useCallback } from 'react';
 import { Input } from '@/components/ui/input';
 import { BookWithDetails } from '@/types/BookType';
+import { SearchBarSkeleton } from './SearchBarSkeleton';
 
 export interface SearchBarProps {
   variant: 'desktop' | 'mobile';
@@ -17,6 +19,56 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
   const [open, setOpen] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const debouncedSearch = useCallback((searchTerm: string) => {
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    debounceTimer.current = setTimeout(async () => {
+      try {
+        setLoading(true);
+        abortControllerRef.current = new AbortController();
+
+        const res = await fetch(
+          `/api/search/books?query=${encodeURIComponent(searchTerm)}`,
+          { signal: abortControllerRef.current.signal },
+        );
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data: BookWithDetails[] = await res.json();
+        setResults(data);
+        setOpen(true);
+      } catch (err: unknown) {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+        console.error('Search error:', err);
+      } finally {
+        setLoading(false);
+      }
+    }, 600);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -37,67 +89,38 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
       setOpen(false);
       return;
     }
-
-    const timeout = setTimeout(() => {
-      setLoading(true);
-      fetch(`/api/search/books?query=${encodeURIComponent(query)}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setResults(data);
-          setOpen(true);
-          setLoading(false);
-        })
-        .catch(() => setLoading(false));
-    }, 300);
-
-    return () => clearTimeout(timeout);
-  }, [query]);
+    debouncedSearch(query);
+  }, [query, debouncedSearch]);
 
   const renderResults = () => {
     if (!open || results.length === 0) return null;
 
-    if (variant === 'mobile') {
-      return (
-        <div className="absolute top-full left-0 right-0 mx-auto w-full max-w-2xl mt-2 bg-custom-secondary border border-custom-main-elements rounded-md shadow-lg z-50 p-4 max-h-[300px] overflow-y-auto custom-scrollbar">
-          {results.map((book) => (
-            <Link
-              href={`/book/${book.slug}`}
-              key={book.id}
-              className="flex items-center space-x-4 p-3 border rounded-lg bg-custom-header-bg hover:bg-custom-primary-bg transition mb-2 last:mb-0"
-            >
-              <div className="w-16 h-20 relative flex-shrink-0">
-                <Image
-                  src={`/books/${book.images[0]}`}
-                  alt={book.name}
-                  fill
-                  className="object-cover rounded"
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-primary">{book.name}</span>
-                <span className="text-secondary font-semibold">
-                  {book.priceRegular}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      );
-    }
-
     return (
       <div
-        className="absolute top-full left-1/2 mt-4 bg-custom-header-footer rounded-xl z-50 p-4 max-h-[290px] overflow-y-auto custom-scrollbar"
-        style={{ width: '480px', transform: 'translateX(-50%)' }}
+        className={
+          variant === 'mobile' ?
+            'absolute top-full left-0 right-0 mx-auto w-full max-w-2xl mt-2 bg-custom-secondary border border-custom-main-elements rounded-md shadow-lg z-50 p-4 max-h-[300px] overflow-y-auto custom-scrollbar'
+          : 'absolute top-full left-1/2 mt-4 bg-custom-header-footer rounded-xl z-50 p-4 max-h-[290px] overflow-y-auto custom-scrollbar w-[480px] -translate-x-1/2'
+        }
       >
         {results.map((book) => (
           <Link
-            href={`book/${book.slug}`}
+            href={`/book/${book.slug}`}
             key={book.id}
-            className="flex items-center justify-between space-x-4 p-4 rounded-xl bg-custom-header-bg transition hover:bg-custom-hover-button mb-2 last:mb-0"
+            className={
+              variant === 'mobile' ?
+                'flex items-center space-x-4 p-3 border rounded-lg bg-custom-header-bg hover:bg-custom-primary-bg transition mb-2 last:mb-0'
+              : 'flex items-center justify-between space-x-4 p-4 rounded-xl bg-custom-header-bg transition hover:bg-custom-hover-button mb-2 last:mb-0'
+            }
           >
             <div className="flex items-center space-x-4">
-              <div className="w-16 h-[80px] relative flex-shrink-0">
+              <div
+                className={
+                  variant === 'mobile' ?
+                    'w-16 h-20 relative flex-shrink-0'
+                  : 'w-16 h-[80px] relative flex-shrink-0'
+                }
+              >
                 <Image
                   src={`/books/${book.images[0]}`}
                   alt={book.name}
@@ -106,17 +129,31 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
                 />
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-custom-primary-text">
+                <span
+                  className={
+                    variant === 'mobile' ?
+                      'font-bold text-primary'
+                    : 'font-bold text-custom-primary-text'
+                  }
+                >
                   {book.name}
                 </span>
-                <span className="text-custom-secondary text-sm">
-                  {book.author}
+                <span
+                  className={
+                    variant === 'mobile' ?
+                      'text-secondary font-semibold'
+                    : 'text-custom-secondary text-sm'
+                  }
+                >
+                  {variant === 'mobile' ? book.priceRegular : book.author}
                 </span>
               </div>
             </div>
-            <span className="text-custom-primary font-semibold text-xl">
-              {book.priceRegular}
-            </span>
+            {variant !== 'mobile' && (
+              <span className="text-custom-primary font-semibold text-xl">
+                {book.priceRegular}$
+              </span>
+            )}
           </Link>
         ))}
       </div>
@@ -141,47 +178,11 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
           : 'w-full placeholder:text-custom-icons font-bold bg-custom-header-footer border-custom-icons border-1 rounded-md h-9 px-4 focus:outline-none focus:ring-0 text-custom-icons'
         }
       />
-      {loading && (
-        <>
-          {variant === 'mobile' ?
-            <div className="absolute top-full mt-2 w-full max-w-2xl bg-custom-secondary border border-custom-main-elements rounded-md shadow-lg z-50 p-4">
-              {[...Array(3)].map((_, i) => (
-                <div
-                  key={i}
-                  className="flex items-center space-x-4 mb-3 animate-pulse"
-                >
-                  <div className="w-16 h-20 bg-[#8b5e3c]/40 rounded"></div>
-                  <div className="flex-1 space-y-2">
-                    <div className="h-4 bg-[#a97454]/40 rounded w-3/4"></div>
-                    <div className="h-3 bg-[#c28e6a]/40 rounded w-1/2"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          : <div
-              className="absolute top-full left-1/2 mt-4 bg-custom-secondary rounded-xl z-50 p-6 max-h-[290px] overflow-y-auto custom-scrollbar shadow-lg"
-              style={{ width: '480px', transform: 'translateX(-50%)' }}
-            >
-              {[...Array(4)].map((_, i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-between space-x-6 mb-4 animate-pulse"
-                >
-                  <div className="flex items-center space-x-4">
-                    <div className="w-20 h-[100px] bg-[#8b5e3c]/40 rounded-lg"></div>
-                    <div className="flex flex-col space-y-3">
-                      <div className="h-5 bg-[#a97454]/40 rounded w-40"></div>
-                      <div className="h-4 bg-[#c28e6a]/40 rounded w-28"></div>
-                    </div>
-                  </div>
-                  <div className="h-6 w-16 bg-[#b78b65]/40 rounded"></div>
-                </div>
-              ))}
-            </div>
-          }
-        </>
-      )}
-      {renderResults()}
+      <AnimatePresence mode="wait">
+        {loading ?
+          <SearchBarSkeleton variant={variant} />
+        : renderResults()}
+      </AnimatePresence>
     </div>
   );
 };

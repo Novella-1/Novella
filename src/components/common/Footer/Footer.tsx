@@ -17,38 +17,10 @@ import { RandomBookModal } from '../RandomReadModal/RandomReadModal';
 const Footer: FC = () => {
   const [isRandomOpen, setRandomOpen] = useState(false);
 
-  const smoothScrollToTop = () => {
-    const topEl = document.getElementById('top');
-    if (topEl) {
-      topEl.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
-
-    try {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    } catch {}
-
-    const start = window.scrollY || window.pageYOffset;
-    const duration = 500;
-    const startTime = performance.now();
-
-    const step = (now: number) => {
-      const elapsed = now - startTime;
-      const t = Math.min(elapsed / duration, 1);
-      const eased = 0.5 - Math.cos(Math.PI * t) / 2;
-      window.scrollTo(0, Math.round(start * (1 - eased)));
-      if (t < 1) requestAnimationFrame(step);
-    };
-
-    requestAnimationFrame(step);
-  };
-
   return (
     <>
       <footer className="bg-white text-[#BAA48C] font-bold py-10 w-full shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
         <div className="container mx-auto px-4 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
-          {/* 1 колонка: Логотип + опис */}
           <div>
             <Link
               href="/"
@@ -72,7 +44,6 @@ const Footer: FC = () => {
             </TypographyP>
           </div>
 
-          {/* 2 колонка: Навигация */}
           <div className="flex flex-col items-start sm:items-start md:items-center lg:items-center text-left">
             <TypographyH3 className="mb-4 text-lg text-[#331F06]">
               Navigation
@@ -113,25 +84,43 @@ const Footer: FC = () => {
             </ul>
           </div>
 
-          {/* 3 колонка: Контакты */}
           <div className="flex flex-col items-start sm:items-start md:items-start lg:items-center text-left">
             <TypographyH3 className="mb-4 text-lg text-[#331F06]">
               Contacts
             </TypographyH3>
             <ul className="space-y-3 text-sm font-normal text-[#5A4632]">
               <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4" /> +1 (555) 123-4567
+                <Phone className="w-4 h-4" />
+                <a
+                  href="tel:+15551234567"
+                  className="hover:text-[#331F06] transition-colors"
+                >
+                  +1 (555) 123-4567
+                </a>
               </li>
               <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4" /> contact@novella.com
+                <Mail className="w-4 h-4" />
+                <a
+                  href="mailto:contact@novella.com"
+                  className="hover:text-[#331F06] transition-colors"
+                >
+                  contact@novella.com
+                </a>
               </li>
               <li className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" /> 123 Book Street, Literature City
+                <MapPin className="w-4 h-4" />
+                <a
+                  href="https://www.google.com/maps?q=123+Book+Street,+Literature+City"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#331F06] transition-colors"
+                >
+                  123 Book Street, Literature City
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* 4 колонка: Соцсети + кнопка открытия модалки */}
           <div className="flex flex-col items-start sm:items-start md:items-center lg:items-center">
             <TypographyH3 className="mb-4 text-lg text-[#331F06]">
               Follow us
@@ -163,13 +152,12 @@ const Footer: FC = () => {
               </a>
             </div>
 
-            {/* Кнопка открытия RandomBookModal */}
             <button
               type="button"
               onClick={() => setRandomOpen(true)}
               className="px-4 py-2 bg-[#5A4632] text-white rounded-md font-bold hover:bg-[#4a3826] transition"
             >
-              Let Fate Decide 📚
+              Let Fate Decide
             </button>
           </div>
         </div>
@@ -177,7 +165,7 @@ const Footer: FC = () => {
         <div className="container mx-auto px-4 mt-10 flex justify-center">
           <button
             type="button"
-            onClick={smoothScrollToTop}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="flex items-center hover:opacity-75 transition-opacity hover:text-[#331F06] bg-transparent font-bold"
             aria-label="Back to top"
           >
@@ -197,15 +185,14 @@ const Footer: FC = () => {
                 d="M5 15l7-7 7 7"
               />
             </svg>
-            <RandomBookModal
-              open={isRandomOpen}
-              onClose={() => setRandomOpen(false)}
-            />
           </button>
         </div>
       </footer>
 
-      {/* Модалка */}
+      <RandomBookModal
+        open={isRandomOpen}
+        onClose={() => setRandomOpen(false)}
+      />
     </>
   );
 };

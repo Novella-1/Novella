@@ -1,7 +1,12 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { getBookBySlug } from '@/server/books';
+import type { BookWithDetails } from '@/types/BookType';
 import { BookAbout } from '../common/Details/BookAbout';
 import { BookCharacteristics } from '../common/Details/BookCharacteristics';
+import { BookDetailsSkeleton } from '../common/Details/BookDetailsSkeleton';
 import { BookInfo } from '../common/Details/BookInfo';
 import { BookPhotoContainer } from '../common/Details/BookPhotosContainers';
 import { CardsCarouselSection } from '../layout/CardsCarouselSection/CardsCarouselSection';
@@ -12,16 +17,30 @@ interface BookDetailsTemplateProps {
   slug: string;
 }
 
-export async function BookDetailsTemplate({
+export function BookDetailsTemplate({
   className,
-  // slug,
+  slug,
 }: BookDetailsTemplateProps) {
-  // const book = await getBookBySlug(slug);
-  const bookWithDetails = await getBookBySlug('hannibal-uk-hardcover');
+  const [bookWithDetails, setBookWithDetails] =
+    useState<BookWithDetails | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  console.log(bookWithDetails);
+  useEffect(() => {
+    async function fetchBook() {
+      setLoading(true);
+      await new Promise((res) => setTimeout(res, 1500));
+      const data = await getBookBySlug(slug);
+      setBookWithDetails(data ?? null);
+      setLoading(false);
+    }
+    fetchBook();
+  }, [slug]);
 
-  if (bookWithDetails === undefined) return;
+  if (loading) {
+    return <BookDetailsSkeleton className={className} />;
+  }
+
+  if (!bookWithDetails) return null;
 
   return (
     <div className={cn(className)}>
@@ -29,22 +48,22 @@ export async function BookDetailsTemplate({
         <div className="mb-8">
           <div className="mb-8">
             <TypographyH2 className="mb-1.5">
-              {bookWithDetails?.name}
+              {bookWithDetails.name}
             </TypographyH2>
-            <TypographyP>{bookWithDetails?.author}</TypographyP>
+            <TypographyP>{bookWithDetails.author}</TypographyP>
           </div>
 
           <div className="flex flex-col gap-4 sm:flex-col sm:gap-[34px] xl:flex-row xl:gap-[88px] xl:h-[524px] xl:items-start">
-            <BookPhotoContainer images={bookWithDetails?.images} />
+            <BookPhotoContainer images={bookWithDetails.images} />
             <BookInfo
               className="xl:h-full"
-              categories={bookWithDetails?.categories}
-              author={bookWithDetails?.author}
-              coverType={bookWithDetails?.paperDetails?.coverType}
-              numberOfPages={bookWithDetails?.paperDetails?.numberOfPages}
-              publicationYear={bookWithDetails?.publicationYear}
-              priceRegular={bookWithDetails?.priceRegular}
-              priceDiscount={bookWithDetails?.priceDiscount}
+              categories={bookWithDetails.categories}
+              author={bookWithDetails.author}
+              coverType={bookWithDetails.paperDetails?.coverType}
+              numberOfPages={bookWithDetails.paperDetails?.numberOfPages}
+              publicationYear={bookWithDetails.publicationYear}
+              priceRegular={bookWithDetails.priceRegular}
+              priceDiscount={bookWithDetails.priceDiscount}
             />
           </div>
         </div>
@@ -52,18 +71,18 @@ export async function BookDetailsTemplate({
         <div className="flex flex-col xl:flex-row gap-10 xl:gap-[88px] mb-20">
           <BookAbout
             className="xl:max-w-[560px]"
-            description={bookWithDetails?.description}
+            description={bookWithDetails.description}
           />
           <BookCharacteristics
             className="xl:flex-1"
-            author={bookWithDetails?.author}
-            coverType={bookWithDetails?.paperDetails?.coverType}
-            numberOfPages={bookWithDetails?.paperDetails?.numberOfPages}
-            publicationYear={bookWithDetails?.publicationYear}
-            publication={bookWithDetails?.publication}
-            format={bookWithDetails?.paperDetails?.format}
-            lang={bookWithDetails?.lang}
-            illustrations={bookWithDetails?.paperDetails?.illustrations}
+            author={bookWithDetails.author}
+            coverType={bookWithDetails.paperDetails?.coverType}
+            numberOfPages={bookWithDetails.paperDetails?.numberOfPages}
+            publicationYear={bookWithDetails.publicationYear}
+            publication={bookWithDetails.publication}
+            format={bookWithDetails.paperDetails?.format}
+            lang={bookWithDetails.lang}
+            illustrations={bookWithDetails.paperDetails?.illustrations}
           />
         </div>
         <CardsCarouselSection />

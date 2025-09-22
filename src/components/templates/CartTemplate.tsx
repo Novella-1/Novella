@@ -9,7 +9,7 @@ const CartTemplate = () => {
 
   return (
     <section className="flex flex-col items-center justify-center pt-6 md:pt-10">
-      <div className="w-full max-w-[1200px] px-4">
+      <div className="w-full max-w-[1200px] px-4 pb-5">
         <BackButton />
         <TypographyH1 className="pb-6 text-2xl sm:text-3xl">Cart</TypographyH1>
 
