@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import React from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
@@ -61,28 +62,25 @@ export function BookDetailsSkeleton({ className }: { className?: string }) {
         </div>
       </div>
 
-      <div className="flex flex-col xl:flex-row gap-10 xl:gap-[88px] mb-20">
-        <div className="flex flex-col gap-4 xl:max-w-[560px]">
-          <Skeleton className="h-6 w-24 rounded bg-[#A97454]/40" />
-          <Skeleton className="h-[1px] w-full bg-[#8B5E3C]/40" />
-          <Skeleton className="h-5 w-3/4 rounded bg-[#C28E6A]/40" />
-          {[...Array(3)].map((_, i) => (
-            <Skeleton
-              key={i}
-              className="h-4 w-full rounded bg-[#B78B65]/40"
-            />
-          ))}
-        </div>
-        <div className="flex flex-col gap-4 flex-1">
+      <div className="flex flex-col xl:flex-row xl:divide-x xl:divide-[#8B5E3C]/40 mb-20">
+        <div className="flex flex-col items-start gap-4 w-full xl:w-1/2 px-0 xl:px-10 xl:max-w-[560px]">
           <Skeleton className="h-6 w-32 rounded bg-[#A97454]/40" />
-          <Skeleton className="h-[1px] w-full bg-[#8B5E3C]/40" />
-          {[...Array(8)].map((_, i) => (
-            <div key={i}>
-              <div className="flex justify-between">
-                <Skeleton className="h-4 w-28 rounded bg-[#A97454]/40" />
-                <Skeleton className="h-4 w-20 rounded bg-[#C28E6A]/40" />
-              </div>
-              <Skeleton className="h-[1px] w-full bg-[#8B5E3C]/40 mt-1" />
+          <Skeleton className="h-[1px] w-4/5 bg-[#8B5E3C]/40" />
+          <Skeleton className="h-5 w-4/5 rounded bg-[#B78B65]/40" />
+          <Skeleton className="h-5 w-4/5 rounded bg-[#B78B65]/40" />
+          <Skeleton className="h-5 w-3/5 rounded bg-[#B78B65]/40" />
+        </div>
+
+        <div className="flex flex-col items-start gap-4 w-full xl:w-1/2 px-0 xl:px-10 xl:flex-1">
+          <Skeleton className="h-6 w-40 rounded bg-[#A97454]/40" />
+          <Skeleton className="h-[1px] w-4/5 bg-[#8B5E3C]/40" />
+          {[...Array(4)].map((_, i) => (
+            <div
+              key={i}
+              className="flex justify-between w-4/5"
+            >
+              <Skeleton className="h-5 w-40 rounded bg-[#A97454]/40" />
+              <Skeleton className="h-5 w-32 rounded bg-[#C28E6A]/40" />
             </div>
           ))}
         </div>
