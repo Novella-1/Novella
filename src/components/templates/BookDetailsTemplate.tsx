@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 import { BookWithDetails } from '@/types/BookType';
@@ -9,7 +12,7 @@ interface BookDetailsTemplateProps {
   initialBook: BookWithDetails;
 }
 
-export async function BookDetailsTemplate({
+export function BookDetailsTemplate({
   className,
   initialBook,
 }: BookDetailsTemplateProps) {
