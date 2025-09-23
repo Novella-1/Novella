@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import React, { FC, useState } from 'react';
 
 import AuthModal from '@/components/layout/AuthModal/AuthModal';
-import { CartIcon, HeartIcon } from '@/components/ui/custom/icons';
+import { CartIcon } from '@/components/ui/custom/icons';
 import { LogoIcon } from '@/components/ui/custom/LogoIcon';
 import { FavouritesHeaderIcon } from './FavouritesHeaderIcon';
 import Nav from './Nav';

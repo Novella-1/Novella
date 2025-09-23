@@ -5,6 +5,7 @@ import Footer from '@/components/common/Footer/Footer';
 import Header from '@/components/common/Header/Header';
 import './globals.css';
 
+import { ColorBlindnessFilters } from '@/components/ui/custom/colorBlindnessFilters';
 import { AuthProvider } from '@/providers/session-provider';
 import { TanstackProviders } from '@/providers/tanstack-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
@@ -66,6 +67,8 @@ export default function RootLayout({
                 'grayscale',
               ]}
             >
+              <ColorBlindnessFilters />
+              {/* <div id="colorTheme"> */}
               <Header />
               <main className="flex-grow min-h-screen">{children}</main>
               <Toaster
@@ -84,6 +87,7 @@ export default function RootLayout({
                 }}
               />
               <Footer />
+              {/* </div> */}
             </ThemeProvider>
           </AuthProvider>
         </TanstackProviders>
