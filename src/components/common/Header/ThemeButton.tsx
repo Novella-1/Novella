@@ -16,37 +16,37 @@ const themeOptions = [
   {
     value: 'system',
     label: 'System',
-    icon: <MonitorCog className="!h-6 !w-6 text-gray-500" />,
+    icon: <MonitorCog className="w-4 h-4 !xl:w-6 !xl:h-6 text-gray-500" />,
   },
   {
     value: 'light',
     label: 'Light',
-    icon: <Sun className="!h-6 !w-6 text-yellow-500" />,
+    icon: <Sun className="w-4 h-4 !xl:w-6 !xl:h-6 text-yellow-500" />,
   },
   {
     value: 'dark',
     label: 'Dark',
-    icon: <Moon className="!h-6 !w-6 text-black" />,
+    icon: <Moon className="w-4 h-4 xl:w-6 xl:h-6 text-black" />,
   },
   {
     value: 'protanopia',
     label: 'Protanopia',
-    icon: <Droplet className="!h-6 !w-6 text-rose-500" />,
+    icon: <Droplet className="w-4 h-4 xl:w-6 xl:h-6 text-rose-500" />,
   },
   {
     value: 'deuteranopia',
     label: 'Deuteranopia',
-    icon: <Droplet className="!h-6 !w-6 text-green-500" />,
+    icon: <Droplet className="w-4 h-4 xl:w-6 xl:h-6 text-green-500" />,
   },
   {
     value: 'tritanopia',
     label: 'Tritanopia',
-    icon: <Droplet className="!h-6 !w-6 text-sky-500" />,
+    icon: <Droplet className="w-4 h-4 xl:w-6 xl:h-6 text-sky-500" />,
   },
   {
     value: 'grayscale',
     label: 'Grayscale',
-    icon: <Contrast className="!h-6 !w-6 text-gray-500" />,
+    icon: <Contrast className="w-4 h-4 xl:w-6 xl:h-6 text-gray-500" />,
   },
 ];
 
@@ -64,8 +64,6 @@ export function ThemeButton() {
   if (!mounted) {
     return (
       <Button
-        variant="outline"
-        size="icon"
         className="border-none"
         aria-label="Select theme"
       />
@@ -76,7 +74,6 @@ export function ThemeButton() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
           size="icon"
           className="border-none bg-transparent hover:bg-transparent cursor-pointer text-custom-icons"
           aria-label="Select theme"
@@ -99,7 +96,7 @@ export function ThemeButton() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        className="bg-custom-header-footer text-custom-icons"
+        className="bg-custom-header-footer text-custom-icons "
         align="end"
       >
         {themeOptions.map((opt) => (
