@@ -62,6 +62,7 @@ const BooksList = ({
 
   return (
     <motion.div
+      key={`${type}-${page}-${pageSize}-${sortBy}-${sortOrder}`}
       className={cn(
         'flex flex-row flex-wrap gap-y-10  sm:items-center justify-evenly',
         {
