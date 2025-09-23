@@ -59,7 +59,7 @@ const Header: FC = () => {
               <AuthModal />
 
               {/* <IconNav variant="desktop" /> */}
-              <FavouritesHeaderIcon />
+              <FavouritesHeaderIcon userId={data?.user.id} />
               <Link
                 href="/cart"
                 aria-label="Cart"

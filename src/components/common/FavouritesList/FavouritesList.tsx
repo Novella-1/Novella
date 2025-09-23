@@ -71,6 +71,8 @@ const FavouritesList = ({
         sortOrder,
       });
     },
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
 
   useEffect(() => {
