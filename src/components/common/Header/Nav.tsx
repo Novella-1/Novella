@@ -50,8 +50,8 @@ const Nav: FC<NavProps> = ({ variant = 'desktop', className, onLinkClick }) => {
               {isActive && (
                 <span
                   className={cn(
-                    'absolute left-0 w-full h-1 bg-custom-text-hover transition-all duration-300',
-                    'top-[20px] md:top-[34px] xl:top-[40px]',
+                    'absolute left-0 w-full h-[1px] md:h-[2px] xl:h-1 bg-custom-text-hover transition-all duration-300',
+                    'top-[26px] md:top-[30px] xl:top-[40px]',
                   )}
                 />
               )}
