@@ -25,7 +25,7 @@ const Nav: FC<NavProps> = ({ variant = 'desktop', className, onLinkClick }) => {
   const containerClasses =
     isMobile ?
       'flex flex-col space-y-4 text-center mx-auto'
-    : 'hidden md:flex items-center gap-2 sm:gap-6 md:gap-10 lg:gap-14 pl-4 sm:pl-6 md:pl-10';
+    : 'hidden md:flex items-center gap-2 sm:gap-6 xl:gap-14 pl-4 sm:pl-6 text-xs xl:text-base';
 
   return (
     <nav className={cn(containerClasses, className)}>
@@ -40,9 +40,9 @@ const Nav: FC<NavProps> = ({ variant = 'desktop', className, onLinkClick }) => {
             className={cn(
               'relative font-bold transition-colors duration-200 text-custom-icons',
               isActive ? 'text-custom-icons' : (
-                'text-custom-secondary hover:text-custom-primary'
+                'text-custom-icons hover:text-custom-button'
               ),
-              isMobile && 'font-bold hover:text-custom-primary',
+              isMobile && 'font-bold hover:text-custom-button',
             )}
           >
             <span className="relative inline-block">
