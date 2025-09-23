@@ -17,11 +17,17 @@ type Props = {
   page: number;
   pageSize: number;
   totalCount: number;
+  onPageChange?: (newPage: number) => void;
 };
 
 const MAX_VISIBLE = 5;
 
-const AppPagination: FC<Props> = ({ page, pageSize, totalCount }) => {
+const AppPagination: FC<Props> = ({
+  page,
+  pageSize,
+  totalCount,
+  onPageChange,
+}) => {
   const totalPages = Math.ceil(totalCount / pageSize);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -34,6 +40,12 @@ const AppPagination: FC<Props> = ({ page, pageSize, totalCount }) => {
   }
 
   function goToPage(newPage: number) {
+    if (onPageChange) {
+      onPageChange(newPage);
+      router.push(createHref(newPage));
+    } else {
+      router.push(createHref(newPage));
+    }
     router.push(createHref(newPage));
 
     window.scrollTo({ top: 0, behavior: 'smooth' });

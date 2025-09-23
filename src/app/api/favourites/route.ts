@@ -36,3 +36,31 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { userId, bookId } = await req.json();
+
+    if (!userId || !bookId) {
+      return NextResponse.json(
+        { error: 'Missing userId or bookId' },
+        { status: 400 },
+      );
+    }
+
+    await prisma.favourite.deleteMany({
+      where: {
+        userId: userId,
+        bookId,
+      },
+    });
+
+    return NextResponse.json({ message: 'Removed from favourites' });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 },
+    );
+  }
+}

@@ -87,6 +87,7 @@ export function CardItem({
         <AddToFavorite
           name={name}
           className="cursor-pointer"
+          book={book}
         />
       </div>
     </Card>

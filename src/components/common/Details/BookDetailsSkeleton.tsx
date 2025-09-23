@@ -86,7 +86,7 @@ export function BookDetailsSkeleton({ className }: { className?: string }) {
         </div>
       </div>
 
-      <div>
+      {/* <div>
         <Skeleton className="h-7 w-48 rounded bg-[#A97454]/40 mb-6" />
         <div className="flex gap-4 overflow-x-auto">
           {[...Array(5)].map((_, i) => (
@@ -96,7 +96,7 @@ export function BookDetailsSkeleton({ className }: { className?: string }) {
             />
           ))}
         </div>
-      </div>
+      </div> */}
     </motion.div>
   );
 }
