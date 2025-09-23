@@ -8,6 +8,8 @@ export const login = async (email: string, password: string) => {
       // redirect: false,
       redirectTo: '/',
     });
+
+    localStorage.removeItem('favourites');
   } catch (e) {
     console.log(e);
   }
