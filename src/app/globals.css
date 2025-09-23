@@ -71,6 +71,7 @@
   --color-custom-bookmark: var(--bookmark);
   --color-custom-bookmark-dash: var(--bookmark-dash);
   --color-custom-modal: var(--modal);
+  --color-custom-text-hover: var(--text-hover);
 }
 
 :root,
@@ -125,6 +126,7 @@
   --bookmark: #802b2b;
   --bookmark-dash: #e1c670;
   --modal: #6c563d;
+  --text-hover: #2b1d0c;
 }
 
 [data-theme='dark'] {
@@ -141,6 +143,7 @@
   --separator: #86725e;
   --modal-bg: #000000;
   --text-decoration: rgba(241, 237, 225, 0.1);
+  --text-hover: #ffff;
 }
 
 [data-theme='protanopia'] {

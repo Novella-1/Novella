@@ -39,10 +39,10 @@ const Nav: FC<NavProps> = ({ variant = 'desktop', className, onLinkClick }) => {
             onClick={onLinkClick}
             className={cn(
               'relative font-bold transition-colors duration-200 text-custom-icons',
-              isActive ? 'text-custom-icons' : (
-                'text-custom-icons hover:text-custom-button'
-              ),
-              isMobile && 'font-bold hover:text-custom-button',
+              isActive ?
+                'text-custom-text-hover'
+              : 'text-custom-icons hover:text-custom-text-hover',
+              isMobile && 'font-bold hover:text-custom-text-hover',
             )}
           >
             <span className="relative inline-block">
@@ -50,8 +50,8 @@ const Nav: FC<NavProps> = ({ variant = 'desktop', className, onLinkClick }) => {
               {isActive && (
                 <span
                   className={cn(
-                    'absolute left-0 w-full h-[2px] bg-custom-icons transition-all duration-300',
-                    'top-[20px] md:top-[34px] xl:top-[42px]',
+                    'absolute left-0 w-full h-1 bg-custom-text-hover transition-all duration-300',
+                    'top-[20px] md:top-[34px] xl:top-[40px]',
                   )}
                 />
               )}
