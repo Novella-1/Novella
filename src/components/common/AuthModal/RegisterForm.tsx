@@ -30,6 +30,11 @@ const RegisterForm = ({ formik }: RegisterFormProps) => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
+        <div className="min-h-[20px]">
+          {formik.touched.firstName && formik.errors.firstName && (
+            <p className="text-red-500 text-sm">{formik.errors.firstName}</p>
+          )}
+        </div>
       </div>
 
       {/* LASTNAME */}
@@ -49,6 +54,11 @@ const RegisterForm = ({ formik }: RegisterFormProps) => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
+        <div className="min-h-[20px]">
+          {formik.touched.lastName && formik.errors.lastName && (
+            <p className="text-red-500 text-sm">{formik.errors.lastName}</p>
+          )}
+        </div>
       </div>
 
       {/* EMAIL */}

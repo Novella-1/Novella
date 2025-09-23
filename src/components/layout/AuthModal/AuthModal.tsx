@@ -3,9 +3,10 @@ import { useFormik } from 'formik';
 
 import { useSession, signOut } from 'next-auth/react';
 import React, { useState } from 'react';
-import * as Yup from 'yup';
+
 import LoginForm from '@/components/common/AuthModal/LoginForm';
 import RegisterForm from '@/components/common/AuthModal/RegisterForm';
+import { authValidationSchema } from '@/components/common/AuthModal/validationShema';
 import { ExitIcon, UserIcon } from '@/components/ui/custom/icons';
 import {
   Dialog,
@@ -24,44 +25,6 @@ const AuthModal = () => {
   const [authVariant, setAuthVariant] = useState<AuthType>('login');
   const { data } = useSession();
 
-  const authValidationSchema = Yup.object().shape({
-    firstName: Yup.string().test(
-      'firstName-required',
-      'Enter your first name',
-      function (value) {
-        const { authVariant } = this.options.context as {
-          authVariant: AuthType;
-        };
-        return authVariant === 'register' ? !!value : true;
-      },
-    ),
-    lastName: Yup.string().test(
-      'lastName-required',
-      'Enter your last name',
-      function (value) {
-        const { authVariant } = this.options.context as {
-          authVariant: AuthType;
-        };
-        return authVariant === 'register' ? !!value : true;
-      },
-    ),
-    email: Yup.string().required('Enter your email').email('check your email'),
-    password: Yup.string().required('Enter your password').min(6),
-    confirmPassword: Yup.string().test(
-      'confirmPassword-match',
-      'Passwords must match',
-      function (value) {
-        const { authVariant } = this.options.context as {
-          authVariant: AuthType;
-        };
-        if (authVariant === 'register') {
-          return value === this.parent.password;
-        }
-        return true;
-      },
-    ),
-  });
-
   const formik = useFormik<AuthFormValues>({
     initialValues: {
       email: '',
@@ -70,7 +33,7 @@ const AuthModal = () => {
       firstName: '',
       lastName: '',
     },
-    validationSchema: authValidationSchema,
+    validationSchema: authValidationSchema(authVariant),
 
     onSubmit: async (values) => {
       const { email, password, firstName, lastName } = values;
@@ -115,7 +78,7 @@ const AuthModal = () => {
         <UserIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons cursor-pointer" />
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px] [&>button]:top-2 [&>button]:right-2">
+      <DialogContent className="bg-custom-modal sm:max-w-[425px] [&>button]:top-2 [&>button]:right-2 [&>button]:cursor-pointer">
         <form onSubmit={formik.handleSubmit}>
           <DialogHeader>
             <Tabs
@@ -124,8 +87,18 @@ const AuthModal = () => {
               className="w-full"
             >
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
+                <TabsTrigger
+                  value="login"
+                  className="cursor-pointer"
+                >
+                  Login
+                </TabsTrigger>
+                <TabsTrigger
+                  value="register"
+                  className="cursor-pointer"
+                >
+                  Register
+                </TabsTrigger>
               </TabsList>
 
               {/* -----------Login -----------*/}
