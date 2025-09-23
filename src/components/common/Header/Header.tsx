@@ -9,6 +9,7 @@ import React, { FC, useState } from 'react';
 import AuthModal from '@/components/layout/AuthModal/AuthModal';
 import { CartIcon, HeartIcon } from '@/components/ui/custom/icons';
 import { LogoIcon } from '@/components/ui/custom/LogoIcon';
+import { FavouritesHeaderIcon } from './FavouritesHeaderIcon';
 import Nav from './Nav';
 import SearchBar from './SearchBar';
 import { ThemeButton } from './ThemeButton';
@@ -58,13 +59,7 @@ const Header: FC = () => {
               <AuthModal />
 
               {/* <IconNav variant="desktop" /> */}
-              <Link
-                href="/favourites"
-                aria-label="Favourites"
-                className="flex items-center justify-center text-custom-icons"
-              >
-                <HeartIcon className="w-4 h-4 xl:w-6 xl:h-6" />
-              </Link>
+              <FavouritesHeaderIcon />
               <Link
                 href="/cart"
                 aria-label="Cart"

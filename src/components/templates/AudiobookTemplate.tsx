@@ -9,8 +9,7 @@ import BooksList from '@/components/common/BooksList/BooksList';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { FilteringSection } from '@/components/layout/FilteringSection/FilteringSection';
 import { TypographyH1, TypographyP } from '@/components/ui/custom/typography';
-import { getBooksQuantityByType } from '@/server/books';
-import { fetchBooks } from '@/services/fetchBooks';
+import { fetchBooks, getBooksQuantityByType } from '@/services/fetchBooks';
 import { PageSize, SortOrder, SortType } from '@/types/BookType';
 import { BackgroundText } from '../ui/backgroundText';
 
@@ -26,7 +25,7 @@ const AudiobookTemplate = async ({ searchParams }: Props) => {
   const page = params.page ? Number(params.page) : 1;
   const pageSize = (params.pageSize ? Number(params.pageSize) : 16) as PageSize;
 
-  const totalCount = await getBooksQuantityByType('AUDIOBOOK');
+  const { totalCount } = await getBooksQuantityByType('AUDIOBOOK');
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({

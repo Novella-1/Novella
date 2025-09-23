@@ -5,7 +5,8 @@ export const login = async (email: string, password: string) => {
     await signIn('credentials', {
       email,
       password,
-      redirect: false,
+      // redirect: false,
+      redirectTo: '/',
     });
   } catch (e) {
     console.log(e);
