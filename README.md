@@ -1,2 +1,1 @@
-clear readme
-mlmcdk
+.Readme
