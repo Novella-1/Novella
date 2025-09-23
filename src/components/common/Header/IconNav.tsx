@@ -2,43 +2,41 @@
 
 import { Heart, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { cn } from '@/lib/utils';
 
-interface IconNavProps {
-  variant?: 'desktop' | 'mobile';
+interface Props {
+  mobileFooter?: boolean;
   className?: string;
 }
 
-const IconNav: FC<IconNavProps> = ({ variant = 'desktop', className }) => {
-  const isMobile = variant === 'mobile';
-
-  const containerClasses =
-    isMobile ?
+const IconNav: FC<Props> = ({ mobileFooter = false, className }) => {
+  const container =
+    mobileFooter ?
       'flex justify-around items-center gap-4 py-3'
     : 'flex items-center gap-8';
-
-  const size = 22;
+  const iconSize = 22;
 
   return (
-    <div className={cn(containerClasses, className)}>
+    <div className={cn(container, className)}>
       <Link
         href="/favourites"
         aria-label="Favourites"
         className="flex items-center justify-center text-custom-icons"
       >
         <Heart
-          size={size}
+          size={iconSize}
           strokeWidth={1.5}
         />
       </Link>
+
       <Link
         href="/cart"
         aria-label="Cart"
         className="flex items-center justify-center text-custom-icons"
       >
         <ShoppingBag
-          size={size}
+          size={iconSize}
           strokeWidth={1.5}
         />
       </Link>

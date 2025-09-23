@@ -3,119 +3,79 @@
 import { AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { FC, useState, useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { BookWithDetails } from '@/types/BookType';
-import { SearchBarSkeleton } from './SearchBarSkeleton';
+import { cn } from '@/lib/utils';
+import SearchBarSkeleton from './SearchBarSkeleton';
+import useBookSearch from './useBookSearch';
 
-export interface SearchBarProps {
-  variant: 'desktop' | 'mobile';
+interface Props {
+  mobileFull?: boolean;
+  inMobileMenu?: boolean;
+  compact?: boolean;
 }
 
-const SearchBar: FC<SearchBarProps> = ({ variant }) => {
+export default function SearchBar({
+  mobileFull = false,
+  inMobileMenu = false,
+  compact = false,
+}: Props) {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<BookWithDetails[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const { results, isLoading, openResults, setOpenResults, runSearch } =
+    useBookSearch();
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
-
-  const debouncedSearch = useCallback((searchTerm: string) => {
-    if (debounceTimer.current) {
-      clearTimeout(debounceTimer.current);
-    }
-
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-
-    debounceTimer.current = setTimeout(async () => {
-      try {
-        setLoading(true);
-        abortControllerRef.current = new AbortController();
-
-        const res = await fetch(
-          `/api/search/books?query=${encodeURIComponent(searchTerm)}`,
-          { signal: abortControllerRef.current.signal },
-        );
-
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-
-        const data: BookWithDetails[] = await res.json();
-        setResults(data);
-        setOpen(true);
-      } catch (err: unknown) {
-        if (err instanceof DOMException && err.name === 'AbortError') {
-          return;
-        }
-        console.error('Search error:', err);
-      } finally {
-        setLoading(false);
-      }
-    }, 600);
-  }, []);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    return () => {
-      if (debounceTimer.current) {
-        clearTimeout(debounceTimer.current);
-      }
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-    };
-  }, []);
+    if (!query.trim()) {
+      runSearch('');
+      setOpenResults(false);
+      return;
+    }
+    runSearch(query);
+  }, [query, runSearch, setOpenResults]);
 
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
+    function onClickOutside(e: MouseEvent) {
       if (
         containerRef.current &&
         !containerRef.current.contains(e.target as Node)
       ) {
-        setOpen(false);
+        setOpenResults(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
+  }, [setOpenResults]);
 
-  useEffect(() => {
-    if (!query.trim()) {
-      setResults([]);
-      setOpen(false);
-      return;
-    }
-    debouncedSearch(query);
-  }, [query, debouncedSearch]);
+  const wrapperBase =
+    'absolute top-full mt-2 bg-custom-header-footer rounded-xl z-50 p-4 overflow-y-auto custom-scrollbar';
+  const desktopWrapper = 'w-[480px] -translate-x-1/2 left-1/2 max-h-[290px]';
+  const mobileWrapper =
+    'left-0 right-0 mx-auto w-full max-w-2xl max-h-[300px] border border-custom-border rounded-md';
 
   const renderResults = () => {
-    if (!open || results.length === 0) return null;
+    if (!openResults || results.length === 0) return null;
 
-    const containerClasses =
-      variant === 'mobile' ?
-        'absolute top-full left-0 right-0 mx-auto w-full max-w-2xl mt-2 bg-custom-header-footer border border-custom-border rounded-md shadow-lg z-50 p-4 max-h-[300px] overflow-y-auto custom-scrollbar'
-      : 'absolute top-full left-1/2 mt-4 bg-custom-header-footer rounded-xl z-50 p-4 max-h-[290px] overflow-y-auto custom-scrollbar w-[480px] -translate-x-1/2';
+    const wrapper = `${wrapperBase} ${mobileFull || inMobileMenu ? mobileWrapper : desktopWrapper}`;
 
     return (
-      <div className={containerClasses}>
+      <div className={wrapper}>
         {results.map((book) => (
           <Link
             href={`/book/${book.slug}`}
             key={book.id}
-            className={
-              variant === 'mobile' ?
-                'flex items-center space-x-4 p-3 border rounded-lg bg-custom-header-bg hover:bg-custom-primary-bg transition mb-2 last:mb-0'
-              : 'flex items-center justify-between space-x-4 p-4 rounded-xl bg-custom-header-bg transition hover:bg-custom-hover-button mb-2 last:mb-0'
-            }
+            className={cn(
+              'mb-2 last:mb-0 transition',
+              mobileFull || inMobileMenu ?
+                'flex items-center space-x-4 p-3 border rounded-lg bg-custom-header-bg hover:bg-custom-primary-bg'
+              : 'flex items-center justify-between space-x-4 p-4 rounded-xl bg-custom-header-bg hover:bg-custom-hover-button',
+            )}
           >
             <div className="flex items-center space-x-4">
               <div
                 className={
-                  variant === 'mobile' ?
+                  mobileFull || inMobileMenu ?
                     'w-16 h-20 relative flex-shrink-0'
                   : 'w-16 h-[80px] relative flex-shrink-0'
                 }
@@ -127,10 +87,11 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
                   className="object-cover rounded"
                 />
               </div>
+
               <div className="flex flex-col">
                 <span
                   className={
-                    variant === 'mobile' ?
+                    mobileFull || inMobileMenu ?
                       'font-bold text-primary'
                     : 'font-bold text-custom-primary-text'
                   }
@@ -139,16 +100,19 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
                 </span>
                 <span
                   className={
-                    variant === 'mobile' ?
+                    mobileFull || inMobileMenu ?
                       'text-secondary font-semibold'
                     : 'text-custom-secondary text-sm'
                   }
                 >
-                  {variant === 'mobile' ? `$${book.priceRegular}` : book.author}
+                  {mobileFull || inMobileMenu ?
+                    `$${book.priceRegular}`
+                  : book.author}
                 </span>
               </div>
             </div>
-            {variant !== 'mobile' && (
+
+            {!mobileFull && !inMobileMenu && (
               <span className="text-custom-primary font-semibold text-xl">
                 ${book.priceRegular}
               </span>
@@ -163,27 +127,28 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
     <div
       ref={containerRef}
       className={
-        variant === 'mobile' ? 'relative w-full' : 'relative w-[290px]'
+        mobileFull || inMobileMenu ? 'relative w-full' : (
+          'relative w-full xl:w-[290px]'
+        )
       }
     >
       <Input
         placeholder="Find a book or author..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onFocus={() => results.length > 0 && setOpen(true)}
+        onFocus={() => results.length > 0 && setOpenResults(true)}
         className={
-          variant === 'mobile' ?
+          mobileFull || inMobileMenu ?
             'w-full placeholder:text-custom-icons border-custom-icons text-custom-icons'
           : 'w-full placeholder:text-custom-icons font-bold bg-custom-header-footer border-custom-icons border-1 rounded-md h-9 px-4 focus:outline-none focus:ring-0 text-custom-icons'
         }
       />
+
       <AnimatePresence mode="wait">
-        {loading ?
-          <SearchBarSkeleton variant={variant} />
+        {isLoading ?
+          <SearchBarSkeleton mobileFull={mobileFull || inMobileMenu} />
         : renderResults()}
       </AnimatePresence>
     </div>
   );
-};
-
-export default SearchBar;
+}

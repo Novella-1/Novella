@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Sun, Moon, Droplet, Contrast, MonitorCog } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import React, { useEffect, useState } from 'react';
@@ -12,7 +12,7 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 
-const themeOptions = [
+const THEME_OPTIONS = [
   {
     value: 'system',
     label: 'System',
@@ -50,7 +50,7 @@ const themeOptions = [
   },
 ];
 
-export function ThemeButton() {
+export default function ThemeButton() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -59,7 +59,7 @@ export function ThemeButton() {
   }, []);
 
   const current =
-    themeOptions.find((opt) => opt.value === resolvedTheme) ?? themeOptions[0];
+    THEME_OPTIONS.find((o) => o.value === resolvedTheme) ?? THEME_OPTIONS[0];
 
   if (!mounted) {
     return (
@@ -102,7 +102,7 @@ export function ThemeButton() {
         className="bg-custom-header-footer text-custom-icons"
         align="end"
       >
-        {themeOptions.map((opt) => (
+        {THEME_OPTIONS.map((opt) => (
           <DropdownMenuItem
             key={opt.value}
             onClick={() => setTheme(opt.value)}
