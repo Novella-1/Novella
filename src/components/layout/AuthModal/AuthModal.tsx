@@ -3,9 +3,10 @@ import { useFormik } from 'formik';
 
 import { useSession, signOut } from 'next-auth/react';
 import React, { useState } from 'react';
-import * as Yup from 'yup';
+
 import LoginForm from '@/components/common/AuthModal/LoginForm';
 import RegisterForm from '@/components/common/AuthModal/RegisterForm';
+import { authValidationSchema } from '@/components/common/AuthModal/validationShema';
 import { ExitIcon, UserIcon } from '@/components/ui/custom/icons';
 import {
   Dialog,
@@ -24,43 +25,6 @@ const AuthModal = () => {
   const [authVariant, setAuthVariant] = useState<AuthType>('login');
   const { data } = useSession();
 
-  const authValidationSchema = Yup.object().shape({
-    firstName: Yup.string().test(
-      'firstName-required',
-      'Enter your first name',
-      function (value) {
-        const { authVariant } = this.options.context as {
-          authVariant: AuthType;
-        };
-        return authVariant === 'register' ? !!value : true;
-      },
-    ),
-    lastName: Yup.string().test(
-      'lastName-required',
-      'Enter your last name',
-      function (value) {
-        const { authVariant } = this.options.context as {
-          authVariant: AuthType;
-        };
-        return authVariant === 'register' ? !!value : true;
-      },
-    ),
-    email: Yup.string()
-      .required('Enter your email')
-      .matches(
-        /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
-        'Incorrect email format',
-      ),
-    password: Yup.string().required('Enter your password').min(6),
-    confirmPassword: Yup.string().when('password', (password, schema) =>
-      authVariant === 'register' ?
-        schema
-          .required('Confirm your password')
-          .oneOf([Yup.ref('password')], 'Passwords must match')
-      : schema.notRequired(),
-    ),
-  });
-
   const formik = useFormik<AuthFormValues>({
     initialValues: {
       email: '',
@@ -69,7 +33,7 @@ const AuthModal = () => {
       firstName: '',
       lastName: '',
     },
-    validationSchema: authValidationSchema,
+    validationSchema: authValidationSchema(authVariant),
 
     onSubmit: async (values) => {
       const { email, password, firstName, lastName } = values;
