@@ -86,13 +86,8 @@ const AuthModal = () => {
   if (data?.user) {
     return (
       <details className="relative">
-        <summary className="flex items-center cursor-pointer p-2 rounded hover:bg-gray-100">
-          <UserIcon
-            width={24}
-            height={24}
-            strokeWidth={1.5}
-            className="text-custom-icons"
-          />
+        <summary className="flex items-center cursor-pointer p-2 rounded">
+          <UserIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons" />
         </summary>
 
         <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg p-2 z-50">
@@ -117,12 +112,7 @@ const AuthModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <UserIcon
-          width={24}
-          height={24}
-          strokeWidth={1.5}
-          className="text-custom-icons"
-        />
+        <UserIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons cursor-pointer" />
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px] [&>button]:top-2 [&>button]:right-2">
@@ -150,7 +140,10 @@ const AuthModal = () => {
             </Tabs>
           </DialogHeader>
           <DialogFooter>
-            <button type="submit">
+            <button
+              type="submit"
+              className="cursor-pointer"
+            >
               {authVariant === 'login' ?
                 <span>Sign In</span>
               : <span>Sign Up</span>}

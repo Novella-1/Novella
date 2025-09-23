@@ -1,3 +1,4 @@
+import { BookMarkModal } from '@/components/common/Bookmark/BookmarkModal';
 import { PageWrapper } from '@/components/common/PageWrapper';
 import { VideoPlayer } from '@/components/common/VideoPlayer/VideoPlayer';
 import { HomePageTemplate } from '@/components/templates/HomePageTemplate';
@@ -19,8 +20,9 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <PageWrapper>
+      <PageWrapper className="relative">
         <HomePageTemplate />
+        <BookMarkModal />
       </PageWrapper>
     </>
   );

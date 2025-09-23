@@ -42,7 +42,7 @@ export const categories = [
 export function CategoryList() {
   const { theme } = useTheme();
   return (
-    <div className="flex items-center justify-center flex-col md:flex-row gap-7 ">
+    <div className="flex items-center justify-center flex-col md:flex-row gap-4 ">
       {categories.map(({ id, imageSrc, title, bookCount }) => {
         const src =
           imageSrc[theme as keyof typeof imageSrc] || imageSrc.default;
