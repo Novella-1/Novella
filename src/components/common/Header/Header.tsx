@@ -2,14 +2,12 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, Search, X } from 'lucide-react';
-// import Image from 'next/image';
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import React, { FC, useState } from 'react';
 
 import AuthModal from '@/components/layout/AuthModal/AuthModal';
-import { CartIcon, HeartIcon } from '@/components/ui/custom/icons';
 import { LogoIcon } from '@/components/ui/custom/LogoIcon';
+import { CartModalSection } from '../../layout/CartModalSection/CartModalSection';
 import { FavouritesHeaderIcon } from './FavouritesHeaderIcon';
 import Nav from './Nav';
 import SearchBar from './SearchBar';
@@ -66,16 +64,9 @@ const Header: FC = () => {
                 <span className="font-manrope text-custom-icons">{`Hello, ${data?.user?.firstName ?? 'user'}`}</span>
               : ''}
               <AuthModal />
-
-              {/* <IconNav variant="desktop" /> */}
               <FavouritesHeaderIcon />
-              <Link
-                href="/cart"
-                aria-label="Cart"
-                className="flex items-center justify-center text-custom-icons"
-              >
-                <CartIcon className="w-4 h-4 xl:w-6 xl:h-6" />
-              </Link>
+
+              <CartModalSection />
               <ThemeButton />
             </div>
 

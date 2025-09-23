@@ -1,12 +1,10 @@
 import { CardsCarouselSection } from '../layout/CardsCarouselSection/CardsCarouselSection';
-import { CartModalSection } from '../layout/CartModalSection/CartModalSection';
 import { CategorySection } from '../layout/CategorySection/CategorySection';
 import { TwainQuote } from '../layout/QuoteSection/QuoteSection';
 
 export const HomePageTemplate = () => {
   return (
     <div className="relative">
-      <CartModalSection />
       <TwainQuote />
       <CardsCarouselSection
         title="New books"

@@ -1,6 +1,8 @@
 import { ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { CartIcon } from '@/components/ui/custom/icons';
 import { TypographyP } from '@/components/ui/custom/typography';
+
 import {
   Sheet,
   SheetContent,
@@ -34,14 +36,19 @@ export default function CartModal({ cartItems }: CartModalProps) {
   );
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const cards = new Array(5).fill(0).map((_, i) => <CartCard key={i} />);
+
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button
           variant="outline"
-          className="relative"
+          className="relative text-custom-icons border-2 hover: cursor-pointer"
         >
-          <ShoppingCart className="h-4 w-4" />
+          {/* <ShoppingCart className="h-4 w-4" /> */}
+          <CartIcon
+            strokeWidth={2.5}
+            className="w-4 h-4 xl:w-6 xl:h-6 "
+          />
           {totalItems > 0 && (
             <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
               {totalItems}
@@ -50,9 +57,9 @@ export default function CartModal({ cartItems }: CartModalProps) {
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="w-full sm:max-w-lg">
+      <SheetContent className="w-full sm:max-w-lg bg-custom-primary-bg ">
         <SheetHeader>
-          <SheetTitle>Cart </SheetTitle>
+          <SheetTitle className="text-custom-primary-text">Cart </SheetTitle>
           <SheetDescription>
             {cartItems.length === 0 ?
               'Your cart is empty. Start adding some products!'
@@ -74,13 +81,13 @@ export default function CartModal({ cartItems }: CartModalProps) {
               </div>
 
               <div className="border-t pt-4 space-y-4">
-                <div className="flex justify-between items-center font-semibold text-lg">
+                <div className="flex justify-between items-center font-semibold text-lg text-custom-primary-text">
                   <span>Total:</span>
                   <span>₴{totalPrice.toFixed(2)}</span>
                 </div>
                 <button
                   type="button"
-                  className="px-4 py-2 bg-[#5A4632] text-white rounded-md font-bold hover:bg-[#4a3826] hover:cursor-pointer w-full transition"
+                  className="px-4 py-3 bg-[#5A4632] text-white rounded-md font-bold hover:bg-[#4a3826] hover:cursor-pointer w-full transition"
                 >
                   Make an order 🔖
                 </button>
