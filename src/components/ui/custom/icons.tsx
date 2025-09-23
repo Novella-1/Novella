@@ -15,6 +15,7 @@ import {
   ChevronDown,
   LogOut,
   UserRound,
+  User,
 } from 'lucide-react';
 import * as React from 'react';
 
@@ -80,4 +81,8 @@ export function ExitIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export function ProfileIcon(props: React.SVGProps<SVGSVGElement>) {
   return <UserRound {...props} />;
+}
+
+export function UserIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <User {...props} />;
 }

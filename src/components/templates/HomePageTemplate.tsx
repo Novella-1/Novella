@@ -1,4 +1,3 @@
-import BookmarkButton from '../common/BookmarkButton/BookmarkButton';
 import { CardsCarouselSection } from '../layout/CardsCarouselSection/CardsCarouselSection';
 import { CartModalSection } from '../layout/CartModalSection/CartModalSection';
 import { CategorySection } from '../layout/CategorySection/CategorySection';
@@ -13,7 +12,6 @@ export const HomePageTemplate = () => {
         title="New books"
         type="new-books"
       />
-      <BookmarkButton />
       <CategorySection className="mt-[50px]" />
       <CardsCarouselSection
         className="my-[50px]"

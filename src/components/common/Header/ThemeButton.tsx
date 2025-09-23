@@ -16,7 +16,7 @@ const themeOptions = [
   {
     value: 'system',
     label: 'System',
-    icon: <MonitorCog className="!h-6 !w-6 text-purple-500" />,
+    icon: <MonitorCog className="!h-6 !w-6 text-gray-500" />,
   },
   {
     value: 'light',
