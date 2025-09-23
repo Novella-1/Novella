@@ -4,7 +4,6 @@ import { VideoPlayer } from '@/components/common/VideoPlayer/VideoPlayer';
 import { HomePageTemplate } from '@/components/templates/HomePageTemplate';
 import { TypographyH1, TypographyH2 } from '@/components/ui/custom/typography';
 export default function Home() {
-  
   return (
     <>
       <div className="bg-custom-hero-bg">

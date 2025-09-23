@@ -9,6 +9,7 @@ import React, { FC, useState } from 'react';
 import AuthModal from '@/components/layout/AuthModal/AuthModal';
 import { CartIcon } from '@/components/ui/custom/icons';
 import { LogoIcon } from '@/components/ui/custom/LogoIcon';
+import { CartModalSection } from '../../layout/CartModalSection/CartModalSection';
 import { FavouritesHeaderIcon } from './FavouritesHeaderIcon';
 import Nav from './Nav';
 import SearchBar from './SearchBar';
@@ -57,16 +58,9 @@ const Header: FC = () => {
                 <span className="font-manrope text-custom-icons">{`Hello, ${data?.user?.firstName ?? 'user'}`}</span>
               : ''}
               <AuthModal />
+              <FavouritesHeaderIcon />
 
-              {/* <IconNav variant="desktop" /> */}
-              <FavouritesHeaderIcon userId={data?.user.id} />
-              <Link
-                href="/cart"
-                aria-label="Cart"
-                className="flex items-center justify-center text-custom-icons"
-              >
-                <CartIcon className="w-4 h-4 xl:w-6 xl:h-6" />
-              </Link>
+              <CartModalSection />
               <ThemeButton />
             </div>
 

@@ -31,8 +31,16 @@ export function HeartIcon(props: React.SVGProps<SVGSVGElement>) {
   return <Heart {...props} />;
 }
 
-export function CartIcon(props: React.SVGProps<SVGSVGElement>) {
-  return <ShoppingBag {...props} />;
+export function CartIcon({
+  size = 16,
+  ...props
+}: { size?: number } & React.SVGProps<SVGSVGElement>) {
+  return (
+    <ShoppingBag
+      size={size}
+      {...props}
+    />
+  );
 }
 
 export function HeadphonesIcon(props: React.SVGProps<SVGSVGElement>) {
