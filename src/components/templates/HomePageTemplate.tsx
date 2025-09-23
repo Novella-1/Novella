@@ -1,0 +1,21 @@
+import { CardsCarouselSection } from '../layout/CardsCarouselSection/CardsCarouselSection';
+import { CategorySection } from '../layout/CategorySection/CategorySection';
+import { TwainQuote } from '../layout/QuoteSection/QuoteSection';
+
+export const HomePageTemplate = () => {
+  return (
+    <div className="relative">
+      <TwainQuote />
+      <CardsCarouselSection
+        title="New books"
+        type="new-books"
+      />
+      <CategorySection className="mt-[50px]" />
+      <CardsCarouselSection
+        className="my-[50px]"
+        type="discount"
+        title="Sale"
+      />
+    </div>
+  );
+};

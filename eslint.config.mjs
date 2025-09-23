@@ -10,6 +10,18 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  {
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      'out/**',
+      'build/**',
+      'next-env.d.ts',
+      '*.d.ts',
+      '**/*.d.ts',
+    ],
+  },
+
   ...compat.extends(
     'next/core-web-vitals',
     'next/typescript',
@@ -18,13 +30,6 @@ const eslintConfig = [
     'plugin:import/recommended',
   ),
   {
-    ignores: [
-      'node_modules/**',
-      '.next/**',
-      'out/**',
-      'build/**',
-      'next-env.d.ts',
-    ],
     settings: {
       'react': { version: 'detect' },
       'import/resolver': {

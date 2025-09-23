@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id             String      @id @default(uuid())
+  email          String      @unique
+  hashedPassword String
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  Session        Session[]
+  Profile        Profile?
+  Favourite      Favourite[]
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Book {
+  id               String            @id @default(uuid())
+  type             BookType
+  namespaceId      String
+  name             String
+  slug             String            @unique
+  priceRegular     Float
+  priceDiscount    Float?
+  images           String[]
+  langAvailable    String[]
+  lang             String
+  author           String
+  publicationYear  Int
+  publication      String
+  description      String[]
+  audiobookDetails AudiobookDetails?
+  categories       BookCategory[]
+  kindleDetails    KindleDetails?
+  paperDetails     PaperDetails?
+  Favourite        Favourite[]
+}
+
+model Category {
+  id    Int            @id @default(autoincrement())
+  name  String         @unique
+  books BookCategory[]
+}
+
+model BookCategory {
+  bookId     String
+  categoryId Int
+  book       Book     @relation(fields: [bookId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@id([bookId, categoryId])
+}
+
+model PaperDetails {
+  bookId        String  @id
+  coverType     String
+  numberOfPages Int
+  format        String
+  illustrations Boolean
+  book          Book    @relation(fields: [bookId], references: [id])
+}
+
+model KindleDetails {
+  bookId        String  @id
+  numberOfPages Int
+  format        String
+  illustrations Boolean
+  book          Book    @relation(fields: [bookId], references: [id])
+}
+
+model AudiobookDetails {
+  bookId          String @id
+  narrator        String
+  listeningLength Int
+  book            Book   @relation(fields: [bookId], references: [id])
+}
+
+model Quote {
+  id        String   @id @default(cuid())
+  quote     String   @db.Text
+  author    String
+  work      String
+  createdAt DateTime @default(now())
+}
+
+model Favourite {
+  id        String   @id @default(uuid())
+  userId    String
+  bookId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
+}
+
+enum BookType {
+  PAPERBACK
+  KINDLE
+  AUDIOBOOK
+}

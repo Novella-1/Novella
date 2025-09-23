@@ -1,26 +1,279 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans:
+    var(--font-manrope), ui-sans-serif, system-ui, -apple-system, Segoe UI,
+    Roboto, Arial, sans-serif;
+  --font-martel: var(--font-martel), serif;
+  --font-marcellus: var(--font-marcellus), sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* our custom styles */
+  --breakpoint-sm: 20rem;
+  --breakpoint-md: 40rem;
+  --breakpoint-lg: 71rem;
+  --breakpoint-xl: 75rem;
+
+  --color-custom-primary-bg: var(--primary-bg);
+  --color-custom-primary-text: var(--primary-text);
+  --color-custom-header-footer: var(--header-footer);
+  --color-custom-border: var(--border);
+  --color-custom-button: var(--button);
+  --color-custom-button-text: var(--button-text);
+  --color-custom-hover-button: var(--hover-button);
+  --color-custom-icons: var(--icons);
+  --color-custom-icons-accent: var(--icons-accent);
+  --color-custom-favourites-icon: var(--favourites-icon);
+  --color-custom-separator: var(--separator);
+  --color-custom-modal-bg: var(--modal-bg);
+  --color-custom-text-decoration: var(--text-decoration);
+  --color-custom-hero-bg: var(--hero-bg);
+  --color-custom-bookmark: var(--bookmark);
+  --color-custom-bookmark-dash: var(--bookmark-dash);
+  --color-custom-modal: var(--modal);
+  --color-custom-text-hover: var(--text-hover);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root,
+[data-theme='light'] {
+  --radius: 0.625rem;
+  --background: #ffffff;
+  --foreground: #252525;
+  --card: #ffffff;
+  --card-foreground: #252525;
+  --popover: #ffffff;
+  --popover-foreground: #252525;
+  --primary-foreground: #fbfbfb;
+  --secondary-foreground: #343434;
+  --muted: #f7f7f7;
+  --muted-foreground: #8f8f8f;
+  --accent: #f7f7f7;
+  --accent-foreground: #343434;
+  --destructive: #b85f44;
+  --border: #ebebeb;
+  --input: #ebebeb;
+  --ring: #b4b4b4;
+  --chart-1: #a4602f;
+  --chart-2: #5592b5;
+  --chart-3: #3c3c82;
+  --chart-4: #d0ca35;
+  --chart-5: #c4b639;
+  --sidebar: #fbfbfb;
+  --sidebar-foreground: #252525;
+  --sidebar-primary: #343434;
+  --sidebar-primary-foreground: #fbfbfb;
+  --sidebar-accent: #f7f7f7;
+  --sidebar-accent-foreground: #343434;
+  --sidebar-border: #ebebeb;
+  --sidebar-ring: #b4b4b4;
+
+  /* our custom styles */
+  --primary-bg: #eeeade;
+  --primary-text: #2b1d0c;
+  --header-footer: #fdfdf9;
+  --border: #e1cfbc;
+  --button: #2b1d0c;
+  --button-text: #fdfdf9;
+  --hover-button: #4c412e;
+  --icons: #958370;
+  --icons-accent: #9faf38;
+  --favourites-icon: #eb5757;
+  --separator: #d9cabb;
+  --modal-bg: #000000;
+  --text-decoration: rgba(48, 32, 13, 0.06);
+  --hero-bg: #0b0101;
+  --bookmark: #802b2b;
+  --bookmark-dash: #e1c670;
+  --modal: #6c563d;
+  --text-hover: #2b1d0c;
+}
+
+[data-theme='dark'] {
+  --primary-bg: #30200d;
+  --primary-text: #f1ede1;
+  --header-footer: #6c563d;
+  --border: #958370;
+  --button: #30200d;
+  --button-text: #f1ede1;
+  --hover-button: #4c412e;
+  --icons: #ebe7da;
+  --icons-accent: #a7ba26;
+  --favourites-icon: #eb5757;
+  --separator: #86725e;
+  --modal-bg: #000000;
+  --text-decoration: rgba(241, 237, 225, 0.1);
+  --text-hover: #ffff;
+}
+
+/* [data-theme='protanopia'] { */
+/* --primary-bg: #e9e9dd; */
+/* --primary-text: #212112; */
+/* --header-footer: #fdfdf9;
+  --border: #ebebd9;
+  --button: #212112; */
+/* --button-text: #fdfdf9; */
+/* --hover-button: rgb(76, 66, 48); */
+/* --icons: #99997f; */
+/* --icons-accent: #9b9b57;
+  --favourites-icon: #95944c;
+  --separator: #d2d2be;
+  --modal-bg: #000000;
+  --text-decoration: rgba(48, 32, 13, 0.06); */
+/* --bookmark: #d5d584;
+  --bookmark-dash: #5b5a2b;
+  --modal: #626244; */
+/* } */
+
+/* [data-theme='tritanopia'] { */
+/* --primary-bg: #eadfe0;
+  --primary-text: #241515; */
+/* --header-footer: #fdfafa;
+  --border: #f0dcdd;
+  --button: #241515; */
+/* --button-text: #fdfafa;
+  --hover-button: #2e1c1c; */
+/* --icons: #a08384; */
+/* --icons-accent: #966a6e;
+  --favourites-icon: #c14e4e;
+  --separator: #d8c1c2;
+  --modal-bg: #000000;
+  --text-decoration: rgba(48, 32, 13, 0.06);
+  --bookmark: #5a3f41;
+  --bookmark-dash: #d5a7aa;
+  --modal: #625052; */
+/* } */
+
+/* [data-theme='deuteranopia'] { */
+/* --primary-bg: #eee8d8;
+  --primary-text: #241515; */
+/* --header-footer: #fdfdf8;
+  --border: #9d947d;
+  --button: #241515; */
+/* --button-text: #fdfdf8;
+  --hover-button: #2d2617; */
+/* --icons: #3a362b; */
+/* --icons-accent: #989f4d;
+  --favourites-icon: #b0714b;
+  --separator: #d6cdbd;
+  --modal-bg: #000000;
+  --text-decoration: rgba(48, 32, 13, 0.06);
+  --bookmark: #60662b;
+  --bookmark-dash: #d6d889;
+  --modal: #646545; */
+/* } */
+
+.dark {
+  --background: #252525;
+  --foreground: #fbfbfb;
+  --card: #343434;
+  --card-foreground: #fbfbfb;
+  --popover: #343434;
+  --popover-foreground: #fbfbfb;
+  --primary: #ebebeb;
+  --primary-foreground: #343434;
+  --secondary: #4466aa;
+  --secondary-foreground: #fbfbfb;
+  --muted: #4466aa;
+  --muted-foreground: #b4b4b4;
+  --accent: #4466aa;
+  --accent-foreground: #fbfbfb;
+  --destructive: #b87050;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #8f8f8f;
+  --chart-1: #7c3f9f;
+  --chart-2: #7197ac;
+  --chart-3: #c4b639;
+  --chart-4: #7f4b96;
+  --chart-5: #82883a;
+  --sidebar: #343434;
+  --sidebar-foreground: #fbfbfb;
+  --sidebar-primary: #7c3f9f;
+  --sidebar-primary-foreground: #fbfbfb;
+  --sidebar-accent: #4466aa;
+  --sidebar-accent-foreground: #fbfbfb;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #8f8f8f;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.font-martel {
+  font-family: var(--font-martel);
+}
+
+.clip-path-bookmark-y-top {
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 50% 60%, 0 100%);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+html[data-theme='protanopia'] main {
+  filter: url('#protanopia');
+}
+
+html[data-theme='deuteranopia'] main {
+  filter: url('#deuteranopia');
+}
+
+html[data-theme='tritanopia'] main {
+  filter: url('#tritanopia');
+}
+
+html[data-theme='grayscale'] main {
+  filter: grayscale(100%);
 }
