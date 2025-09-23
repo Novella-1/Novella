@@ -45,20 +45,19 @@ const AuthModal = () => {
         return authVariant === 'register' ? !!value : true;
       },
     ),
-    email: Yup.string().required('Enter your email').email('check your email'),
+    email: Yup.string()
+      .required('Enter your email')
+      .matches(
+        /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+        'Incorrect email format',
+      ),
     password: Yup.string().required('Enter your password').min(6),
-    confirmPassword: Yup.string().test(
-      'confirmPassword-match',
-      'Passwords must match',
-      function (value) {
-        const { authVariant } = this.options.context as {
-          authVariant: AuthType;
-        };
-        if (authVariant === 'register') {
-          return value === this.parent.password;
-        }
-        return true;
-      },
+    confirmPassword: Yup.string().when('password', (password, schema) =>
+      authVariant === 'register' ?
+        schema
+          .required('Confirm your password')
+          .oneOf([Yup.ref('password')], 'Passwords must match')
+      : schema.notRequired(),
     ),
   });
 
@@ -119,7 +118,7 @@ const AuthModal = () => {
         />
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px] [&>button]:top-2 [&>button]:right-2">
+      <DialogContent className="bg-custom-modal sm:max-w-[425px] [&>button]:top-2 [&>button]:right-2 [&>button]:cursor-pointer">
         <form onSubmit={formik.handleSubmit}>
           <DialogHeader>
             <Tabs
@@ -128,8 +127,18 @@ const AuthModal = () => {
               className="w-full"
             >
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
+                <TabsTrigger
+                  value="login"
+                  className="cursor-pointer"
+                >
+                  Login
+                </TabsTrigger>
+                <TabsTrigger
+                  value="register"
+                  className="cursor-pointer"
+                >
+                  Register
+                </TabsTrigger>
               </TabsList>
 
               {/* -----------Login -----------*/}
