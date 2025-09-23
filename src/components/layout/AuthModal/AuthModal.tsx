@@ -85,19 +85,20 @@ const AuthModal = () => {
   if (data?.user) {
     return (
       <details className="relative">
-        <summary className="flex items-center cursor-pointer p-2 rounded hover:bg-gray-100">
-          <UserIcon
-            width={24}
-            height={24}
-            strokeWidth={1.5}
-            className="text-custom-icons"
-          />
+        <summary className="flex items-center cursor-pointer p-2 rounded">
+          <UserIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons" />
         </summary>
 
         <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg p-2 z-50">
           <button
-            className="flex items-center gap-2 w-full px-2 py-1 hover:bg-gray-100 rounded cursor-pointer"
-            onClick={() => signOut()}
+            className="flex items-center gap-2 w-full px-2 py-1 hover:bg-gray-100 rounded"
+            onClick={async () => {
+              await signOut({
+                // redirect: false
+                redirectTo: '/',
+              });
+              // router.push('/');
+            }}
           >
             <ExitIcon className="w-5 h-5" />
             Sign out
@@ -110,12 +111,7 @@ const AuthModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <UserIcon
-          width={24}
-          height={24}
-          strokeWidth={1.5}
-          className="text-custom-icons cursor-pointer"
-        />
+        <UserIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons cursor-pointer" />
       </DialogTrigger>
 
       <DialogContent className="bg-custom-modal sm:max-w-[425px] [&>button]:top-2 [&>button]:right-2 [&>button]:cursor-pointer">

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
+import { TypographyH3, TypographyP } from '@/components/ui/custom/typography';
 import {
   Dialog,
   DialogContent,
@@ -58,7 +59,7 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
       });
     } catch (err) {
       console.error('Error fetching book:', err);
-      setError('The book could not be loaded. Please try again.');
+      setError('Failed to download the book. Try again.');
       setBook(null);
     } finally {
       setLoading(false);
@@ -76,21 +77,22 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
       open={open}
       onOpenChange={onClose}
     >
-      <DialogContent className="fixed top-1/2 left-1/2 z-[51] w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-[#958370] bg-[#6C563D] p-0 text-white shadow-xl overflow-hidden">
-        <div className="bg-[#5A4632] px-6 py-5 text-center">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold tracking-wide">
-              Not sure what to read next?
-            </DialogTitle>
-            <DialogDescription className="mt-1 text-white/80 text-base">
-              Let fate decide! We’ll surprise you with a random book from our
-              collection.
-            </DialogDescription>
-          </DialogHeader>
-        </div>
+      <DialogContent className="fixed top-1/2 left-1/2 z-[51] w-full h-[700px] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-custom-border bg-custom-modal p-0 shadow-xl overflow-hidden">
+        <DialogHeader className="font-marcellus pt-6 px-6">
+          <DialogTitle className="text-2xl text-center font-bold tracking-wide text-custom-bookmark-dash">
+            Not sure what to read next?
+          </DialogTitle>
+          <DialogDescription className="mt-1 text-center text-custom-button-text text-base pb-4 border-b-1 ">
+            Let fate decide! We’ll surprise you with a random book from our
+            collection.
+          </DialogDescription>
+        </DialogHeader>
 
-        <div className="p-6 flex flex-col items-center">
-          <div className="flex flex-col items-center gap-4 justify-center min-h-[360px]">
+        <div className="px-6 flex flex-col items-center">
+          <div
+            className="flex flex-col items-center gap-4 justify-center"
+            style={{ height: 360 }}
+          >
             {loading && (
               <div className="flex justify-center items-center w-full h-full">
                 <DotLottieReact
@@ -128,51 +130,54 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
                     alt={book.title || 'Book cover'}
                     width={200}
                     height={200}
-                    className="rounded-md shadow-lg object-cover border border-[#958370] w-full h-full"
+                    className="rounded-md shadow-lg object-cover border border-custom-border w-full h-full"
                   />
                 </motion.div>
 
                 <div className="text-center flex flex-col items-center">
-                  <h3 className="text-lg font-semibold">{book.title}</h3>
-                  <p className="text-white/70">{book.author}</p>
+                  <TypographyH3 className="text-lg font-semibold text-custom-primary-bg">
+                    {book.title}
+                  </TypographyH3>
+                  <TypographyP className="text-white/70">
+                    {book.author}
+                  </TypographyP>
                   {book.categories && book.categories.length > 0 && (
-                    <p className="mt-1 text-sm text-yellow-300">
+                    <TypographyP className="mt-1 text-sm text-custom-primary-bg">
                       {book.categories.join(', ')}
-                    </p>
+                    </TypographyP>
                   )}
                 </div>
               </motion.div>
             )}
           </div>
+        </div>
+        <div className="px-6 pb-6 flex flex-wrap justify-between items-center gap-2 w-full">
+          <Button
+            className="flex-1 font-bold text-custom-primary-text bg-custom-header-footer"
+            onClick={fetchRandomBook}
+          >
+            Reroll
+          </Button>
 
-          <div className="mt-6 flex flex-wrap justify-between gap-2 w-full">
-            <Button
-              className="flex-1 font-bold text-[#8B5E3C] bg-white hover:bg-gray-200"
-              onClick={fetchRandomBook}
+          {book && !error && (
+            <Link
+              href={`/book/${book.slug}`}
+              className="flex-1"
             >
-              Reroll
-            </Button>
-
-            {book && !error && (
-              <Link
-                href={`/book/${book.slug}`}
-                className="flex-1"
+              <Button
+                className="w-full flex-1 font-bold text-[#5C3B23] bg-yellow-400 hover:bg-yellow-300"
+                onClick={onClose}
               >
-                <Button
-                  className="w-full flex-1 font-bold text-[#5C3B23] bg-yellow-400 hover:bg-yellow-300"
-                  onClick={onClose}
-                >
-                  Get Book
-                </Button>
-              </Link>
-            )}
-
-            <DialogClose asChild>
-              <Button className="flex-1 font-bold bg-[#5C3B23] text-white hover:bg-[#4a2f1a]">
-                Close
+                Get Book
               </Button>
-            </DialogClose>
-          </div>
+            </Link>
+          )}
+
+          <DialogClose asChild>
+            <Button className="flex-1 font-bold bg-[#5C3B23] text-white hover:bg-[#4a2f1a]">
+              Close
+            </Button>
+          </DialogClose>
         </div>
       </DialogContent>
     </Dialog>

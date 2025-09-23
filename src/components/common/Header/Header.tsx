@@ -1,38 +1,31 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, Search, UserIcon, X } from 'lucide-react';
-import { Manrope } from 'next/font/google';
-import Image from 'next/image';
+import { Menu, Search, X } from 'lucide-react';
+// import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import React, { FC, useState } from 'react';
 
 import AuthModal from '@/components/layout/AuthModal/AuthModal';
-import IconNav from './IconNav';
+import { CartIcon, HeartIcon } from '@/components/ui/custom/icons';
+import { LogoIcon } from '@/components/ui/custom/LogoIcon';
+import { FavouritesHeaderIcon } from './FavouritesHeaderIcon';
 import Nav from './Nav';
 import SearchBar from './SearchBar';
 import { ThemeButton } from './ThemeButton';
 
-const manrope = Manrope({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-});
+// const manrope = Manrope({
+//   subsets: ['latin'],
+//   weight: ['400', '500', '600', '700'],
+// });
 
-const Logo: FC<{ className?: string }> = ({ className }) => (
-  <Link
-    href="/"
-    className="flex-shrink-0 items-start"
-  >
-    <Image
-      src="/images/logo.png"
-      alt="NOVELLA"
-      width={120}
-      height={40}
-      className={className}
-    />
-  </Link>
-);
+// const Logo: FC<{ className?: string }> = ({ className }) => (
+//   <Link
+//     href="/"
+//     className="flex-shrink-0"
+//   ></Link>
+// );
 
 const Header: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,38 +37,45 @@ const Header: FC = () => {
   return (
     <>
       <header
-        className={`${manrope.className} fixed top-0 z-50 w-full h-[48px] xl:h-[64px] border-b border-custom-border bg-custom-header-footer shadow-md`}
+        className={`font-manrope fixed top-0 z-50 w-full h-[48px] xl:h-[64px] border-b border-custom-border bg-custom-header-footer`}
       >
-        <div className="relative flex h-full items-center px-6">
-          <Logo className="h-10 w-auto cursor-pointer xl:h-14" />
+        <div className="relative flex h-full items-center px-4">
+          <LogoIcon className="h-10 w-auto cursor-pointer xl:h-14" />
 
-          <Nav variant="desktop" />
+          <Nav
+            variant="desktop"
+            className="hidden md:flex"
+          />
 
           <div className="ml-auto flex items-center">
-            <div className="hidden md:flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-4 xl:gap-6">
               <div className="hidden xl:flex p-4">
                 <SearchBar variant="desktop" />
               </div>
 
               <button
-                className="p-4 rounded-full transition hover:scale-105 xl:hidden"
+                className="rounded-full transition hover:scale-105 xl:hidden"
                 onClick={() => setIsSearchOpen((p) => !p)}
                 aria-label="Toggle search"
               >
-                <Search
-                  size={22}
-                  strokeWidth={1.5}
-                  className="text-custom-icons"
-                />
+                <Search className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons" />
               </button>
 
               {/* AUTH */}
               {status === 'authenticated' ?
-                <span>{`Hello, ${data?.user?.firstName ?? 'user'}`}</span>
+                <span className="font-manrope text-custom-icons">{`Hello, ${data?.user?.firstName ?? 'user'}`}</span>
               : ''}
               <AuthModal />
 
-              <IconNav variant="desktop" />
+              {/* <IconNav variant="desktop" /> */}
+              <FavouritesHeaderIcon />
+              <Link
+                href="/cart"
+                aria-label="Cart"
+                className="flex items-center justify-center text-custom-icons"
+              >
+                <CartIcon className="w-4 h-4 xl:w-6 xl:h-6" />
+              </Link>
               <ThemeButton />
             </div>
 
@@ -114,8 +114,8 @@ const Header: FC = () => {
             transition={{ duration: 0.28, ease: 'easeInOut' }}
             className="fixed inset-0 z-50 flex flex-col bg-custom-header-footer"
           >
-            <div className="flex h-[48px] items-center border-b px-6 shadow-md xl:h-[64px]">
-              <Logo className="h-8 w-auto" />
+            <div className="flex h-[48px] items-center border-b px-4 shadow-md xl:h-[64px]">
+              <LogoIcon className="h-10 w-auto" />
               <div className="ml-auto flex items-center gap-2">
                 <ThemeButton />
                 <button
@@ -142,10 +142,10 @@ const Header: FC = () => {
 
             <div className="border-t">
               <div className="max-w-[720px] mx-auto">
-                <IconNav
+                {/* <IconNav
                   variant="mobile"
                   className="py-3 text-custom-icons"
-                />
+                /> */}
               </div>
             </div>
           </motion.div>
