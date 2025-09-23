@@ -68,7 +68,6 @@ export default function RootLayout({
               ]}
             >
               <ColorBlindnessFilters />
-              {/* <div id="colorTheme"> */}
               <Header />
               <main className="flex-grow min-h-screen">{children}</main>
               <Toaster
@@ -87,7 +86,6 @@ export default function RootLayout({
                 }}
               />
               <Footer />
-              {/* </div> */}
             </ThemeProvider>
           </AuthProvider>
         </TanstackProviders>
