@@ -9,7 +9,7 @@ interface BookMarkModalProps {
   className?: string;
 }
 
-export function BookMarkModal({ className, ...props }: BookMarkModalProps) {
+export function BookMarkModal({ className }: BookMarkModalProps) {
   const [modalOpen, setModalOpen] = useState(false);
   return (
     <div className={cn(className)}>

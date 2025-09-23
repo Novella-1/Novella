@@ -18,7 +18,6 @@ interface Props {
 export default function SearchBar({
   mobileFull = false,
   inMobileMenu = false,
-  compact = false,
 }: Props) {
   const [query, setQuery] = useState('');
   const { results, isLoading, openResults, setOpenResults, runSearch } =

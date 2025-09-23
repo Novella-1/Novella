@@ -2,35 +2,35 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { cn } from '@/lib/utils';
 
-interface Props {
-  stackForMobile?: boolean;
+interface NavProps {
+  variant?: 'desktop' | 'mobile';
   className?: string;
   onLinkClick?: () => void;
 }
 
-const LINKS = [
+const navLinks = [
   { name: 'HOME', href: '/' },
   { name: 'PAPER', href: '/paper' },
   { name: 'KINDLE', href: '/kindle' },
   { name: 'AUDIOBOOK', href: '/audiobook' },
 ];
 
-const Nav: FC<Props> = ({ stackForMobile = false, className, onLinkClick }) => {
+const Nav: FC<NavProps> = ({ variant = 'desktop', className, onLinkClick }) => {
   const pathname = usePathname();
+  const isMobile = variant === 'mobile';
 
-  const desktopContainer =
-    'hidden md:flex items-center gap-2 sm:gap-6 md:gap-10 lg:gap-14 pl-4 sm:pl-6 md:pl-10';
-  const mobileContainer = 'flex flex-col space-y-4 text-center mx-auto';
-
-  const container = stackForMobile ? mobileContainer : desktopContainer;
+  const containerClasses =
+    isMobile ?
+      'flex flex-col space-y-4 text-center mx-auto'
+    : 'hidden md:flex items-center gap-2 sm:gap-6 xl:gap-14 pl-4 sm:pl-6 text-xs xl:text-base';
 
   return (
-    <nav className={cn(container, className)}>
-      {LINKS.map(({ name, href }) => {
-        const active = pathname === href;
+    <nav className={cn(containerClasses, className)}>
+      {navLinks.map(({ name, href }) => {
+        const isActive = pathname === href;
 
         return (
           <Link
@@ -38,20 +38,20 @@ const Nav: FC<Props> = ({ stackForMobile = false, className, onLinkClick }) => {
             href={href}
             onClick={onLinkClick}
             className={cn(
-              'relative font-bold transition-colors duration-200',
-              active ? 'text-custom-icons' : (
-                'text-custom-secondary hover:text-custom-primary'
-              ),
-              stackForMobile && 'font-bold hover:text-custom-primary',
+              'relative font-bold transition-colors duration-200 text-custom-icons',
+              isActive ?
+                'text-custom-text-hover'
+              : 'text-custom-icons hover:text-custom-text-hover',
+              isMobile && 'font-bold hover:text-custom-text-hover',
             )}
           >
             <span className="relative inline-block">
               {name}
-              {active && (
+              {isActive && (
                 <span
                   className={cn(
-                    'absolute left-0 w-full h-[2px] bg-custom-icons transition-all duration-300',
-                    'top-[20px] md:top-[34px] xl:top-[42px]',
+                    'absolute left-0 w-full h-1 bg-custom-button transition-all duration-300',
+                    'top-[20px] md:top-[34px] xl:top-[40px]',
                   )}
                 />
               )}

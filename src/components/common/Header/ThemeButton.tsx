@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Droplet, Contrast, MonitorCog } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import React, { useEffect, useState } from 'react';
@@ -12,45 +12,44 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 
-const THEME_OPTIONS = [
+const themeOptions = [
   {
     value: 'system',
     label: 'System',
-    icon: <MonitorCog className="!h-6 !w-6 text-gray-500" />,
+    icon: <MonitorCog className="!w-5 !h-6 text-gray-500" />,
   },
   {
     value: 'light',
     label: 'Light',
-    icon: <Sun className="!h-6 !w-6 text-yellow-500" />,
+    icon: <Sun className="size-full text-yellow-500" />,
   },
   {
     value: 'dark',
     label: 'Dark',
-    icon: <Moon className="!h-6 !w-6 text-black" />,
+    icon: <Moon className="!w-5 !h-5 text-black" />,
   },
   {
     value: 'protanopia',
     label: 'Protanopia',
-    icon: <Droplet className="!h-6 !w-6 text-rose-500" />,
+    icon: <Droplet className="!w-5 !h-5 text-rose-500" />,
   },
   {
     value: 'deuteranopia',
     label: 'Deuteranopia',
-    icon: <Droplet className="!h-6 !w-6 text-green-500" />,
+    icon: <Droplet className="!w-5 !h-5 text-green-500" />,
   },
   {
     value: 'tritanopia',
     label: 'Tritanopia',
-    icon: <Droplet className="!h-6 !w-6 text-sky-500" />,
+    icon: <Droplet className="!w-5 !h-5 text-sky-500" />,
   },
   {
     value: 'grayscale',
     label: 'Grayscale',
-    icon: <Contrast className="!h-6 !w-6 text-gray-500" />,
+    icon: <Contrast className="!w-5 !h-5 text-gray-500" />,
   },
 ];
-
-export default function ThemeButton() {
+export function ThemeButton() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -59,12 +58,11 @@ export default function ThemeButton() {
   }, []);
 
   const current =
-    THEME_OPTIONS.find((o) => o.value === resolvedTheme) ?? THEME_OPTIONS[0];
+    themeOptions.find((opt) => opt.value === resolvedTheme) ?? themeOptions[0];
 
   if (!mounted) {
     return (
       <Button
-        variant="outline"
         size="icon"
         className="border-none"
         aria-label="Select theme"
@@ -76,9 +74,8 @@ export default function ThemeButton() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
           size="icon"
-          className="border-none bg-transparent hover:bg-transparent cursor-pointer text-custom-icons"
+          className="border-none bg-transparent hover:bg-transparent cursor-pointer text-custom-icons w-4 h-4 xl:w-6 xl:h-6 p-0"
           aria-label="Select theme"
         >
           <AnimatePresence
@@ -99,10 +96,10 @@ export default function ThemeButton() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        className="bg-custom-header-footer text-custom-icons"
+        className="bg-custom-header-footer text-custom-icons "
         align="end"
       >
-        {THEME_OPTIONS.map((opt) => (
+        {themeOptions.map((opt) => (
           <DropdownMenuItem
             key={opt.value}
             onClick={() => setTheme(opt.value)}
