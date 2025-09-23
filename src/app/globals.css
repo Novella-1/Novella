@@ -71,6 +71,7 @@
   --color-custom-bookmark: var(--bookmark);
   --color-custom-bookmark-dash: var(--bookmark-dash);
   --color-custom-modal: var(--modal);
+  --color-custom-text-hover: var(--text-hover);
 }
 
 :root,
@@ -107,7 +108,6 @@
   --sidebar-ring: #b4b4b4;
 
   /* our custom styles */
-
   --primary-bg: #eeeade;
   --primary-text: #2b1d0c;
   --header-footer: #fdfdf9;
@@ -125,6 +125,7 @@
   --bookmark: #802b2b;
   --bookmark-dash: #e1c670;
   --modal: #6c563d;
+  --text-hover: #2b1d0c;
 }
 
 [data-theme='dark'] {
@@ -141,59 +142,65 @@
   --separator: #86725e;
   --modal-bg: #000000;
   --text-decoration: rgba(241, 237, 225, 0.1);
+  --text-hover: #ffff;
 }
 
-[data-theme='protanopia'] {
-  --primary-bg: #e9e9dd;
-  --primary-text: #212112;
-  --header-footer: #fdfdf9;
+/* [data-theme='protanopia'] { */
+/* --primary-bg: #e9e9dd; */
+/* --primary-text: #212112; */
+/* --header-footer: #fdfdf9;
   --border: #ebebd9;
-  --button: #212112;
-  --button-text: #fdfdf9;
-  --hover-button: rgb(76, 66, 48);
-  --icons: #99997f;
-  --icons-accent: #9b9b57;
+  --button: #212112; */
+/* --button-text: #fdfdf9; */
+/* --hover-button: rgb(76, 66, 48); */
+/* --icons: #99997f; */
+/* --icons-accent: #9b9b57;
   --favourites-icon: #95944c;
   --separator: #d2d2be;
   --modal-bg: #000000;
-  --text-decoration: rgba(48, 32, 13, 0.06);
-}
+  --text-decoration: rgba(48, 32, 13, 0.06); */
+/* --bookmark: #d5d584;
+  --bookmark-dash: #5b5a2b;
+  --modal: #626244; */
+/* } */
 
-[data-theme='tritanopia'] {
-  --primary-bg: #eadfe0;
-  --primary-text: #241515;
-  --header-footer: #fdfafa;
+/* [data-theme='tritanopia'] { */
+/* --primary-bg: #eadfe0;
+  --primary-text: #241515; */
+/* --header-footer: #fdfafa;
   --border: #f0dcdd;
-  --button: #241515;
-  --button-text: #fdfafa;
-  --hover-button: #2e1c1c;
-  --icons: #a08384;
-  --icons-accent: #966a6e;
+  --button: #241515; */
+/* --button-text: #fdfafa;
+  --hover-button: #2e1c1c; */
+/* --icons: #a08384; */
+/* --icons-accent: #966a6e;
   --favourites-icon: #c14e4e;
   --separator: #d8c1c2;
   --modal-bg: #000000;
   --text-decoration: rgba(48, 32, 13, 0.06);
-}
+  --bookmark: #5a3f41;
+  --bookmark-dash: #d5a7aa;
+  --modal: #625052; */
+/* } */
 
-[data-theme='deuteranopia'] {
-  --primary-bg: #eee8d8;
-  --primary-text: #241515;
-  --header-footer: #fdfdf8;
+/* [data-theme='deuteranopia'] { */
+/* --primary-bg: #eee8d8;
+  --primary-text: #241515; */
+/* --header-footer: #fdfdf8;
   --border: #9d947d;
-  --button: #241515;
-  --button-text: #fdfdf8;
-  --hover-button: #2d2617;
-  --icons: #3a362b;
-  --icons-accent: #989f4d;
+  --button: #241515; */
+/* --button-text: #fdfdf8;
+  --hover-button: #2d2617; */
+/* --icons: #3a362b; */
+/* --icons-accent: #989f4d;
   --favourites-icon: #b0714b;
   --separator: #d6cdbd;
   --modal-bg: #000000;
   --text-decoration: rgba(48, 32, 13, 0.06);
-}
-
-[data-theme='grayscale'] {
-  filter: grayscale(100%);
-}
+  --bookmark: #60662b;
+  --bookmark-dash: #d6d889;
+  --modal: #646545; */
+/* } */
 
 .dark {
   --background: #252525;
@@ -245,4 +252,28 @@
 
 .clip-path-bookmark-y-top {
   clip-path: polygon(0 0, 100% 0%, 100% 100%, 50% 60%, 0 100%);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+html[data-theme='protanopia'] main {
+  filter: url('#protanopia');
+}
+
+html[data-theme='deuteranopia'] main {
+  filter: url('#deuteranopia');
+}
+
+html[data-theme='tritanopia'] main {
+  filter: url('#tritanopia');
+}
+
+html[data-theme='grayscale'] main {
+  filter: grayscale(100%);
 }

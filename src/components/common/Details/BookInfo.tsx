@@ -52,7 +52,7 @@ export function BookInfo({
         <div>
           <TypographyH5 className="mb-2">Category</TypographyH5>
           <div className="inline-flex py-[5px] px-[10px] bg-custom-button-bg border border-custom-border rounded-[8px] bg-custom-primary-bg">
-            <div className="overflow-y-auto max-h-11">
+            <div className="overflow-y-auto max-h-11 scrollbar-hide">
               {categories?.length ?
                 <TypographyP>
                   {categories.map((cat, index) => (
@@ -110,7 +110,7 @@ export function BookInfo({
               {' '}
               <TypographyB>Add to cart</TypographyB>
             </Button>
-            <AddToFavorite name={name} />
+            {/* <AddToFavorite name={name} /> */}
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex justify-between w-full">

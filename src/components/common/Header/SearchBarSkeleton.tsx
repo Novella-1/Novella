@@ -23,7 +23,7 @@ export const SearchBarSkeleton: React.FC<SearchBarSkeletonProps> = ({
       className={
         variant === 'mobile' ?
           'absolute top-full mt-2 w-full max-w-2xl bg-custom-secondary border border-custom-main-elements rounded-md shadow-lg z-50 p-4'
-        : 'absolute top-full left-1/2 mt-4 bg-custom-secondary rounded-xl z-50 p-6 max-h-[290px] overflow-y-auto custom-scrollbar shadow-lg w-[480px] -translate-x-1/2'
+        : 'absolute top-full left-1/3 mt-4 bg-custom-secondary rounded-xl z-50 p-6 max-h-[290px] overflow-y-auto custom-scrollbar shadow-lg w-[480px] -translate-x-1/2'
       }
     >
       {[...Array(count)].map((_, i) => (

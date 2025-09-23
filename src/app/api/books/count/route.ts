@@ -18,7 +18,7 @@ export async function GET(req: Request) {
       where: { type },
     });
 
-    return NextResponse.json({ count });
+    return NextResponse.json({ totalCount: count });
   } catch (error) {
     console.error('Error fetching books count:', error);
     return NextResponse.json(
