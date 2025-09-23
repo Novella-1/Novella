@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { BookAbout } from '@/components/common/Details/BookAbout';
 import { BookCharacteristics } from '@/components/common/Details/BookCharacteristics';
+import { BookDetailsSkeleton } from '@/components/common/Details/BookDetailsSkeleton';
 import { BookInfo } from '@/components/common/Details/BookInfo';
 import { BookPhotoContainer } from '@/components/common/Details/BookPhotosContainers';
 import { TypographyH2, TypographyP } from '@/components/ui/custom/typography';
@@ -36,7 +37,7 @@ const BookDetailsSection = ({ initialBook }: Props) => {
   };
 
   if (isLoading || isFetching) {
-    return <div>Loading....</div>;
+    return <BookDetailsSkeleton />;
   }
 
   return (

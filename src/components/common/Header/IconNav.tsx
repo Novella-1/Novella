@@ -2,8 +2,10 @@
 
 import { Heart, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { FC } from 'react';
 import { cn } from '@/lib/utils';
+import { FavouritesHeaderIcon } from './FavouritesIcon';
 
 interface IconNavProps {
   variant?: 'desktop' | 'mobile';
@@ -22,16 +24,7 @@ const IconNav: FC<IconNavProps> = ({ variant = 'desktop', className }) => {
 
   return (
     <div className={cn(containerClasses, className)}>
-      <Link
-        href="/favourites"
-        aria-label="Favourites"
-        className="flex items-center justify-center text-custom-icons"
-      >
-        <Heart
-          size={size}
-          strokeWidth={1.5}
-        />
-      </Link>
+      <FavouritesHeaderIcon />
       <Link
         href="/cart"
         aria-label="Cart"

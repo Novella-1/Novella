@@ -1,20 +1,23 @@
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
-import lottie, { AnimationItem } from 'lottie-web';
-import { HeartIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
-import heartAnimation from '@/../public/lotties/heartAnimation.json';
-import { Button } from '@/components/ui/button';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 import {
   addToLocalFavourites,
   isInLocalFavourites,
   removeFromLocalFavourites,
 } from '@/lib/localStorage';
 import { cn } from '@/lib/utils';
+import {
+  addToFavourites,
+  fetchFavouritesIds,
+  removeFromFavourites,
+} from '@/services/fetchFavourites';
 import { BookWithDetails } from '@/types/BookType';
 import { showToast } from '../ShowToast';
+import { HeartButton } from './HeartButton';
+
 interface AddToFavoriteProps {
   className?: string;
   name?: string;
@@ -28,73 +31,94 @@ export function AddToFavorite({
   ...props
 }: AddToFavoriteProps) {
   const queryClient = useQueryClient();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const animRef = useRef<AnimationItem | null>(null);
-  const [isFav, setIsFav] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [showAnimation, setShowAnimation] = useState(true);
+  const { data, status } = useSession();
+  const [localFav, setLocalFav] = useState(isInLocalFavourites(book.slug));
+  const [pending, setPending] = useState(false);
 
-  useEffect(() => {
-    if (!containerRef.current || !showAnimation) return;
+  const { data: favouritesIds = [], isLoading } = useQuery({
+    queryKey: ['FAVOURITES_IDS', data?.user?.id],
+    queryFn: () => {
+      if (!data?.user?.id) return Promise.resolve([] as string[]);
+      return fetchFavouritesIds(data.user.id).then((res) => res.data);
+    },
+    enabled: status === 'authenticated',
+    staleTime: 60 * 1000,
+    networkMode: 'always',
+  });
 
-    animRef.current = lottie.loadAnimation({
-      container: containerRef.current,
-      renderer: 'svg',
-      loop: false,
-      autoplay: false,
-      animationData: heartAnimation,
-    });
+  const isFav =
+    !isLoading && status === 'authenticated' ?
+      favouritesIds.includes(String(book.id))
+    : localFav;
 
-    animRef.current.goToAndStop(0, true);
+  const handleClick = async () => {
+    if (pending) return;
+    setPending(true);
 
-    return () => {
-      animRef.current?.destroy();
-    };
-  }, [showAnimation]);
+    const authKey = data?.user?.id ? ['FAVOURITES_IDS', data.user.id] : null;
 
-  const handleClick = () => {
-    if (isAnimating) return;
-    if (isInLocalFavourites(book.slug)) {
-      removeFromLocalFavourites(book.slug);
-      setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey: ['FAVOURITES'] });
-      }, 200);
-    } else {
-      addToLocalFavourites(book);
-      queryClient.invalidateQueries({ queryKey: ['FAVOURITES'] });
-    }
-    if (!isFav && name) {
-      showToast('addToFav', name);
-      setIsAnimating(true);
-      setShowAnimation(true);
+    if (isFav) {
+      if (status === 'authenticated' && data?.user?.id && authKey) {
+        const previous = queryClient.getQueryData<string[]>(authKey);
 
-      setTimeout(() => {
-        if (animRef.current) {
-          const totalFrames = animRef.current.totalFrames;
-          const redHeartFrame = Math.floor(totalFrames * 0.3);
+        queryClient.setQueryData<string[] | undefined>(authKey, (old) =>
+          old ? old.filter((id) => id !== String(book.id)) : [],
+        );
 
-          animRef.current.playSegments([0, redHeartFrame], true);
+        showToast('removeFromFav', name ?? 'Unknown book');
 
-          const handleComplete = () => {
-            setIsFav(true);
-            setIsAnimating(false);
-            setShowAnimation(false);
-
-            animRef.current?.removeEventListener('complete', handleComplete);
-          };
-
-          animRef.current.addEventListener('complete', handleComplete);
+        try {
+          await removeFromFavourites(data.user.id, book.id);
+          queryClient.invalidateQueries({ queryKey: ['FAVOURITES'] });
+          queryClient.invalidateQueries({ queryKey: ['FAVOURITES_COUNT'] });
+        } catch (err) {
+          if (previous !== undefined)
+            queryClient.setQueryData(authKey, previous);
+          else queryClient.invalidateQueries({ queryKey: authKey });
+          console.error('removeFromFavourites error', err);
         }
-      }, 50);
-    } else if (name) {
-      showToast('removeFromFav', name ?? 'Unknown book');
+      } else {
+        removeFromLocalFavourites(book.slug);
+        setLocalFav(false);
+        showToast('removeFromFav', name ?? 'Unknown book');
+        queryClient.invalidateQueries({ queryKey: ['FAVOURITES'] });
+        queryClient.invalidateQueries({ queryKey: ['LOCAL_FAVOURITES_COUNT'] });
+      }
+    } else {
+      if (status === 'authenticated' && data?.user?.id && authKey) {
+        const previous = queryClient.getQueryData<string[]>(authKey);
+        const idStr = String(book.id);
 
-      setIsFav(false);
-      setShowAnimation(true);
+        queryClient.setQueryData<string[] | undefined>(authKey, (old) => {
+          if (!old) return [idStr];
+          if (old.includes(idStr)) return old;
+          return [...old, idStr];
+        });
+
+        showToast('addToFav', name ?? 'Unknown book');
+
+        try {
+          await addToFavourites(data.user.id, book.id);
+          queryClient.invalidateQueries({ queryKey: authKey });
+          queryClient.invalidateQueries({ queryKey: ['FAVOURITES'] });
+          queryClient.invalidateQueries({ queryKey: ['FAVOURITES_COUNT'] });
+        } catch (err) {
+          if (previous !== undefined)
+            queryClient.setQueryData(authKey, previous);
+          else queryClient.invalidateQueries({ queryKey: authKey });
+          console.error('addToFavourites error', err);
+        }
+      } else {
+        addToLocalFavourites(book);
+        setLocalFav(true);
+        showToast('addToFav', name ?? 'Unknown book');
+        queryClient.invalidateQueries({ queryKey: ['FAVOURITES'] });
+        queryClient.invalidateQueries({ queryKey: ['LOCAL_FAVOURITES_COUNT'] });
+      }
     }
-  };
 
-  const router = useRouter();
+    setPending(false);
+  };
 
   return (
     <div
@@ -106,18 +130,11 @@ export function AddToFavorite({
       )}
       {...props}
     >
-      <Button
+      <HeartButton
+        isFav={isFav}
         onClick={handleClick}
-        className="p-0 rounded-full bg-transparent hover:bg-transparent flex items-center justify-center cursor-pointer hover:border-custom-primary-bg"
-      >
-        {showAnimation ?
-          <div
-            ref={containerRef}
-            className="w-11 h-11"
-          />
-        : <HeartIcon className=" w-12 h-12 text-custom-favourites-icon fill-custom-favourites-icon" />
-        }
-      </Button>
+        disabled={pending}
+      />
     </div>
   );
 }

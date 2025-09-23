@@ -1,19 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { formatCategories, getOrder } from '@/server/helpers/helpers';
 import { prisma } from '@/server/prisma';
-import {
-  BookWithDetails,
-  PageSize,
-  SortOrder,
-  SortType,
-} from '@/types/BookType';
+import { PageSize, SortOrder, SortType } from '@/types/BookType';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { userId: string } },
+  { params }: { params: Promise<{ userId: string }> },
 ) {
   try {
-    const { userId } = params;
+    const { userId } = await params;
     const { searchParams } = new URL(req.url);
 
     const sortBy = (searchParams.get('sortBy') as SortType) ?? 'createdAt';

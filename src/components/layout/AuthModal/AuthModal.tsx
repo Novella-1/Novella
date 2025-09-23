@@ -98,7 +98,13 @@ const AuthModal = () => {
         <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg p-2 z-50">
           <button
             className="flex items-center gap-2 w-full px-2 py-1 hover:bg-gray-100 rounded"
-            onClick={() => signOut()}
+            onClick={async () => {
+              await signOut({
+                // redirect: false
+                redirectTo: '/',
+              });
+              // router.push('/');
+            }}
           >
             <ExitIcon className="w-5 h-5" />
             Sign out

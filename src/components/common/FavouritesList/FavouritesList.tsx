@@ -1,7 +1,7 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { getLocalFavourites } from '@/lib/localStorage';
 import { cn } from '@/lib/utils';
@@ -55,6 +55,8 @@ const FavouritesList = ({
         const localFavs = getLocalFavourites();
         const start = (currentPage - 1) * pageSize;
         const end = start + pageSize;
+
+        await new Promise((resolve) => setTimeout(resolve, 500));
         return {
           data: localFavs.slice(start, end),
           totalCount: localFavs.length,
@@ -71,8 +73,28 @@ const FavouritesList = ({
     },
   });
 
+  useEffect(() => {
+    if (
+      !isLoading &&
+      !isFetching &&
+      data &&
+      data.data.length === 0 &&
+      currentPage > 1
+    ) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  }, [data, isLoading, isFetching, currentPage]);
+
   if (isLoading || isFetching) {
-    return <BookListSkeleton pageSize={pageSize} />;
+    return (
+      <BookListSkeleton
+        pageSize={
+          data?.totalCount !== undefined && data.totalCount < pageSize ?
+            data.totalCount
+          : pageSize
+        }
+      />
+    );
   }
 
   if (error) {
@@ -111,12 +133,14 @@ const FavouritesList = ({
           </motion.div>
         ))}
       </motion.div>
-      <Pagination
-        page={page}
-        pageSize={pageSize}
-        totalCount={data?.totalCount ?? 0}
-        onPageChange={(newPage) => setCurrentPage(newPage)}
-      />
+      {(data?.totalCount ?? 0) > 0 && (
+        <Pagination
+          page={page}
+          pageSize={pageSize}
+          totalCount={data?.totalCount ?? 0}
+          onPageChange={(newPage) => setCurrentPage(newPage)}
+        />
+      )}
     </>
   );
 };

@@ -5,12 +5,12 @@ import {
 } from '@tanstack/react-query';
 import React from 'react';
 import { FavouritesParams } from '@/app/favourites/page';
-import Pagination from '@/components/common/Pagination/Pagination';
 import { auth } from '@/lib/auth';
 import { fetchFavourites } from '@/services/fetchFavourites';
 import { PageSize } from '@/types/BookType';
+import { FavouritesItemsCounter } from '../common/FavouritesItemsCounter/FavouritesItemsCounter';
 import FavouritesList from '../common/FavouritesList/FavouritesList';
-import { FilteringSection } from '../layout/FilteringSection/FilteringSection';
+import { FavouritesFilteringSection } from '../layout/FavouritesFilteringSection/FavouritesFilteringSection';
 import { BackgroundText } from '../ui/backgroundText';
 import { TypographyH1, TypographyP } from '../ui/custom/typography';
 
@@ -30,7 +30,7 @@ const FavoritesTemplate = async ({ searchParams }: Props) => {
   const sortBy = params.sortBy || 'name';
   const sortOrder = params.sortOrder || 'desc';
 
-  let totalCount = 2;
+  let totalCount = 0;
 
   if (userId) {
     await queryClient.prefetchQuery({
@@ -59,10 +59,13 @@ const FavoritesTemplate = async ({ searchParams }: Props) => {
           </TypographyH1>
 
           <TypographyP className="text-custom-primary-text">
-            {totalCount ?? 0} books
+            <FavouritesItemsCounter
+              initialCount={totalCount ?? 0}
+              userId={userId}
+            />
           </TypographyP>
         </div>
-        <FilteringSection className="mb-6" />
+        <FavouritesFilteringSection />
         <HydrationBoundary state={dehydrate(queryClient)}>
           <FavouritesList
             userId={userId}
@@ -72,12 +75,6 @@ const FavoritesTemplate = async ({ searchParams }: Props) => {
             sortOrder={sortOrder}
           />
         </HydrationBoundary>
-        {/* 
-        <Pagination
-          page={page}
-          pageSize={pageSize}
-          totalCount={totalCount}
-        /> */}
       </div>
     </div>
   );

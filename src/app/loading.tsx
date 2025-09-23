@@ -12,8 +12,19 @@ const Loading = () => {
 
   useEffect(() => {
     setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 1000); // ⏳ показываем 1s
-    return () => clearTimeout(timer);
+
+    document.body.style.overflow = 'hidden';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+      document.body.style.overflow = '';
+    }, 2000);
+    return () => {
+      clearTimeout(timer);
+      document.body.style.overflow = '';
+    };
   }, [pathname]);
 
   return (

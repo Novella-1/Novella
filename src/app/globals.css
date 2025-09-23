@@ -240,3 +240,7 @@
 .clip-path-bookmark-horizontal-left {
   clip-path: polygon(0 0, 15% 50%, 0 100%, 100% 100%, 100% 0);
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

@@ -63,3 +63,15 @@ export const removeFromFavourites = async (userId: string, bookId: string) => {
   if (!res.ok) throw new Error('Failed to remove favourite');
   return res.json();
 };
+
+export const fetchFavouritesIds = async (userId: string) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/favourites/${userId}/ids`,
+    {
+      cache: 'no-store',
+    },
+  );
+
+  if (!res.ok) throw new Error('Failed to fetch books');
+  return res.json() as Promise<{ data: string[]; totalCount: number }>;
+};
