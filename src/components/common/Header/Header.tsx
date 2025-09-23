@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, Search, X } from 'lucide-react';
-// import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import React, { FC, useState } from 'react';
@@ -15,32 +14,24 @@ import Nav from './Nav';
 import SearchBar from './SearchBar';
 import { ThemeButton } from './ThemeButton';
 
-// const manrope = Manrope({
-//   subsets: ['latin'],
-//   weight: ['400', '500', '600', '700'],
-// });
-
-// const Logo: FC<{ className?: string }> = ({ className }) => (
-//   <Link
-//     href="/"
-//     className="flex-shrink-0"
-//   ></Link>
-// );
-
 const Header: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { data, status } = useSession();
 
-  console.log(data, status);
-
   return (
     <>
       <header
-        className={`font-manrope fixed top-0 z-50 w-full h-[48px] xl:h-[64px] border-b border-custom-border bg-custom-header-footer`}
+        className={`font-manrope fixed top-0 z-50 w-full h-[48px] xl:h-[64px] shadow-xs bg-custom-header-footer`}
       >
         <div className="relative flex h-full items-center px-4">
-          <LogoIcon className="h-10 w-auto cursor-pointer xl:h-14" />
+          <Link
+            href="/"
+            aria-label="Home"
+            className="flex items-center justify-center"
+          >
+            <LogoIcon className="h-10 w-auto cursor-pointer xl:h-14" />
+          </Link>
 
           <Nav
             variant="desktop"
@@ -49,7 +40,7 @@ const Header: FC = () => {
 
           <div className="ml-auto flex items-center">
             <div className="hidden md:flex items-center gap-4 xl:gap-6">
-              <div className="hidden xl:flex p-4">
+              <div className="hidden xl:flex">
                 <SearchBar variant="desktop" />
               </div>
 
@@ -86,11 +77,7 @@ const Header: FC = () => {
                 onClick={() => setIsMenuOpen(true)}
                 aria-label="Open menu"
               >
-                <Menu
-                  size={24}
-                  strokeWidth={1}
-                  className="text-custom-icons"
-                />
+                <Menu className="text-custom-icons h-4 w-4" />
               </button>
             </div>
           </div>
@@ -141,12 +128,7 @@ const Header: FC = () => {
             </div>
 
             <div className="border-t">
-              <div className="max-w-[720px] mx-auto">
-                {/* <IconNav
-                  variant="mobile"
-                  className="py-3 text-custom-icons"
-                /> */}
-              </div>
+              <div className="max-w-[720px] mx-auto"></div>
             </div>
           </motion.div>
         )}
