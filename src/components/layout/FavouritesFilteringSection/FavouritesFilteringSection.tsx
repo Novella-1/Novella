@@ -1,7 +1,6 @@
 'use client';
 
 import { PageSizeSwitcher } from '@/components/common/Filtering/PageSizeSwitcher';
-// import { SortSelect } from '@/components/common/Filtering/SortSelect';
 import { cn } from '@/lib/utils';
 
 interface FavouritesFilteringSectionProps {
@@ -17,7 +16,6 @@ export function FavouritesFilteringSection({
       className={cn('flex justify-between mb-6', className)}
       {...props}
     >
-      {/* <SortSelect /> */}
       <PageSizeSwitcher className="hidden sm:flex" />
     </section>
   );

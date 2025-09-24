@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import Pagination from '@/components/common/Pagination/Pagination';
+import { HeartIcon } from '@/components/ui/custom/icons';
+import { TypographyP } from '@/components/ui/custom/typography';
 import { getLocalFavourites } from '@/lib/localStorage';
 import { cn } from '@/lib/utils';
 import { fetchFavourites } from '@/services/fetchFavourites';
@@ -103,7 +105,25 @@ const FavouritesList = ({
     throw new Error('Favourites loading error');
   }
 
-  console.log(data);
+  if (!data?.data || data.data.length === 0) {
+    return (
+      <motion.div
+        className="flex flex-col items-center justify-center py-8 text-custom-icons mt-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5 }}
+      >
+        <HeartIcon className="mx-auto h-32 w-32 mb-4 opacity-50 stroke-1" />
+        <TypographyP className="text-xl">
+          Your favourites list is empty
+        </TypographyP>
+        <TypographyP className="text-xl mt-2">
+          Add some books to your favourites to see them here!
+        </TypographyP>
+      </motion.div>
+    );
+  }
 
   return (
     <>
