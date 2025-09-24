@@ -20,6 +20,8 @@ const Header: FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { data, status } = useSession();
 
+  console.log('status', data);
+
   return (
     <>
       <header
