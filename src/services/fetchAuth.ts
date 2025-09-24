@@ -2,14 +2,15 @@ import { signIn } from 'next-auth/react';
 
 export const login = async (email: string, password: string) => {
   try {
-    await signIn('credentials', {
+    const res = await signIn('credentials', {
       email,
       password,
-      // redirect: false,
-      redirectTo: '/',
+      redirect: false,
+      // redirectTo: '/',
     });
 
     localStorage.removeItem('favourites');
+    return res;
   } catch (e) {
     console.log(e);
   }

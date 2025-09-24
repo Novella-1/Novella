@@ -4,7 +4,7 @@ import { TypographyP } from '@/components/ui/custom/typography';
 import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AuthFormValues } from '@/types/AuthFormValues';
+import { AuthFormValues } from '@/types/AuthFormValuesType';
 
 type LoginFormProps = {
   formik: FormikProps<AuthFormValues>;
@@ -13,7 +13,7 @@ type LoginFormProps = {
 const LoginForm = ({ formik }: LoginFormProps) => {
   return (
     <>
-      <div className="text-center">
+      <div className="text-center p-1">
         <DialogTitle className="pt-4 text-md text-custom-primary-text">
           Login
         </DialogTitle>

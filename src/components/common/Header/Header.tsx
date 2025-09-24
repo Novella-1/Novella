@@ -7,9 +7,9 @@ import { useSession } from 'next-auth/react';
 import React, { FC, useState } from 'react';
 
 import AuthModal from '@/components/layout/AuthModal/AuthModal';
-// import { CartIcon } from '@/components/ui/custom/icons';
+import { CartModalSection } from '@/components/layout/CartModalSection/CartModalSection';
 import { LogoIcon } from '@/components/ui/custom/LogoIcon';
-import { CartModalSection } from '../../layout/CartModalSection/CartModalSection';
+// import { CartModalSection } from '../../layout/CartModalSection/CartModalSection';
 import { FavouritesHeaderIcon } from './FavouritesHeaderIcon';
 import Nav from './Nav';
 import SearchBar from './SearchBar';
@@ -19,6 +19,8 @@ const Header: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { data, status } = useSession();
+
+  console.log('status', data);
 
   return (
     <>
@@ -58,7 +60,7 @@ const Header: FC = () => {
                 <span className="font-manrope text-custom-icons">{`Hello, ${data?.user?.firstName ?? 'user'}`}</span>
               : ''}
               <AuthModal />
-              <FavouritesHeaderIcon />
+              <FavouritesHeaderIcon userId={data?.user.id} />
 
               <CartModalSection />
               <ThemeButton />

@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { FC } from 'react';
+import { TypographyH4 } from '@/components/ui/custom/typography';
 import { cn } from '@/lib/utils';
 
 interface NavProps {
@@ -19,6 +21,7 @@ const navLinks = [
 ];
 
 const Nav: FC<NavProps> = ({ variant = 'desktop', className, onLinkClick }) => {
+  const { data, status } = useSession();
   const pathname = usePathname();
   const isMobile = variant === 'mobile';
 
@@ -29,6 +32,14 @@ const Nav: FC<NavProps> = ({ variant = 'desktop', className, onLinkClick }) => {
 
   return (
     <nav className={cn(containerClasses, className)}>
+      <div className="h-[20px]">
+        {status === 'authenticated' ?
+          <TypographyH4 className="text-custom-icons">{`Hello, ${data?.user?.firstName}`}</TypographyH4>
+        : ''}
+      </div>
+
+      <hr />
+
       {navLinks.map(({ name, href }) => {
         const isActive = pathname === href;
 

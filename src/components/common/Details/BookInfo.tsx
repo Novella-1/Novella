@@ -1,5 +1,4 @@
 import { Separator } from '@radix-ui/react-select';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ImageContainer } from '@/components/ui/custom/imageContainer';
@@ -11,6 +10,7 @@ import {
   TypographyP,
 } from '@/components/ui/custom/typography';
 import { cn } from '@/lib/utils';
+import { BookWithDetails } from '@/types/BookType';
 import { AddToFavorite } from '../CardItem/AddToFavorite';
 
 interface BookInfoProps {
@@ -26,6 +26,7 @@ interface BookInfoProps {
   handleLangChange: (lang: string) => void;
   langAvailable?: string[];
   lang?: string;
+  book: BookWithDetails;
 }
 
 export function BookInfo({
@@ -41,6 +42,7 @@ export function BookInfo({
   handleLangChange,
   name,
   lang,
+  book,
   ...props
 }: BookInfoProps) {
   return (
@@ -110,7 +112,10 @@ export function BookInfo({
               {' '}
               <TypographyB>Add to cart</TypographyB>
             </Button>
-            {/* <AddToFavorite name={name} /> */}
+            <AddToFavorite
+              name={name}
+              book={book}
+            />
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex justify-between w-full">
