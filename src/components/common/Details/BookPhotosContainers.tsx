@@ -18,6 +18,7 @@ export function BookPhotoContainer({
   const [selectedImage, setSelectedImage] = useState<string | undefined>(
     images[0],
   );
+  const [zoom, setZoom] = useState({ x: '50%', y: '50%', show: false });
 
   useEffect(() => {
     setSelectedImage(images[0]);
@@ -66,14 +67,34 @@ export function BookPhotoContainer({
           ))}
         </div>
 
-        <ImageContainer className="w-full h-[424px] xl:w-[464px] xl:h-[524px] bg-custom-header-footer border border-custom-border rounded-[14px] sm:rounded-[16px] xl:rounded-[20px] flex items-center justify-center p-6">
+        <ImageContainer
+          className="relative w-full h-[424px] xl:w-[464px] xl:h-[524px] bg-custom-header-footer border border-custom-border rounded-[14px] sm:rounded-[16px] xl:rounded-[20px] flex items-center justify-center p-6 overflow-hidden"
+          onMouseMove={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            setZoom({ x: `${x}%`, y: `${y}%`, show: true });
+          }}
+          onMouseLeave={() => setZoom((z) => ({ ...z, show: false }))}
+        >
           {selectedImage && (
             <Image
               src={`/books/${selectedImage}`}
               width={460}
               height={520}
               alt="Selected book"
-              className="object-contain w-full h-full rounded-[14px] sm:rounded-[16px] xl:rounded-[20px]"
+              className="object-contain w-full h-full rounded-[14px] sm:rounded-[16px] xl:rounded-[20px] pointer-events-none select-none"
+            />
+          )}
+          {zoom.show && (
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                backgroundImage: `url(/books/${selectedImage})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: `${zoom.x} ${zoom.y}`,
+                backgroundSize: '150%',
+              }}
             />
           )}
         </ImageContainer>

@@ -47,8 +47,6 @@ export function CategoryList() {
         const src =
           imageSrc[theme as keyof typeof imageSrc] || imageSrc.default;
 
-        console.log(src);
-
         return (
           <CategoryItem
             key={id}
