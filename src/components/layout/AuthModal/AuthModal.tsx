@@ -24,6 +24,7 @@ type AuthType = 'login' | 'register';
 
 const AuthModal = () => {
   const [authVariant, setAuthVariant] = useState<AuthType>('login');
+  const [isError, setIserror] = useState<boolean>(false);
   const { data } = useSession();
 
   const formik = useFormik<AuthFormValues>({
@@ -40,12 +41,20 @@ const AuthModal = () => {
       const { email, password, firstName, lastName } = values;
 
       if (authVariant === 'login') {
-        await login(email, password);
+        const res = await login(email, password);
+
+        if (res?.error) {
+          setIserror(true);
+        }
       } else {
         await register(email, password, firstName, lastName);
       }
     },
   });
+
+  useEffect(() => {
+    setIserror(false);
+  }, [formik.values.email, formik.values.password]);
 
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -73,7 +82,13 @@ const AuthModal = () => {
           <UserIcon className="w-6 h-6 md:w-4 md:h-4 xl:w-6 xl:h-6 text-custom-icons" />
         </summary>
 
-        <div className="absolute top-9 right-0 mt-2 w-40 border bg-custom-header-footer rounded shadow-lg p-2 z-50">
+        <div
+          className="absolute 
+        mt-2
+        bottom-9 -left-10 w-40
+        xl:top-9 xl:right-0 xl:h-12
+        border bg-custom-header-footer rounded shadow-lg p-2 z-50"
+        >
           <button
             className="flex items-center gap-2 w-full px-2 py-1 cursor-pointer rounded text-custom-icons"
             onClick={async () => {
@@ -132,6 +147,11 @@ const AuthModal = () => {
               </TabsContent>
             </Tabs>
           </DialogHeader>
+
+          <div className="text-red-400 text-xs">
+            {isError && <span>User not found</span>}
+          </div>
+
           <DialogFooter>
             <Button
               type="submit"

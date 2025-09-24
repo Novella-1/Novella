@@ -29,7 +29,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           },
         });
 
-        if (!user || !user.hashedPassword) return null;
+        if (!user || !user.hashedPassword) {
+          throw new Error('Invalid credentials');
+        }
 
         const isValid = await bcrypt.compare(
           String(credentials.password),
