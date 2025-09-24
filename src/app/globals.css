@@ -120,7 +120,7 @@
   --favourites-icon: #eb5757;
   --separator: #d9cabb;
   --modal-bg: #000000;
-  --text-decoration: rgba(48, 32, 13, 0.06);
+  --text-decoration: rgba(48, 32, 13, 0.03);
   --hero-bg: #0b0101;
   --bookmark: #802b2b;
   --bookmark-dash: #e1c670;
@@ -133,7 +133,7 @@
   --primary-text: #f1ede1;
   --header-footer: #6c563d;
   --border: #958370;
-  --button: #30200d;
+  --button: #2b1d0c;
   --button-text: #f1ede1;
   --hover-button: #4c412e;
   --icons: #ebe7da;
@@ -141,7 +141,7 @@
   --favourites-icon: #eb5757;
   --separator: #86725e;
   --modal-bg: #000000;
-  --text-decoration: rgba(241, 237, 225, 0.1);
+  --text-decoration: rgba(241, 237, 225, 0.03);
   --text-hover: #ffff;
 }
 
