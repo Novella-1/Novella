@@ -1,18 +1,16 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Minus, Plus, ShoppingCart, Trash2, LogIn } from 'lucide-react';
-import Link from 'next/link';
+import { ShoppingCart } from 'lucide-react';
+
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { CartIcon } from '@/components/ui/custom/icons';
+
+import { toast } from 'sonner';
 import { TypographyP } from '@/components/ui/custom/typography';
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
+  SheetOverlay,
   SheetTrigger,
 } from '@/components/ui/sheet';
 import {
@@ -22,8 +20,21 @@ import {
   getLocalCartCount,
   getLocalCartTotalPrice,
 } from '@/lib/localStorage';
-import { addToCart, fetchCart, removeFromCart } from '@/services/fetchCart';
+import {
+  addToCart,
+  createOrder,
+  fetchCart,
+  removeFromCart,
+} from '@/services/fetchCart';
 import { CartItem } from '@/types/CartItemType';
+import CartHeaderIcon from '../Cart/CartHeaderIcon';
+import CartModalCheckoutButton from './CartModalCheckoutButton';
+import CartModalHeader from './CartModalHeader';
+import CartModalItem from './CartModalItem';
+import {
+  SignInPropositionWhen0Items,
+  SignInPropositionWhenItemsExists,
+} from './SignInProposition';
 
 interface CartModalProps {
   userId?: string;
@@ -81,6 +92,53 @@ export default function CartModal({ userId }: CartModalProps) {
     },
   });
 
+  const orderMutation = useMutation({
+    mutationFn: async () => {
+      let items: { bookId: string; quantity: number; price: number }[] = [];
+
+      if (userId) {
+        if (!serverCartData?.data || serverCartData.data.length === 0) {
+          throw new Error('Cart is empty');
+        }
+
+        items = serverCartData.data.map((item: CartItem) => ({
+          bookId: item.book.id,
+          quantity: item.quantity,
+          price: item.book.priceDiscount || item.book.priceRegular,
+        }));
+      } else {
+        const localCart = getLocalCart();
+        if (!localCart || localCart.length === 0) {
+          throw new Error('Cart is empty');
+        }
+
+        items = localCart.map((item: CartItem) => ({
+          bookId: item.book.id,
+          quantity: item.quantity,
+          price: item.book.priceDiscount || item.book.priceRegular,
+        }));
+      }
+      const orderData = {
+        userId,
+        items: items,
+      };
+
+      console.log(orderData);
+
+      return await createOrder(orderData);
+    },
+    onSuccess: (order) => {
+      if (userId) {
+        queryClient.invalidateQueries({ queryKey: ['CART', userId] });
+      } else {
+        localStorage.removeItem('cart');
+        window.dispatchEvent(new CustomEvent('cartButtonsUpdated'));
+      }
+      handleOpenChange(false);
+      toast.success('Vitayu');
+    },
+  });
+
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
     if (isOpen) {
@@ -106,6 +164,7 @@ export default function CartModal({ userId }: CartModalProps) {
       updateLocalCartQuantity(bookId, -1);
     } else {
       removeFromLocalCart(bookId);
+      window.dispatchEvent(new CustomEvent('cartButtonsUpdated'));
     }
     setLocalCartItems(getLocalCart());
     window.dispatchEvent(new CustomEvent('cartUpdated'));
@@ -157,7 +216,12 @@ export default function CartModal({ userId }: CartModalProps) {
       handleServerRemoveItem(bookId);
     } else {
       handleLocalRemoveItem(bookId);
+      window.dispatchEvent(new CustomEvent('cartButtonsUpdated'));
     }
+  };
+
+  const handleCheckout = async () => {
+    orderMutation.mutate();
   };
 
   const cartItems = userId ? serverCartData?.data || [] : localCartItems;
@@ -166,8 +230,16 @@ export default function CartModal({ userId }: CartModalProps) {
   const totalPrice =
     userId ? serverCartData?.totalPrice || 0 : getLocalCartTotalPrice();
 
-  const isPending = addMutation.isPending || removeMutation.isPending;
+  const isPending =
+    addMutation.isPending ||
+    removeMutation.isPending ||
+    orderMutation.isPending;
+
   const isLoadingData = userId && (isLoading || isFetching);
+
+  if (error) {
+    throw new Error('An error occured');
+  }
 
   return (
     <Sheet
@@ -175,33 +247,17 @@ export default function CartModal({ userId }: CartModalProps) {
       onOpenChange={handleOpenChange}
     >
       <SheetTrigger asChild>
-        <Button
-          variant="outline"
-          className="relative text-custom-icons border-2 hover:cursor-pointer"
-          disabled={isLoading}
-        >
-          <CartIcon
-            strokeWidth={2.5}
-            className="w-4 h-4 xl:w-6 xl:h-6"
-          />
-          {totalCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-              {totalCount > 9 ? '9+' : totalCount}
-            </span>
-          )}
-        </Button>
+        <CartHeaderIcon
+          isLoading={isLoading}
+          totalCount={totalCount}
+        />
       </SheetTrigger>
 
       <SheetContent className="w-full sm:max-w-lg bg-custom-primary-bg">
-        <SheetHeader>
-          <SheetTitle className="text-custom-primary-text">Cart</SheetTitle>
-          <SheetDescription>
-            {totalCount === 0 ?
-              'Your cart is empty. Start adding some products!'
-            : `You have ${totalCount} items in your cart.`}
-            {!userId && ' (Local storage)'}
-          </SheetDescription>
-        </SheetHeader>
+        <CartModalHeader
+          totalCount={totalCount}
+          userId={userId}
+        />
 
         <div className="mt-6 space-y-4">
           {isLoadingData ?
@@ -217,79 +273,23 @@ export default function CartModal({ userId }: CartModalProps) {
                 Add some products to get started!
               </TypographyP>
               {!userId && (
-                <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                  <TypographyP className="text-blue-800 text-sm flex items-center justify-center gap-2">
-                    <LogIn className="w-4 h-4" />
-                    <Link
-                      href="/auth/signin"
-                      className="underline font-medium"
-                    >
-                      Sign in
-                    </Link>
-                    to save your cart permanently
-                  </TypographyP>
-                </div>
+                <SignInPropositionWhen0Items
+                  handleOpenChange={handleOpenChange}
+                />
               )}
             </div>
           : <>
               <div className="w-full flex-1 min-h-0 overflow-y-auto max-h-96">
                 <div className="space-y-4">
                   {cartItems.map((item: CartItem) => (
-                    <div
+                    <CartModalItem
                       key={item.id}
-                      className="flex items-center justify-between p-3 border rounded-lg bg-white"
-                    >
-                      <div className="flex-1 min-w-0 mr-4">
-                        <TypographyP className="font-medium truncate">
-                          {item.book.name}
-                        </TypographyP>
-                        <TypographyP className="text-sm text-gray-600">
-                          ₴
-                          {(
-                            item.book.priceDiscount || item.book.priceRegular
-                          ).toFixed(2)}{' '}
-                          each
-                        </TypographyP>
-                      </div>
-
-                      <div className="flex items-center space-x-2 flex-shrink-0">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() =>
-                            handleRemoveQuantity(item.book.id, item.quantity)
-                          }
-                          disabled={isPending}
-                          className="h-8 w-8 p-0"
-                        >
-                          <Minus className="h-3 w-3" />
-                        </Button>
-
-                        <span className="w-8 text-center font-medium text-sm">
-                          {item.quantity}
-                        </span>
-
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleAddQuantity(item.book.id)}
-                          disabled={isPending}
-                          className="h-8 w-8 p-0"
-                        >
-                          <Plus className="h-3 w-3" />
-                        </Button>
-
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => handleRemoveItem(item.book.id)}
-                          disabled={isPending}
-                          className="h-8 w-8 p-0"
-                        >
-                          <Trash2 className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    </div>
+                      item={item}
+                      handleRemoveQuantity={handleRemoveQuantity}
+                      handleAddQuantity={handleAddQuantity}
+                      handleRemoveItem={handleRemoveItem}
+                      isPending={isPending}
+                    />
                   ))}
                 </div>
               </div>
@@ -301,32 +301,22 @@ export default function CartModal({ userId }: CartModalProps) {
                 </div>
 
                 {!userId && (
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3">
-                    <TypographyP className="text-yellow-800 text-sm flex items-center gap-2">
-                      <LogIn className="w-4 h-4" />
-                      <Link
-                        href="/auth/signin"
-                        className="underline font-medium"
-                      >
-                        Sign in
-                      </Link>
-                      to save your cart and access it from any device
-                    </TypographyP>
-                  </div>
+                  <SignInPropositionWhenItemsExists
+                    handleOpenChange={handleOpenChange}
+                  />
                 )}
 
-                <button
-                  type="button"
-                  className="px-4 py-3 bg-[#5A4632] text-white rounded-md font-bold hover:bg-[#4a3826] hover:cursor-pointer w-full transition disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={cartItems.length === 0 || isPending}
-                >
-                  {isPending ? 'Processing...' : 'Make an order 🔖'}
-                </button>
+                <CartModalCheckoutButton
+                  itemsLength={cartItems.length}
+                  isPending={isPending}
+                  handleCheckout={handleCheckout}
+                />
               </div>
             </>
           }
         </div>
       </SheetContent>
+      <SheetOverlay />
     </Sheet>
   );
 }

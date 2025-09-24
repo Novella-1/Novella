@@ -1,3 +1,12 @@
+interface CreateOrderData {
+  userId?: string;
+  items: {
+    bookId: string;
+    quantity: number;
+    price: number;
+  }[];
+}
+
 export const addToCart = async (
   userId: string,
   bookId: string,
@@ -49,3 +58,20 @@ export async function fetchCart(userId: string) {
   if (!res.ok) throw new Error('Failed to fetch books');
   return res.json();
 }
+
+export const createOrder = async (data: CreateOrderData) => {
+  const res = await fetch('/api/checkout', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(errorData.error || 'Failed to create order');
+  }
+
+  return res.json();
+};

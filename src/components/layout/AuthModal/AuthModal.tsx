@@ -25,6 +25,7 @@ type AuthType = 'login' | 'register';
 const AuthModal = () => {
   const [authVariant, setAuthVariant] = useState<AuthType>('login');
   const { data } = useSession();
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const formik = useFormik<AuthFormValues>({
     initialValues: {
@@ -63,6 +64,17 @@ const AuthModal = () => {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    const handleSignIn = () => {
+      if (triggerRef.current) {
+        triggerRef.current.click();
+      }
+    };
+    window.addEventListener('openSignIn', handleSignIn);
+
+    return () => window.removeEventListener('openSignIn', handleSignIn);
+  }, []);
+
   if (data?.user) {
     return (
       <details
@@ -95,7 +107,9 @@ const AuthModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <UserIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons cursor-pointer" />
+        <button ref={triggerRef}>
+          <UserIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons cursor-pointer" />
+        </button>
       </DialogTrigger>
 
       <DialogContent className="w-[280px] max:h-[380px] overflow-auto md:w-[340px] xl:w-[400px] h-[420px] bg-custom-header-footer scrollbar-hide [&>button]:top-2 [&>button]:right-2 [&>button]:cursor-pointer">

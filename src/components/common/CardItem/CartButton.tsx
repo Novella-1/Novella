@@ -9,6 +9,7 @@ import {
   addToLocalCart,
   removeFromLocalCart,
   isInLocalCart,
+  getLocalCartItem,
 } from '@/lib/localStorage';
 import { cn } from '@/lib/utils';
 import { addToCart, fetchCart, removeFromCart } from '@/services/fetchCart';
@@ -40,6 +41,23 @@ export function AddToCart({ className, name, book, ...props }: AddToCartProps) {
   });
 
   const cartItems: CartItem[] = cartResponse?.data ?? [];
+
+  useEffect(() => {
+    const handleCartButtonsUpdated = () => {
+      if (status === 'unauthenticated') {
+        const localCartItem = getLocalCartItem(book.id);
+        setLocalInCart(!!localCartItem);
+      }
+      queryClient.invalidateQueries({ queryKey: ['CART', session?.user?.id] });
+    };
+
+    window.addEventListener('cartButtonsUpdated', handleCartButtonsUpdated);
+    return () =>
+      window.removeEventListener(
+        'cartButtonsUpdated',
+        handleCartButtonsUpdated,
+      );
+  }, [book.id, status, session?.user?.id, queryClient]);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
