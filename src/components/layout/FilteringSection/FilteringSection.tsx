@@ -14,11 +14,11 @@ export function FilteringSection({
 }: FilteringSectionProps) {
   return (
     <section
-      className={cn('flex justify-between', className)}
+      className={cn('flex justify-between items-center gap-4', className)}
       {...props}
     >
       <SortSelect />
-      <PageSizeSwitcher className="hidden sm:flex" />
+      <PageSizeSwitcher className="hidden lg:flex" />
     </section>
   );
 }
