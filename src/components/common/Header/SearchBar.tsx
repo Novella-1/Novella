@@ -104,7 +104,7 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
       <div className={containerClasses}>
         {results.map((book) => (
           <Link
-            href={`/book/${book.slug}`}
+            href={`/book/${book.namespaceId}/${book.lang}`}
             key={book.id}
             className={
               variant === 'mobile' ?

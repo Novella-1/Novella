@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import React, { FC, useState } from 'react';
 
 import AuthModal from '@/components/layout/AuthModal/AuthModal';
-import { CartIcon } from '@/components/ui/custom/icons';
+// import { CartIcon } from '@/components/ui/custom/icons';
 import { LogoIcon } from '@/components/ui/custom/LogoIcon';
 import { CartModalSection } from '../../layout/CartModalSection/CartModalSection';
 import { FavouritesHeaderIcon } from './FavouritesHeaderIcon';
@@ -119,6 +119,12 @@ const Header: FC = () => {
                   <SearchBar variant="mobile" />
                 </div>
               </div>
+            </div>
+            <div className="flex justify-around items-center h-[48px] border-t px-4 shadow-[0_-1px_8px_0_rgba(0,0,0,0.10)]">
+              <AuthModal />
+              <FavouritesHeaderIcon />
+
+              <CartModalSection />
             </div>
 
             <div className="border-t">

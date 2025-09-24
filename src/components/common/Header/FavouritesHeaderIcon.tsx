@@ -76,7 +76,7 @@ export const FavouritesHeaderIcon = ({ userId }: Props) => {
       aria-label="Favourites"
       className="relative flex items-center justify-center text-custom-icons hover:text-custom-icons-hover transition-colors"
     >
-      <HeartIcon className="w-4 h-4 xl:w-6 xl:h-6" />
+      <HeartIcon className="w-6 h-6 md:w-4 md:h-4 xl:w-6 xl:h-6" />
       {displayCount > 0 && (
         <Badge
           className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-0.5 font-mono tabular-nums flex items-center justify-center text-xs"
