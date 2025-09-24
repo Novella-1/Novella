@@ -80,17 +80,16 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
       <DialogContent
         className="
           fixed top-1/2 left-1/2 z-[51] -translate-x-1/2 -translate-y-1/2
-          rounded-xl border-2 border-custom-border bg-custom-modal shadow-xl
-          w-[88vw] max-w-[360px] md:w-auto md:max-w-md
-          max-h-[68vh] md:max-h-[92vh]
+          rounded-xl border-2 border-custom-border bg-custom-primary-bg shadow-xl h-120
+          w-[88vw] max-w-[360px] md:w-100 md:h-auto
           p-0 overflow-hidden flex flex-col
         "
       >
-        <DialogHeader className="font-marcellus pt-4 px-4 md:pt-6 md:px-6 flex-none">
-          <DialogTitle className="text-lg md:text-2xl text-center font-bold tracking-wide text-custom-bookmark-dash">
+        <DialogHeader className="font-marcellus pt-4 px-4 md:pt-6 md:px-6">
+          <DialogTitle className="text-lg md:text-2xl text-center font-bold tracking-wide text-custom-primary-text">
             Not sure what to read next?
           </DialogTitle>
-          <DialogDescription className="mt-1 text-center text-custom-button-text text-sm md:text-base pb-3 md:pb-4">
+          <DialogDescription className="mt-1 text-center text-custom-primary-text text-sm md:text-base pb-1">
             Let fate decide! We’ll surprise you with a random book from our
             collection.
           </DialogDescription>
@@ -206,14 +205,14 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
                     </div>
 
                     <div className="text-center flex flex-col items-center px-2">
-                      <TypographyH3 className="text-sm md:text-lg font-semibold text-custom-primary-bg leading-tight">
+                      <TypographyH3 className="text-sm md:text-lg mb-1 font-semibold text-custom-primary-text leading-tight">
                         {book.title}
                       </TypographyH3>
-                      <TypographyP className="text-white/70 text-xs md:text-sm truncate w-full">
+                      <TypographyP className="text-custom-primary-text text-xs md:text-sm truncate w-full">
                         {book.author}
                       </TypographyP>
                       {book.categories && book.categories.length > 0 && (
-                        <TypographyP className="mt-1 text-xs md:text-sm text-custom-primary-bg line-clamp-1 w-full">
+                        <TypographyP className="mt-1 text-xs md:text-sm text-custom-primary-text line-clamp-1 w-full">
                           {book.categories.join(', ')}
                         </TypographyP>
                       )}
@@ -243,9 +242,9 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
           </div>
         </div>
 
-        <div className="px-4 md:px-6 pb-4 pt-3 flex flex-col sm:flex-row gap-2 w-full flex-none">
+        <div className="w-full flex gap-1 px-4 pb-4 md:pb-6 md:px-6 justify-center">
           <Button
-            className="w-full sm:w-auto flex-1 font-bold bg-[#5C3B23] text-white hover:bg-[#4a2f1a]"
+            className="w-full flex-1 font-bold bg-custom-button text-custom-button-text hover:bg-custom-hover-button"
             onClick={fetchRandomBook}
             aria-disabled={loading}
           >
@@ -255,10 +254,10 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
           {book && !error && (
             <Link
               href={`/book/${book.slug}`}
-              className="w-full sm:w-auto flex-1"
+              className="flex-1"
             >
               <Button
-                className="w-full font-bold text-[#5C3B23] bg-yellow-400 hover:bg-yellow-300"
+                className="w-full font-bold bg-custom-button text-custom-button-text hover:bg-custom-hover-button"
                 onClick={onClose}
               >
                 Get Book
@@ -267,7 +266,7 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
           )}
 
           <DialogClose asChild>
-            <Button className="w-full sm:w-auto font-bold bg-[#5C3B23] text-white hover:bg-[#4a2f1a]">
+            <Button className="w-full flex-1 font-bold text-custom-button bg-custom-button-text hover:bg-custom-hover-button">
               Close
             </Button>
           </DialogClose>
