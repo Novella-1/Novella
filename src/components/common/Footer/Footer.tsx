@@ -20,13 +20,13 @@ const Footer: FC = () => {
   return (
     <>
       <footer className="bg-custom-header-footer font-bold py-10 w-full shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
-        <div className="container mx-auto px-4 grid grid-cols-1 gap-6 xl:grid-cols-4">
-          <div>
+        <div className="container mx-auto px-4 grid grid-cols-1 gap-10 md:px-20 xl:grid-cols-4">
+          <div className="">
             <Link
               href="/"
-              className="flex-shrink-0 inline-block mb-4"
+              className="flex-shrink-0 items-start inline-block mb-4 text-left"
             >
-              <LogoIcon className="h-10 cursor-pointer xl:h-14" />
+              <LogoIcon className="h-14 cursor-pointer" />
             </Link>
             <TypographyP className="text-sm font-normal text-custom-icons leading-relaxed">
               Discover a world of stories with Novella, an online bookstore
@@ -38,7 +38,7 @@ const Footer: FC = () => {
             </TypographyP>
           </div>
 
-          <div className="flex flex-col items-start sm:items-start md:items-center lg:items-center text-left">
+          <div className="flex flex-col items-start sm:items-start md:items-start xl:items-start text-left">
             <TypographyH3 className="mb-4 text-xl text-custom-primary-text">
               Navigation
             </TypographyH3>
@@ -54,7 +54,7 @@ const Footer: FC = () => {
               <li>
                 <Link
                   href="/paper"
-                  className="text-custom-icons hover:text-custom-text-hover  transition-colors"
+                  className="text-custom-icons hover:text-custom-text-hover transition-colors"
                 >
                   PAPER
                 </Link>
@@ -62,7 +62,7 @@ const Footer: FC = () => {
               <li>
                 <Link
                   href="/kindle"
-                  className="text-custom-icons hover:text-custom-text-hover  transition-colors"
+                  className="text-custom-icons hover:text-custom-text-hover transition-colors"
                 >
                   KINDLE
                 </Link>
@@ -117,7 +117,7 @@ const Footer: FC = () => {
           </div>
 
           {/* 4 колонка: Соцмережі */}
-          <div className="flex flex-col items-end md:items-start">
+          <div className="flex flex-col items-start md:items-start">
             <TypographyH3 className="mb-4 text-xl text-custom-primary-text">
               Follow us
             </TypographyH3>
@@ -154,7 +154,7 @@ const Footer: FC = () => {
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center hover:opacity-75 transition-opacity hover:text-[#331F06] bg-transparent font-bold hover:cursor-pointer"
+            className="flex items-center text-custom-icons hover:text-custom-text-hover transition-opacity bg-transparent font-bold cursor-pointer"
             aria-label="Back to top"
           >
             Back to top
