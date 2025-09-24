@@ -1,8 +1,9 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { Minus, Plus, ShoppingCart, Trash2, LogIn } from 'lucide-react';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { CartIcon } from '@/components/ui/custom/icons';
 import { TypographyP } from '@/components/ui/custom/typography';
@@ -14,6 +15,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+  getLocalCart,
+  updateLocalCartQuantity,
+  removeFromLocalCart,
+  getLocalCartCount,
+  getLocalCartTotalPrice,
+} from '@/lib/localStorage';
 import { addToCart, fetchCart, removeFromCart } from '@/services/fetchCart';
 import { CartItem } from '@/types/CartItemType';
 
@@ -23,32 +31,36 @@ interface CartModalProps {
 
 export default function CartModal({ userId }: CartModalProps) {
   const [open, setOpen] = useState(false);
+  const [localCartItems, setLocalCartItems] = useState<CartItem[]>([]);
   const queryClient = useQueryClient();
 
+  useEffect(() => {
+    if (!userId) {
+      setLocalCartItems(getLocalCart());
+    }
+  }, [userId, open]);
+
+  useEffect(() => {
+    const handleCartUpdated = () => {
+      if (!userId) {
+        setLocalCartItems(getLocalCart());
+      }
+    };
+
+    window.addEventListener('cartUpdated', handleCartUpdated);
+    return () => window.removeEventListener('cartUpdated', handleCartUpdated);
+  }, [userId]);
+
   const {
-    data: cartData,
+    data: serverCartData,
     isLoading,
     isFetching,
     error,
     refetch,
   } = useQuery({
     queryKey: ['CART', userId],
-    queryFn: async () => {
-      // if (!userId) {
-      //   const localCart = getLocalCart();
-      //   return {
-      //     data: localCart,
-      //     totalCount: localCart.length,
-      //     totalPrice: localCart.reduce(
-      //       (sum, item) => sum + (item.book.priceRegular || 0),
-      //       0,
-      //     ),
-      //   };
-      // }
-
-      const result = await fetchCart(userId!);
-      return result;
-    },
+    queryFn: () => fetchCart(userId!),
+    enabled: !!userId,
     staleTime: 0,
     refetchOnMount: true,
     refetchOnWindowFocus: true,
@@ -71,16 +83,48 @@ export default function CartModal({ userId }: CartModalProps) {
 
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
-    if (isOpen && userId) {
-      refetch();
+    if (isOpen) {
+      if (userId) {
+        refetch();
+      } else {
+        setLocalCartItems(getLocalCart());
+      }
     }
   };
 
-  const handleAddQuantity = (bookId: string) => {
+  const handleLocalAddQuantity = (bookId: string) => {
+    updateLocalCartQuantity(bookId, 1);
+    setLocalCartItems(getLocalCart());
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
+  };
+
+  const handleLocalRemoveQuantity = (
+    bookId: string,
+    currentQuantity: number,
+  ) => {
+    if (currentQuantity > 1) {
+      updateLocalCartQuantity(bookId, -1);
+    } else {
+      removeFromLocalCart(bookId);
+    }
+    setLocalCartItems(getLocalCart());
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
+  };
+
+  const handleLocalRemoveItem = (bookId: string) => {
+    removeFromLocalCart(bookId);
+    setLocalCartItems(getLocalCart());
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
+  };
+
+  const handleServerAddQuantity = (bookId: string) => {
     addMutation.mutate({ bookId, quantity: 1 });
   };
 
-  const handleRemoveQuantity = (bookId: string, currentQuantity: number) => {
+  const handleServerRemoveQuantity = (
+    bookId: string,
+    currentQuantity: number,
+  ) => {
     if (currentQuantity > 1) {
       addMutation.mutate({ bookId, quantity: -1 });
     } else {
@@ -88,17 +132,42 @@ export default function CartModal({ userId }: CartModalProps) {
     }
   };
 
-  const handleRemoveItem = (bookId: string) => {
+  const handleServerRemoveItem = (bookId: string) => {
     removeMutation.mutate(bookId);
   };
 
-  if (error) {
-    throw new Error('Cart loading error');
-  }
+  const handleAddQuantity = (bookId: string) => {
+    if (userId) {
+      handleServerAddQuantity(bookId);
+    } else {
+      handleLocalAddQuantity(bookId);
+    }
+  };
 
-  const cartItems = cartData?.data || [];
-  const totalCount = cartData?.totalCount || 0;
-  const totalPrice = cartData?.totalPrice || 0;
+  const handleRemoveQuantity = (bookId: string, currentQuantity: number) => {
+    if (userId) {
+      handleServerRemoveQuantity(bookId, currentQuantity);
+    } else {
+      handleLocalRemoveQuantity(bookId, currentQuantity);
+    }
+  };
+
+  const handleRemoveItem = (bookId: string) => {
+    if (userId) {
+      handleServerRemoveItem(bookId);
+    } else {
+      handleLocalRemoveItem(bookId);
+    }
+  };
+
+  const cartItems = userId ? serverCartData?.data || [] : localCartItems;
+  const totalCount =
+    userId ? serverCartData?.totalCount || 0 : getLocalCartCount();
+  const totalPrice =
+    userId ? serverCartData?.totalPrice || 0 : getLocalCartTotalPrice();
+
+  const isPending = addMutation.isPending || removeMutation.isPending;
+  const isLoadingData = userId && (isLoading || isFetching);
 
   return (
     <Sheet
@@ -130,16 +199,12 @@ export default function CartModal({ userId }: CartModalProps) {
             {totalCount === 0 ?
               'Your cart is empty. Start adding some products!'
             : `You have ${totalCount} items in your cart.`}
+            {!userId && ' (Local storage)'}
           </SheetDescription>
         </SheetHeader>
 
         <div className="mt-6 space-y-4">
-          {!userId ?
-            <div className="text-center py-8 text-gray-500">
-              <ShoppingCart className="mx-auto h-12 w-12 mb-4 opacity-50" />
-              <TypographyP>Please sign in to view your cart</TypographyP>
-            </div>
-          : isLoading || isFetching ?
+          {isLoadingData ?
             <div className="text-center py-8 text-gray-500">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
               <TypographyP>Loading cart...</TypographyP>
@@ -151,6 +216,20 @@ export default function CartModal({ userId }: CartModalProps) {
               <TypographyP className="text-sm mt-2">
                 Add some products to get started!
               </TypographyP>
+              {!userId && (
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                  <TypographyP className="text-blue-800 text-sm flex items-center justify-center gap-2">
+                    <LogIn className="w-4 h-4" />
+                    <Link
+                      href="/auth/signin"
+                      className="underline font-medium"
+                    >
+                      Sign in
+                    </Link>
+                    to save your cart permanently
+                  </TypographyP>
+                </div>
+              )}
             </div>
           : <>
               <div className="w-full flex-1 min-h-0 overflow-y-auto max-h-96">
@@ -158,39 +237,44 @@ export default function CartModal({ userId }: CartModalProps) {
                   {cartItems.map((item: CartItem) => (
                     <div
                       key={item.id}
-                      className="flex items-center justify-between p-3 border rounded-lg"
+                      className="flex items-center justify-between p-3 border rounded-lg bg-white"
                     >
-                      <div className="flex-1">
-                        <TypographyP className="font-medium">
+                      <div className="flex-1 min-w-0 mr-4">
+                        <TypographyP className="font-medium truncate">
                           {item.book.name}
                         </TypographyP>
                         <TypographyP className="text-sm text-gray-600">
                           ₴
                           {(
                             item.book.priceDiscount || item.book.priceRegular
-                          ).toFixed(2)}
+                          ).toFixed(2)}{' '}
+                          each
                         </TypographyP>
                       </div>
 
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-2 flex-shrink-0">
                         <Button
                           size="sm"
                           variant="outline"
                           onClick={() =>
                             handleRemoveQuantity(item.book.id, item.quantity)
                           }
-                          disabled={removeMutation.isPending}
+                          disabled={isPending}
+                          className="h-8 w-8 p-0"
                         >
                           <Minus className="h-3 w-3" />
                         </Button>
 
-                        <span className="w-8 text-center">{item.quantity}</span>
+                        <span className="w-8 text-center font-medium text-sm">
+                          {item.quantity}
+                        </span>
 
                         <Button
                           size="sm"
                           variant="outline"
                           onClick={() => handleAddQuantity(item.book.id)}
-                          disabled={addMutation.isPending}
+                          disabled={isPending}
+                          className="h-8 w-8 p-0"
                         >
                           <Plus className="h-3 w-3" />
                         </Button>
@@ -199,7 +283,8 @@ export default function CartModal({ userId }: CartModalProps) {
                           size="sm"
                           variant="destructive"
                           onClick={() => handleRemoveItem(item.book.id)}
-                          disabled={removeMutation.isPending}
+                          disabled={isPending}
+                          className="h-8 w-8 p-0"
                         >
                           <Trash2 className="h-3 w-3" />
                         </Button>
@@ -214,11 +299,28 @@ export default function CartModal({ userId }: CartModalProps) {
                   <span>Total:</span>
                   <span>₴{totalPrice.toFixed(2)}</span>
                 </div>
+
+                {!userId && (
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3">
+                    <TypographyP className="text-yellow-800 text-sm flex items-center gap-2">
+                      <LogIn className="w-4 h-4" />
+                      <Link
+                        href="/auth/signin"
+                        className="underline font-medium"
+                      >
+                        Sign in
+                      </Link>
+                      to save your cart and access it from any device
+                    </TypographyP>
+                  </div>
+                )}
+
                 <button
                   type="button"
-                  className="px-4 py-3 bg-[#5A4632] text-white rounded-md font-bold hover:bg-[#4a3826] hover:cursor-pointer w-full transition"
+                  className="px-4 py-3 bg-[#5A4632] text-white rounded-md font-bold hover:bg-[#4a3826] hover:cursor-pointer w-full transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={cartItems.length === 0 || isPending}
                 >
-                  Make an order 🔖
+                  {isPending ? 'Processing...' : 'Make an order 🔖'}
                 </button>
               </div>
             </>
@@ -228,20 +330,3 @@ export default function CartModal({ userId }: CartModalProps) {
     </Sheet>
   );
 }
-
-// {
-//   cartItems.map((item) => (
-//     <div
-//       key={item.id}
-//       className="flex items-center justify-between p-3 border rounded-lg"
-//     >
-//       <div className="flex-1">
-//         <TypographyP className="font-medium">{item.name}</TypographyP>
-//         <TypographyP className="text-sm text-gray-600">
-//           ₴{item.price?.toFixed(2)}
-//         </TypographyP>
-//       </div>
-//       {/* Здесь можно добавить управление количеством */}
-//     </div>
-//   ));
-// }

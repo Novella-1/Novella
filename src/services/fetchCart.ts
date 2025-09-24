@@ -9,6 +9,8 @@ export const addToCart = async (
     body: JSON.stringify({ userId, bookId, quantity }),
   });
 
+  console.log(userId, bookId, quantity);
+
   if (!res.ok) throw new Error('Failed to add item to Cart');
   return res.json();
 };

@@ -1,7 +1,6 @@
 'use client';
 
-import { QueryClient, useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { BookAbout } from '@/components/common/Details/BookAbout';
 import { BookCharacteristics } from '@/components/common/Details/BookCharacteristics';
@@ -70,6 +69,7 @@ const BookDetailsSection = ({ initialBook }: Props) => {
             lang={bookWithDetails?.lang}
             langAvailable={bookWithDetails?.langAvailable}
             handleLangChange={switchLang}
+            book={bookWithDetails!}
           />
         </div>
       </div>

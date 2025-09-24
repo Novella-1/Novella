@@ -52,57 +52,141 @@ export const getLocalFavourites = (): BookWithDetails[] => {
 
 // CART
 
-// export const addToLocalCart = (book: BookWithDetails, quantity = 1) => {
-//   try {
-//     const cart: LocalCartItem[] = JSON.parse(
-//       localStorage.getItem('cart') || '[]',
-//     );
+export const addToLocalCart = (book: BookWithDetails, quantity: number = 1) => {
+  try {
+    if (typeof window === 'undefined') return;
 
-//     const existing = cart.find((item) => item.id === book.id);
-//     if (existing) {
-//       existing.quantity += quantity;
-//     } else {
-//       cart.push({
-//         ...book,
-//         quantity,
-//         id: crypto.randomUUID(),
-//       });
-//     }
+    const cart: CartItem[] = getLocalCart();
+    const existingItemIndex = cart.findIndex(
+      (item) => item.book.id === book.id,
+    );
 
-//     localStorage.setItem('cart', JSON.stringify(cart));
-//   } catch (err) {
-//     console.error('Error adding to cart:', err);
-//   }
-// };
+    if (existingItemIndex >= 0) {
+      cart[existingItemIndex].quantity += quantity;
+    } else {
+      cart.push({
+        id: crypto.randomUUID(),
+        book: book,
+        quantity: quantity,
+      });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+  } catch (err) {
+    console.error('Error adding to cart:', err);
+  }
+};
 
 export const removeFromLocalCart = (bookId: string) => {
   try {
-    const cart: LocalCartItem[] = JSON.parse(
-      localStorage.getItem('cart') || '[]',
-    );
-    const updated = cart.filter((item) => item.id !== bookId);
-    localStorage.setItem('cart', JSON.stringify(updated));
+    if (typeof window === 'undefined') return;
+
+    const cart: CartItem[] = getLocalCart();
+    const updatedCart = cart.filter((item) => item.book.id !== bookId);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
   } catch (err) {
     console.error('Error removing from cart:', err);
   }
 };
+
+export const updateLocalCartQuantity = (
+  bookId: string,
+  quantityChange: number,
+) => {
+  try {
+    if (typeof window === 'undefined') return [];
+
+    const cart: CartItem[] = getLocalCart();
+    const itemIndex = cart.findIndex((item) => item.book.id === bookId);
+
+    if (itemIndex >= 0) {
+      cart[itemIndex].quantity += quantityChange;
+
+      if (cart[itemIndex].quantity <= 0) {
+        cart.splice(itemIndex, 1);
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      return cart;
+    }
+
+    return cart;
+  } catch (err) {
+    console.error('Error updating cart quantity:', err);
+    return [];
+  }
+};
+
 export const isInLocalCart = (bookId: string): boolean => {
   try {
-    const cart: LocalCartItem[] = JSON.parse(
-      localStorage.getItem('cart') || '[]',
-    );
-    return cart.some((item) => item.id === bookId);
+    if (typeof window === 'undefined') return false;
+
+    const cart: CartItem[] = getLocalCart();
+    return cart.some((item) => item.book.id === bookId);
   } catch (err) {
     console.error('Error checking cart:', err);
     return false;
   }
 };
 
-export const getLocalCart = (): LocalCartItem[] => {
+export const getLocalCart = (): CartItem[] => {
   try {
-    return JSON.parse(localStorage.getItem('cart') || '[]');
+    if (typeof window === 'undefined') return [];
+
+    const cart = localStorage.getItem('cart');
+    return cart ? JSON.parse(cart) : [];
   } catch (err) {
     console.error('Error getting cart:', err);
     return [];
   }
 };
+
+export const getLocalCartItem = (bookId: string): CartItem | undefined => {
+  try {
+    if (typeof window === 'undefined') return undefined;
+
+    const cart: CartItem[] = getLocalCart();
+    return cart.find((item) => item.book.id === bookId);
+  } catch (err) {
+    console.error('Error getting cart item:', err);
+    return undefined;
+  }
+};
+
+export const getLocalCartCount = (): number => {
+  try {
+    if (typeof window === 'undefined') return 0;
+
+    const cart: CartItem[] = getLocalCart();
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  } catch (err) {
+    console.error('Error getting cart count:', err);
+    return 0;
+  }
+};
+
+export const getLocalCartTotalPrice = (): number => {
+  try {
+    if (typeof window === 'undefined') return 0;
+
+    const cart: CartItem[] = getLocalCart();
+    return cart.reduce((total, item) => {
+      const price = item.book.priceDiscount || item.book.priceRegular;
+      return total + price * item.quantity;
+    }, 0);
+  } catch (err) {
+    console.error('Error getting cart total price:', err);
+    return 0;
+  }
+};
+
+// export const clearLocalCart = (): void => {
+//   try {
+//     if (typeof window === 'undefined') return;
+
+//     localStorage.removeItem('cart');
+//     window.dispatchEvent(new CustomEvent('cartUpdated'));
+//   } catch (err) {
+//     console.error('Error clearing cart:', err);
+//   }
+// };

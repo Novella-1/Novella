@@ -27,7 +27,6 @@ export function CardItem({
     priceDiscount,
     images,
     type,
-    slug,
     namespaceId,
     lang,
   } = book;
@@ -85,7 +84,10 @@ export function CardItem({
         </div>
       </div>
       <div className="flex flex-row gap-2 justify-between w-full">
-        <AddToCart name={name} />
+        <AddToCart
+          name={name}
+          book={book}
+        />
         <AddToFavorite
           name={name}
           className="cursor-pointer"
