@@ -39,8 +39,8 @@ export function BookPhotoContainer({
       className={cn(className)}
       {...props}
     >
-      <div className="flex flex-col-reverse gap-4 xl:flex-row xl:h-full xl:items-stretch">
-        <div className="flex flex-row gap-2 overflow-x-auto md:flex-row sm:overflow-x-visible xl:flex-col">
+      <div className="flex flex-col-reverse gap-4 xl:flex-row xl:w-full xl:h-full xl:items-stretch">
+        <div className="flex flex-row gap-2 overflow-x-auto xl:overflow-y-auto md:flex-row scrollbar-hide xl:flex-col">
           {images.map((img, index) => (
             <ImageContainer
               key={index}
@@ -66,7 +66,7 @@ export function BookPhotoContainer({
           ))}
         </div>
 
-        <ImageContainer className="w-full h-[424px] xl:w-[464px] xl:h-[520px] bg-custom-header-footer border border-custom-border rounded-[14px] sm:rounded-[16px] xl:rounded-[20px] flex items-center justify-center p-6">
+        <ImageContainer className="w-full h-[424px] xl:w-[464px] xl:h-[524px] bg-custom-header-footer border border-custom-border rounded-[14px] sm:rounded-[16px] xl:rounded-[20px] flex items-center justify-center p-6">
           {selectedImage && (
             <Image
               src={`/books/${selectedImage}`}

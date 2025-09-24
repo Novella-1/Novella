@@ -49,9 +49,12 @@ const BookDetailsSection = ({ initialBook }: Props) => {
         </div>
 
         <div className="flex flex-col gap-4 md:gap-[34px] xl:flex-row xl:gap-[88px] xl:h-[524px] xl:items-start">
-          <BookPhotoContainer images={bookWithDetails?.images} />
+          <BookPhotoContainer
+            className="xl:w-full xl:h-full"
+            images={bookWithDetails?.images}
+          />
           <BookInfo
-            className="xl:h-full"
+            className="xl:w-full xl:h-full"
             categories={bookWithDetails?.categories}
             author={bookWithDetails?.author}
             coverType={bookWithDetails?.paperDetails?.coverType}

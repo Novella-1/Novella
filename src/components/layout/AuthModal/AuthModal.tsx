@@ -2,7 +2,7 @@
 import { useFormik } from 'formik';
 
 import { useSession, signOut } from 'next-auth/react';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import LoginForm from '@/components/common/AuthModal/LoginForm';
 import RegisterForm from '@/components/common/AuthModal/RegisterForm';
@@ -47,16 +47,35 @@ const AuthModal = () => {
     },
   });
 
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        detailsRef.current &&
+        !detailsRef.current.contains(event.target as Node)
+      ) {
+        detailsRef.current.removeAttribute('open');
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
+
   if (data?.user) {
     return (
-      <details className="relative">
+      <details
+        ref={detailsRef}
+        className="relative"
+      >
         <summary className="flex items-center cursor-pointer rounded">
           <UserIcon className="w-6 h-6 md:w-4 md:h-4 xl:w-6 xl:h-6 text-custom-icons" />
         </summary>
 
-        <div className="absolute right-0 mt-2 w-40 border rounded shadow-lg p-2 z-50">
+        <div className="absolute top-9 right-0 mt-2 w-40 border bg-custom-header-footer rounded shadow-lg p-2 z-50">
           <button
-            className="flex items-center gap-2 w-full px-2 py-1  rounded"
+            className="flex items-center gap-2 w-full px-2 py-1 cursor-pointer rounded text-custom-icons"
             onClick={async () => {
               await signOut({
                 // redirect: false
