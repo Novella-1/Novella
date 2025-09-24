@@ -189,9 +189,7 @@ export default function CartModal({ userId }: CartModalProps) {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() =>
-                            handleAddQuantity(item.book.id, item.quantity)
-                          }
+                          onClick={() => handleAddQuantity(item.book.id)}
                           disabled={addMutation.isPending}
                         >
                           <Plus className="h-3 w-3" />

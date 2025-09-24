@@ -18,7 +18,7 @@ export default function Custom404() {
           alt="Page Not Found"
           width={300}
           height={300}
-          className="rounded-lg shadow-2xl shadow-[#2a1a12]"
+          className="rounded-lg shadow-2xl shadow-[#794f3b]"
         />
       </motion.div>
 
@@ -26,7 +26,7 @@ export default function Custom404() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
-        className="text-6xl font-bold mb-4 text-center"
+        className="text-6xl font-bold mb-4 text-center text-custom-primary-text"
       >
         404
       </motion.h1>
@@ -35,7 +35,7 @@ export default function Custom404() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.6 }}
-        className="text-lg text-center max-w-md text-custom-secondary"
+        className="text-lg text-center max-w-md text-custom-primary-text"
       >
         It seems that this page has been lost among the endless shelves of our
         library.
@@ -49,7 +49,7 @@ export default function Custom404() {
       >
         <Link
           href="/"
-          className="px-6 py-3 bg-custom-secondary hover:bg-custom-favorites text-custom-header-bg font-semibold rounded-lg shadow-md transition"
+          className="px-6 py-3 bg-custom-primary-text hover:bg-custom-favourites-icon text-custom-header-footer font-semibold rounded-lg shadow-md transition"
         >
           Back to Home
         </Link>

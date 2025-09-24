@@ -19,16 +19,16 @@ const Footer: FC = () => {
 
   return (
     <>
-      <footer className="bg-custom-header-footer text-[#BAA48C] font-bold py-10 w-full shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
-        <div className="container mx-auto px-4 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <footer className="bg-custom-header-footer font-bold py-10 w-full shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <div className="container mx-auto px-4 grid grid-cols-1 gap-6 xl:grid-cols-4">
           <div>
             <Link
               href="/"
               className="flex-shrink-0 inline-block mb-4"
             >
-              <LogoIcon className="h-10 w-auto cursor-pointer xl:h-14" />
+              <LogoIcon className="h-10 cursor-pointer xl:h-14" />
             </Link>
-            <TypographyP className="text-sm font-normal text-primary-text leading-relaxed">
+            <TypographyP className="text-sm font-normal text-custom-icons leading-relaxed">
               Discover a world of stories with Novella, an online bookstore
               where literature lovers can find everything from timeless classics
               to modern bestsellers. Whether you&apos;re searching for
@@ -39,14 +39,14 @@ const Footer: FC = () => {
           </div>
 
           <div className="flex flex-col items-start sm:items-start md:items-center lg:items-center text-left">
-            <TypographyH3 className="mb-4 text-lg text-custom-primary-text">
+            <TypographyH3 className="mb-4 text-xl text-custom-primary-text">
               Navigation
             </TypographyH3>
             <ul className="space-y-3">
               <li>
                 <Link
                   href="/"
-                  className="hover:text-custom-hover-button transition-colors"
+                  className="text-custom-icons hover:text-custom-text-hover transition-colors"
                 >
                   HOME
                 </Link>
@@ -54,7 +54,7 @@ const Footer: FC = () => {
               <li>
                 <Link
                   href="/paper"
-                  className="hover:text-custom-hover-button  transition-colors"
+                  className="text-custom-icons hover:text-custom-text-hover  transition-colors"
                 >
                   PAPER
                 </Link>
@@ -62,7 +62,7 @@ const Footer: FC = () => {
               <li>
                 <Link
                   href="/kindle"
-                  className="hover:text-custom-hover-button  transition-colors"
+                  className="text-custom-icons hover:text-custom-text-hover  transition-colors"
                 >
                   KINDLE
                 </Link>
@@ -70,7 +70,7 @@ const Footer: FC = () => {
               <li>
                 <Link
                   href="/audiobook"
-                  className="hover:text-custom-hover-button  transition-colors"
+                  className="text-custom-icons hover:text-custom-text-hover  transition-colors"
                 >
                   AUDIOBOOK
                 </Link>
@@ -79,36 +79,36 @@ const Footer: FC = () => {
           </div>
 
           {/* 3 колонка: Контакти */}
-          <div className="flex flex-col items-start sm:items-start md:items-start lg:items-start text-left">
-            <TypographyH3 className="mb-4 text-lg text-lg text-custom-primary-text">
+          <div className="flex flex-col items-start md:items-start xl:items-start text-left">
+            <TypographyH3 className="mb-4 text-xl text-custom-primary-text">
               Contacts
             </TypographyH3>
             <ul className="space-y-3 text-sm font-normal text-primary-text">
               <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4" />
+                <Phone className="w-4 h-4 text-custom-icons" />
                 <a
                   href="tel:+15551234567"
-                  className="hover:text-[#331F06] transition-colors"
+                  className="text-custom-icons hover:text-custom-text-hover transition-colors"
                 >
                   +1 (555) 123-4567
                 </a>
               </li>
-              <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4" />
+              <li className="flex items-center gap-2 ">
+                <Mail className="w-4 h-4 text-custom-icons" />
                 <a
                   href="mailto:contact@novella.com"
-                  className="hover:text-[#331F06] transition-colors"
+                  className="text-custom-icons hover:text-custom-text-hover transition-colors"
                 >
                   contact@novella.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
+                <MapPin className="w-4 h-4 text-custom-icons" />
                 <a
                   href="https://www.google.com/maps?q=123+Book+Street,+Literature+City"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#331F06] transition-colors"
+                  className="text-custom-icons hover:text-custom-text-hover transition-colors"
                 >
                   123 Book Street, Literature City
                 </a>
@@ -117,15 +117,15 @@ const Footer: FC = () => {
           </div>
 
           {/* 4 колонка: Соцмережі */}
-          <div className="flex flex-col items-start sm:items-start md:items-start lg:items-start">
-            <TypographyH3 className="mb-4 text-lg text-lg text-custom-primary-text">
+          <div className="flex flex-col items-end md:items-start">
+            <TypographyH3 className="mb-4 text-xl text-custom-primary-text">
               Follow us
             </TypographyH3>
             <div className="flex space-x-4 mb-4">
               <a
                 href="https://www.facebook.com/book.ua/?locale=uk_UA"
                 aria-label="Facebook"
-                className="hover:opacity-75 transition"
+                className="opacity-75 text-custom-icons hover:text-custom-text-hover transition"
                 target="_blank"
               >
                 <FacebookIcon size={28} />
@@ -133,7 +133,7 @@ const Footer: FC = () => {
               <a
                 href="https://linkedin.com/company/bookshop_org"
                 aria-label="Linkedin"
-                className="hover:opacity-75 transition"
+                className="opacity-75 text-custom-icons hover:text-custom-text-hover transition"
                 target="_blank"
               >
                 <Linkedin size={28} />
@@ -141,7 +141,7 @@ const Footer: FC = () => {
               <a
                 href="https://www.instagram.com/bookshop_org/"
                 aria-label="Instagram"
-                className="hover:opacity-75 transition"
+                className="opacity-75 text-custom-icons hover:text-custom-text-hover transition"
                 target="_blank"
               >
                 <Instagram size={28} />

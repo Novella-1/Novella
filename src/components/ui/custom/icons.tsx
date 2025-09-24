@@ -32,12 +32,12 @@ export function HeartIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export function CartIcon({
-  size = 16,
+  // size = 16,
   ...props
 }: { size?: number } & React.SVGProps<SVGSVGElement>) {
   return (
     <ShoppingBag
-      size={size}
+      // size={size}
       {...props}
     />
   );

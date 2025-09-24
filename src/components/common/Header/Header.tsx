@@ -120,6 +120,12 @@ const Header: FC = () => {
                 </div>
               </div>
             </div>
+            <div className="flex justify-around items-center h-[48px] border-t px-4 shadow-[0_-1px_8px_0_rgba(0,0,0,0.10)]">
+              <AuthModal />
+              <FavouritesHeaderIcon />
+
+              <CartModalSection />
+            </div>
 
             <div className="border-t">
               <div className="max-w-[720px] mx-auto"></div>

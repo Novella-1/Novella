@@ -106,8 +106,6 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
   const renderResults = () => {
     if (!open || results.length === 0) return null;
 
-     
-
     const containerClasses =
       variant === 'mobile' ?
         'absolute top-full left-0 right-0 mx-auto w-full max-w-2xl mt-2 bg-custom-header-footer border border-custom-border rounded-md shadow-lg z-50 p-4 max-h-[300px] overflow-y-auto custom-scrollbar'
