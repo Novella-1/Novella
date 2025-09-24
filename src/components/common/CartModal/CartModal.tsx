@@ -1,5 +1,5 @@
 import { ShoppingCart } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { CartIcon } from '@/components/ui/custom/icons';
 import { TypographyP } from '@/components/ui/custom/typography';
 
@@ -40,24 +40,26 @@ export default function CartModal({ cartItems }: CartModalProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button
-          variant="outline"
-          className="relative text-custom-icons border-2 hover: cursor-pointer"
+        <Link
+          href="/cart"
+          aria-label="Cart"
+          // variant="outline"
+          className="relative text-custom-icons hover:cursor-pointer"
         >
           {/* <ShoppingCart className="h-4 w-4" /> */}
           <CartIcon
-            strokeWidth={2.5}
-            className="w-4 h-4 xl:w-6 xl:h-6 "
+            // strokeWidth={2.5}
+            className="w-6 h-6 md:w-4 md:h-4 xl:w-6 xl:h-6"
           />
-          {totalItems > 0 && (
+          {/* {totalItems > 0 && (
             <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
               {totalItems}
             </span>
-          )}
-        </Button>
+          )} */}
+        </Link>
       </SheetTrigger>
 
-      <SheetContent className="w-full sm:max-w-lg bg-custom-primary-bg ">
+      <SheetContent className="w-full sm:max-w-lg h-full bg-custom-primary-bg ">
         <SheetHeader>
           <SheetTitle className="text-custom-primary-text">Cart </SheetTitle>
           <SheetDescription>

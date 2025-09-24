@@ -46,7 +46,7 @@ export default function RootLayout({
     >
       <body
         className={
-          'font-sans antialiased bg-custom-primary-bg flex flex-col min-h-screen'
+          'font-sans antialiased bg-custom-primary-bg flex flex-col min-h-screen scrollbar-hide'
         }
       >
         <TanstackProviders>

@@ -117,14 +117,17 @@ const ScrollButtons: React.FC<ScrollButtonsProps> = ({ scrollRef }) => {
   };
 
   return (
-    <div className="invisible sm:visible flex justify-end gap-2 [@media(max-width:639px)]:hidden">
+    <div className="invisible sm:visible flex justify-end gap-6 [@media(max-width:639px)]:hidden">
       {canScrollLeft && (
         <button
-          className="rounded-full  flex items-center justify-center cursor-pointer"
+          className="rounded-full flex items-center justify-center cursor-pointer"
           onClick={() => scrollBy(-1)}
           aria-label="Scroll left"
         >
-          <ChevronLeft size={34} />
+          <ChevronLeft
+            size={30}
+            className="text-custom-primary-text"
+          />
         </button>
       )}
       {canScrollRight && (
@@ -133,7 +136,10 @@ const ScrollButtons: React.FC<ScrollButtonsProps> = ({ scrollRef }) => {
           onClick={() => scrollBy(1)}
           aria-label="Scroll right"
         >
-          <ChevronRight size={34} />
+          <ChevronRight
+            size={30}
+            className="text-custom-primary-text"
+          />
         </button>
       )}
     </div>

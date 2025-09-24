@@ -1,6 +1,6 @@
 import { type FormikProps } from 'formik';
 import React from 'react';
-import { TypographyQD } from '@/components/ui/custom/typography';
+import { TypographyP } from '@/components/ui/custom/typography';
 import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,14 +13,18 @@ type LoginFormProps = {
 const LoginForm = ({ formik }: LoginFormProps) => {
   return (
     <>
-      <DialogTitle className="pt-4 pb-2">Login</DialogTitle>
-      <DialogDescription className="pb-2">
-        Sign in with your credentials
-      </DialogDescription>
+      <div className="text-center">
+        <DialogTitle className="pt-4 text-md text-custom-primary-text">
+          Login
+        </DialogTitle>
+        <DialogDescription className="mb-4 text-xs text-custom-primary-text">
+          Sign in with your credentials
+        </DialogDescription>
+      </div>
 
-      <div className="grid gap-2">
+      <div className="grid gap-2 pt-2 pb-2">
         <Label
-          className="pt-2 pb-2"
+          className="text-custom-primary-text"
           htmlFor="login-email"
         >
           Email
@@ -29,22 +33,27 @@ const LoginForm = ({ formik }: LoginFormProps) => {
           id="login-email"
           type="email"
           name="email"
-          className="pt-2 pb-2"
-          placeholder="you@example.com"
+          className="py-1 text-custom-primary-text border-custom-border border bg-custom-header-footer"
+          placeholder="your@example.com"
           value={formik.values.email}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
         <div className="min-h-[20px]">
           {formik.touched.email && formik.errors.email && (
-            <TypographyQD className="text-red-500 text-sm">
+            <TypographyP className="text-red-400 text-xs">
               {formik.errors.email}
-            </TypographyQD>
+            </TypographyP>
           )}
         </div>
       </div>
       <div className="grid gap-2 pt-2 pb-2">
-        <Label htmlFor="login-password">Password</Label>
+        <Label
+          className="text-custom-primary-text"
+          htmlFor="login-password"
+        >
+          Password
+        </Label>
         <Input
           id="login-password"
           type="password"
@@ -52,10 +61,14 @@ const LoginForm = ({ formik }: LoginFormProps) => {
           value={formik.values.password}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
+          className="text-custom-primary-text border-custom-border border bg-custom-header-footer"
+          placeholder="******"
         />
         <div className="min-h-[20px]">
           {formik.touched.password && formik.errors.password && (
-            <p className="text-red-500 text-sm">{formik.errors.password}</p>
+            <TypographyP className="text-red-400 text-xs">
+              {formik.errors.password}
+            </TypographyP>
           )}
         </div>
       </div>
