@@ -68,24 +68,34 @@ export default function RootLayout({
               ]}
             >
               <ColorBlindnessFilters />
-              <Header />
-              <main className="flex-grow min-h-screen">{children}</main>
-              <Toaster
-                position="top-center"
-                toastOptions={{
-                  classNames: {
-                    toast:
-                      '!top-10 [@media(min-width:1200px)]:!top-12 !border-custom-border !bg-custom-header-footer',
-                    title:
-                      '!text-custom-primary-text !font-bold !font-marcellus',
-                    description: '!text-custom-primary-text !font-manrope',
-                  },
-                }}
-                icons={{
-                  info: null,
-                }}
+              <div
+                id="app-content"
+                className="relative z-0"
+              >
+                <Header />
+                <main className="flex-grow min-h-screen">{children}</main>
+                <Toaster
+                  position="top-center"
+                  toastOptions={{
+                    classNames: {
+                      toast:
+                        '!top-10 [@media(min-width:1200px)]:!top-12 !border-custom-border !bg-custom-header-footer',
+                      title:
+                        '!text-custom-primary-text !font-bold !font-marcellus',
+                      description: '!text-custom-primary-text !font-manrope',
+                    },
+                  }}
+                  icons={{
+                    info: null,
+                  }}
+                />
+                <Footer />
+              </div>
+
+              <div
+                id="colorblind-overlay"
+                className="pointer-events-none fixed inset-0 z-[999999]"
               />
-              <Footer />
             </ThemeProvider>
           </AuthProvider>
         </TanstackProviders>

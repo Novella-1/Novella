@@ -262,18 +262,18 @@
   display: none;
 }
 
-html[data-theme='protanopia'] main {
-  filter: url('#protanopia');
+html[data-theme='protanopia'] #colorblind-overlay {
+  backdrop-filter: url('#protanopia');
 }
 
-html[data-theme='deuteranopia'] main {
-  filter: url('#deuteranopia');
+html[data-theme='deuteranopia'] #colorblind-overlay {
+  backdrop-filter: url('#deuteranopia');
 }
 
-html[data-theme='tritanopia'] main {
-  filter: url('#tritanopia');
+html[data-theme='tritanopia'] #colorblind-overlay {
+  backdrop-filter: url('#tritanopia');
 }
 
-html[data-theme='grayscale'] main {
-  filter: grayscale(100%);
+html[data-theme='grayscale'] #colorblind-overlay {
+  backdrop-filter: grayscale(100%);
 }
