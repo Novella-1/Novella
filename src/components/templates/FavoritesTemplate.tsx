@@ -11,7 +11,6 @@ import { PageSize } from '@/types/BookType';
 import { FavouritesItemsCounter } from '../common/FavouritesItemsCounter/FavouritesItemsCounter';
 import FavouritesList from '../common/FavouritesList/FavouritesList';
 import { FavouritesFilteringSection } from '../layout/FavouritesFilteringSection/FavouritesFilteringSection';
-import { BackgroundText } from '../ui/backgroundText';
 import { TypographyH1, TypographyP } from '../ui/custom/typography';
 
 type Props = {
@@ -51,7 +50,6 @@ const FavoritesTemplate = async ({ searchParams }: Props) => {
 
   return (
     <div className="pt-24 pb-10">
-      <BackgroundText />
       <div className="relative z-10">
         <div className="mb-10">
           <TypographyH1 className="text-custom-primary-text mb-2">
