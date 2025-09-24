@@ -13,7 +13,7 @@ type LoginFormProps = {
 const LoginForm = ({ formik }: LoginFormProps) => {
   return (
     <>
-      <div className="text-center">
+      <div className="text-center p-1">
         <DialogTitle className="pt-4 text-md text-custom-primary-text">
           Login
         </DialogTitle>
