@@ -1,10 +1,9 @@
-// src/app/api/sliders/new-books/route.ts
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { formatCategories } from '@/server/helpers/helpers';
 import { prisma } from '@/server/prisma';
 import { BookWithDetails } from '@/types/BookType';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const books = await prisma.book.findMany({
       orderBy: { publicationYear: 'desc' },

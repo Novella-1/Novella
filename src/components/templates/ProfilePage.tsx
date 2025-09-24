@@ -9,7 +9,7 @@ interface ProfilePageProps {
   className?: string;
 }
 
-export function ProfilePage({ className, ...props }: ProfilePageProps) {
+export function ProfilePage({ ...props }: ProfilePageProps) {
   return (
     <div
       className={cn('py-16 xl:py-24')}

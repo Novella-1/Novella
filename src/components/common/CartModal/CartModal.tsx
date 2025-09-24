@@ -1,103 +1,324 @@
-import { ShoppingCart } from 'lucide-react';
-import Link from 'next/link';
-import { CartIcon } from '@/components/ui/custom/icons';
-import { TypographyP } from '@/components/ui/custom/typography';
+'use client';
 
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import { useState, useEffect } from 'react';
+
+import { ShoppingCartIcon } from '@/components/ui/custom/icons';
+import { TypographyP } from '@/components/ui/custom/typography';
 import {
   Sheet,
+  SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
+  SheetOverlay,
   SheetTrigger,
 } from '@/components/ui/sheet';
-
-import CartCard from '../Cart/CartCard';
-
-// Приклад типу для товару
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image?: string;
-}
+import {
+  getLocalCart,
+  updateLocalCartQuantity,
+  removeFromLocalCart,
+  getLocalCartCount,
+  getLocalCartTotalPrice,
+} from '@/lib/localStorage';
+import {
+  addToCart,
+  createOrder,
+  fetchCart,
+  removeFromCart,
+} from '@/services/fetchCart';
+import { CartItem } from '@/types/CartItemType';
+import CartHeaderIcon from '../Cart/CartHeaderIcon';
+import { showToast } from '../ShowToast';
+import CartModalCheckoutButton from './CartModalCheckoutButton';
+import CartModalHeader from './CartModalHeader';
+import CartModalItem from './CartModalItem';
+import {
+  SignInPropositionWhen0Items,
+  SignInPropositionWhenItemsExists,
+} from './SignInProposition';
 
 interface CartModalProps {
-  cartItems: CartItem[];
-  onUpdateQuantity?: (id: string, quantity: number) => void;
-  onRemoveItem?: (id: string) => void;
+  userId?: string;
 }
 
-export default function CartModal({ cartItems }: CartModalProps) {
-  const totalPrice = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  );
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  const cards = new Array(5).fill(0).map((_, i) => <CartCard key={i} />);
+export default function CartModal({ userId }: CartModalProps) {
+  const [open, setOpen] = useState(false);
+  const [localCartItems, setLocalCartItems] = useState<CartItem[]>([]);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!userId) {
+      setLocalCartItems(getLocalCart());
+    }
+  }, [userId, open]);
+
+  useEffect(() => {
+    const handleCartUpdated = () => {
+      if (!userId) {
+        setLocalCartItems(getLocalCart());
+      }
+    };
+
+    window.addEventListener('cartUpdated', handleCartUpdated);
+    return () => window.removeEventListener('cartUpdated', handleCartUpdated);
+  }, [userId]);
+
+  const {
+    data: serverCartData,
+    isLoading,
+    isFetching,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ['CART', userId],
+    queryFn: () => fetchCart(userId!),
+    enabled: !!userId,
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+  });
+
+  const addMutation = useMutation({
+    mutationFn: ({ bookId, quantity }: { bookId: string; quantity: number }) =>
+      addToCart(userId!, bookId, quantity),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['CART', userId] });
+    },
+  });
+
+  const removeMutation = useMutation({
+    mutationFn: (bookId: string) => removeFromCart(userId!, bookId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['CART', userId] });
+    },
+  });
+
+  const orderMutation = useMutation({
+    mutationFn: async () => {
+      let items: { bookId: string; quantity: number; price: number }[] = [];
+
+      if (userId) {
+        if (!serverCartData?.data || serverCartData.data.length === 0) {
+          throw new Error('Cart is empty');
+        }
+
+        items = serverCartData.data.map((item: CartItem) => ({
+          bookId: item.book.id,
+          quantity: item.quantity,
+          price: item.book.priceDiscount || item.book.priceRegular,
+        }));
+      } else {
+        const localCart = getLocalCart();
+        if (!localCart || localCart.length === 0) {
+          throw new Error('Cart is empty');
+        }
+
+        items = localCart.map((item: CartItem) => ({
+          bookId: item.book.id,
+          quantity: item.quantity,
+          price: item.book.priceDiscount || item.book.priceRegular,
+        }));
+      }
+      const orderData = {
+        userId,
+        items: items,
+      };
+
+      console.log(orderData);
+
+      return await createOrder(orderData);
+    },
+    onSuccess: () => {
+      if (userId) {
+        queryClient.invalidateQueries({ queryKey: ['CART', userId] });
+      } else {
+        localStorage.removeItem('cart');
+        window.dispatchEvent(new CustomEvent('cartButtonsUpdated'));
+      }
+      handleOpenChange(false);
+      showToast('successfullOrder');
+    },
+  });
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (isOpen) {
+      if (userId) {
+        refetch();
+      } else {
+        setLocalCartItems(getLocalCart());
+      }
+    }
+  };
+
+  const handleLocalAddQuantity = (bookId: string) => {
+    updateLocalCartQuantity(bookId, 1);
+    setLocalCartItems(getLocalCart());
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
+  };
+
+  const handleLocalRemoveQuantity = (
+    bookId: string,
+    currentQuantity: number,
+  ) => {
+    if (currentQuantity > 1) {
+      updateLocalCartQuantity(bookId, -1);
+    } else {
+      removeFromLocalCart(bookId);
+      window.dispatchEvent(new CustomEvent('cartButtonsUpdated'));
+    }
+    setLocalCartItems(getLocalCart());
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
+  };
+
+  const handleLocalRemoveItem = (bookId: string) => {
+    removeFromLocalCart(bookId);
+    setLocalCartItems(getLocalCart());
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
+  };
+
+  const handleServerAddQuantity = (bookId: string) => {
+    addMutation.mutate({ bookId, quantity: 1 });
+  };
+
+  const handleServerRemoveQuantity = (
+    bookId: string,
+    currentQuantity: number,
+  ) => {
+    if (currentQuantity > 1) {
+      addMutation.mutate({ bookId, quantity: -1 });
+    } else {
+      removeMutation.mutate(bookId);
+    }
+  };
+
+  const handleServerRemoveItem = (bookId: string) => {
+    removeMutation.mutate(bookId);
+  };
+
+  const handleAddQuantity = (bookId: string) => {
+    if (userId) {
+      handleServerAddQuantity(bookId);
+    } else {
+      handleLocalAddQuantity(bookId);
+    }
+  };
+
+  const handleRemoveQuantity = (bookId: string, currentQuantity: number) => {
+    if (userId) {
+      handleServerRemoveQuantity(bookId, currentQuantity);
+    } else {
+      handleLocalRemoveQuantity(bookId, currentQuantity);
+    }
+  };
+
+  const handleRemoveItem = (bookId: string) => {
+    if (userId) {
+      handleServerRemoveItem(bookId);
+    } else {
+      handleLocalRemoveItem(bookId);
+      window.dispatchEvent(new CustomEvent('cartButtonsUpdated'));
+    }
+  };
+
+  const handleCheckout = async () => {
+    orderMutation.mutate();
+  };
+
+  const cartItems = userId ? serverCartData?.data || [] : localCartItems;
+  const totalCount =
+    userId ? serverCartData?.totalCount || 0 : getLocalCartCount();
+  const totalPrice =
+    userId ? serverCartData?.totalPrice || 0 : getLocalCartTotalPrice();
+
+  const isPending =
+    addMutation.isPending ||
+    removeMutation.isPending ||
+    orderMutation.isPending;
+
+  const isLoadingData = userId && (isLoading || isFetching);
+
+  if (error) {
+    throw new Error('An error occured');
+  }
 
   return (
-    <Sheet>
+    <Sheet
+      open={open}
+      onOpenChange={handleOpenChange}
+    >
       <SheetTrigger asChild>
-        <Link
-          href="/cart"
-          aria-label="Cart"
-          // variant="outline"
-          className="relative text-custom-icons hover:cursor-pointer"
-        >
-          {/* <ShoppingCart className="h-4 w-4" /> */}
-          <CartIcon
-            // strokeWidth={2.5}
-            className="w-6 h-6 md:w-4 md:h-4 xl:w-6 xl:h-6"
-          />
-          {/* {totalItems > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-              {totalItems}
-            </span>
-          )} */}
-        </Link>
+        <CartHeaderIcon
+          isLoading={isLoading}
+          totalCount={totalCount}
+        />
       </SheetTrigger>
 
-      <SheetContent className="w-full sm:max-w-lg h-full bg-custom-primary-bg ">
-        <SheetHeader>
-          <SheetTitle className="text-custom-primary-text">Cart </SheetTitle>
-          <SheetDescription>
-            {cartItems.length === 0 ?
-              'Your cart is empty. Start adding some products!'
-            : `You have ${totalItems} items in your cart.`}
-          </SheetDescription>
-        </SheetHeader>
+      <SheetContent className="w-full sm:max-w-lg bg-custom-primary-bg">
+        <SheetClose className="w-10" />
+        <CartModalHeader
+          totalCount={totalCount}
+          userId={userId}
+        />
 
         <div className="mt-6 space-y-4">
-          {cartItems.length === 0 ?
+          {isLoadingData ?
             <div className="text-center py-8 text-gray-500">
-              <ShoppingCart className="mx-auto h-12 w-12 mb-4 opacity-50" />
-              <TypographyP>Add products to cart</TypographyP>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
+              <TypographyP>Loading cart...</TypographyP>
+            </div>
+          : cartItems.length === 0 ?
+            <div className="text-center py-8 text-gray-500">
+              <ShoppingCartIcon className="mx-auto h-12 w-12 mb-4 opacity-50" />
+              <TypographyP>Your cart is empty</TypographyP>
+              <TypographyP className="text-sm mt-2">
+                Add some products to get started!
+              </TypographyP>
+              {!userId && (
+                <SignInPropositionWhen0Items
+                  handleOpenChange={handleOpenChange}
+                />
+              )}
             </div>
           : <>
-              <div className="w-full xl:flex-1 min-h-0 overflow-y-auto max-h-120">
-                <div className=" rounded-lg p-4 shadow-sm h-full">
-                  <div className="space-y-4">{cards}</div>
+              <div className="w-full flex-1 min-h-0 overflow-y-auto max-h-96 scrollbar-hide">
+                <div className="space-y-4">
+                  {cartItems.map((item: CartItem) => (
+                    <CartModalItem
+                      key={item.id}
+                      item={item}
+                      handleRemoveQuantity={handleRemoveQuantity}
+                      handleAddQuantity={handleAddQuantity}
+                      handleRemoveItem={handleRemoveItem}
+                      isPending={isPending}
+                    />
+                  ))}
                 </div>
               </div>
 
               <div className="border-t pt-4 space-y-4">
                 <div className="flex justify-between items-center font-semibold text-lg text-custom-primary-text">
                   <span>Total:</span>
-                  <span>₴{totalPrice.toFixed(2)}</span>
+                  <span>${totalPrice.toFixed(2)}</span>
                 </div>
-                <button
-                  type="button"
-                  className="px-4 py-3 bg-[#5A4632] text-white rounded-md font-bold hover:bg-[#4a3826] hover:cursor-pointer w-full transition"
-                >
-                  Make an order 🔖
-                </button>
+
+                {!userId && (
+                  <SignInPropositionWhenItemsExists
+                    handleOpenChange={handleOpenChange}
+                  />
+                )}
+
+                <CartModalCheckoutButton
+                  itemsLength={cartItems.length}
+                  isPending={isPending}
+                  handleCheckout={handleCheckout}
+                />
               </div>
             </>
           }
         </div>
       </SheetContent>
+      <SheetOverlay />
     </Sheet>
   );
 }

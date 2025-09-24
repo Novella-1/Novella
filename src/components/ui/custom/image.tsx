@@ -6,10 +6,12 @@ export function BookImage({
   src,
   namespaceId,
   lang,
+  type,
 }: {
   src: string;
   namespaceId: string;
   lang: string;
+  type: string;
 }) {
   return (
     <div
@@ -17,7 +19,7 @@ export function BookImage({
         'flex flex-col justify-center items-center self-stretch px-0 sm:px-[13.844px] cursor-pointer',
       )}
     >
-      <Link href={`/book/${namespaceId}/${lang}`}>
+      <Link href={`/book/${namespaceId}/${lang}?type=${type}`}>
         <Image
           src={src}
           alt="Book cover"

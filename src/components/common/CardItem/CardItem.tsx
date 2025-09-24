@@ -27,7 +27,6 @@ export function CardItem({
     priceDiscount,
     images,
     type,
-    slug,
     namespaceId,
     lang,
   } = book;
@@ -44,6 +43,7 @@ export function CardItem({
           src={`/books/${images[0]}`}
           namespaceId={namespaceId}
           lang={lang}
+          type={type}
         />
         {type === 'AUDIOBOOK' && (
           <div className="absolute flex items-center justify-center top-1 right-1 w-10 h-10 bg-custom-icons-accent rounded-full p-1">
@@ -56,6 +56,7 @@ export function CardItem({
           <CardItemTitle
             namespaceId={namespaceId}
             lang={lang}
+            type={type}
           >
             {name}
           </CardItemTitle>
@@ -83,7 +84,10 @@ export function CardItem({
         </div>
       </div>
       <div className="flex flex-row gap-2 justify-between w-full">
-        <AddToCart name={name} />
+        <AddToCart
+          name={name}
+          book={book}
+        />
         <AddToFavorite
           name={name}
           className="cursor-pointer"

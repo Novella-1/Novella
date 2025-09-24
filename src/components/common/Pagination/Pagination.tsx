@@ -46,7 +46,7 @@ const AppPagination: FC<Props> = ({
     } else {
       router.push(createHref(newPage));
     }
-    router.push(createHref(newPage));
+    // router.push(createHref(newPage));
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }

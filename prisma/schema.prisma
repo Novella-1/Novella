@@ -61,6 +61,8 @@ model Book {
   Favourite        Favourite[]
   OrderItem        OrderItem[]
   CartItem         CartItem[]
+
+  @@index([namespaceId, lang])
 }
 
 model Category {
@@ -76,6 +78,7 @@ model BookCategory {
   category   Category @relation(fields: [categoryId], references: [id])
 
   @@id([bookId, categoryId])
+  @@index([categoryId])
 }
 
 model PaperDetails {
@@ -120,6 +123,7 @@ model Favourite {
   book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
   @@unique([userId, bookId])
+  @@index([userId])
 }
 
 model Order {
