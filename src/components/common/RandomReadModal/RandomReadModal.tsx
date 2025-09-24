@@ -15,25 +15,18 @@ import {
   DialogDescription,
   DialogClose,
 } from '@/components/ui/dialog';
+import { BookWithDetails } from '@/types/BookType';
 
 interface RandomBookModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-interface Book {
-  title: string;
-  author: string;
-  slug: string;
-  coverImage: string;
-  categories?: string[];
-}
-
 export const RandomBookModal: React.FC<RandomBookModalProps> = ({
   open,
   onClose,
 }) => {
-  const [book, setBook] = React.useState<Book | null>(null);
+  const [book, setBook] = React.useState<BookWithDetails | null>(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -47,16 +40,11 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
       );
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-      const data = await res.json();
-      const cover = `/books/${data.images?.[0] || 'placeholder.jpg'}`;
+      const parsedBook = await res.json();
 
-      setBook({
-        title: data.name,
-        author: data.author,
-        slug: data.slug,
-        coverImage: cover,
-        categories: data.categories || [],
-      });
+      console.log('dsadsadsads', parsedBook);
+
+      setBook(parsedBook);
     } catch (err) {
       console.error('Error fetching book:', err);
       setError('Failed to download the book. Try again.');
@@ -187,8 +175,8 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
                       }}
                     >
                       <Image
-                        src={book.coverImage}
-                        alt={book.title || 'Book cover'}
+                        src={`/books/${book.images[0]}`}
+                        alt={book.name || 'Book cover'}
                         width={130}
                         height={175}
                         sizes="(max-width: 640px) 100px, 130px"
@@ -206,7 +194,7 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
 
                     <div className="text-center flex flex-col items-center px-2">
                       <TypographyH3 className="text-sm md:text-lg mb-1 font-semibold text-custom-primary-text leading-tight">
-                        {book.title}
+                        {book.name}
                       </TypographyH3>
                       <TypographyP className="text-custom-primary-text text-xs md:text-sm truncate w-full">
                         {book.author}
@@ -253,7 +241,7 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
 
           {book && !error && (
             <Link
-              href={`/book/${book.slug}`}
+              href={`/book/${book.namespaceId}/${book.lang}?=${book.type}`}
               className="flex-1"
             >
               <Button
