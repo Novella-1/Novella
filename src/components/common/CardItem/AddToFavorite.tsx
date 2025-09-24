@@ -58,12 +58,18 @@ export function AddToFavorite({
   const notifyCountChange = () => {
     window.dispatchEvent(new CustomEvent('favouritesUpdated'));
 
-    queryClient.invalidateQueries({
-      queryKey: ['FAVOURITES_COUNT'],
-    });
-    queryClient.invalidateQueries({
-      queryKey: ['LOCAL_FAVOURITES_COUNT'],
-    });
+    if (data?.user?.id) {
+      queryClient.invalidateQueries({
+        queryKey: ['FAVOURITES_COUNT', data.user.id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['FAVOURITES_IDS', data.user.id],
+      });
+    } else {
+      queryClient.invalidateQueries({
+        queryKey: ['LOCAL_FAVOURITES_COUNT'],
+      });
+    }
   };
 
   const handleClick = async () => {

@@ -25,14 +25,14 @@ export const FavouritesHeaderIcon = ({ userId }: Props) => {
 
     updateCount();
 
-    const unsubscribe = queryClient.getQueryCache().subscribe((event) => {
-      if (
-        event.query.queryKey[0] === 'LOCAL_FAVOURITES_COUNT' ||
-        event.query.queryKey[0] === 'FAVOURITES_IDS'
-      ) {
-        updateCount();
-      }
-    });
+    // const unsubscribe = queryClient.getQueryCache().subscribe((event) => {
+    //   if (
+    //     event.query.queryKey[0] === 'LOCAL_FAVOURITES_COUNT' ||
+    //     event.query.queryKey[0] === 'FAVOURITES_IDS'
+    //   ) {
+    //     updateCount();
+    //   }
+    // });
 
     const handleStorageChange = () => {
       updateCount();
@@ -46,7 +46,7 @@ export const FavouritesHeaderIcon = ({ userId }: Props) => {
     window.addEventListener('favouritesUpdated', handleCustomEvent);
 
     return () => {
-      unsubscribe();
+      // unsubscribe();
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('favouritesUpdated', handleCustomEvent);
     };

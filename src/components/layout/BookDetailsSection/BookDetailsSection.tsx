@@ -1,7 +1,6 @@
 'use client';
 
-import { QueryClient, useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { BookAbout } from '@/components/common/Details/BookAbout';
 import { BookCharacteristics } from '@/components/common/Details/BookCharacteristics';
@@ -24,14 +23,19 @@ const BookDetailsSection = ({ initialBook }: Props) => {
     isLoading,
     isFetching,
   } = useQuery({
-    queryKey: ['book', initialBook.namespaceId, lang],
-    queryFn: () => fetchBook(initialBook.namespaceId, lang),
+    queryKey: ['BOOK', initialBook.namespaceId, lang, initialBook.type],
+    queryFn: () => fetchBook(initialBook.namespaceId, lang, initialBook.type),
     initialData: lang === initialBook.lang ? initialBook : undefined,
+    staleTime: 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
+
+  console.log(bookWithDetails);
 
   const switchLang = (newLang: string) => {
     setLang(newLang);
-    const newUrl = `/book/${initialBook.namespaceId}/${newLang}`;
+    const newUrl = `/book/${initialBook.namespaceId}/${newLang}?type=${initialBook.type}`;
     // for sharing
     window.history.replaceState(null, '', newUrl);
   };
@@ -65,6 +69,7 @@ const BookDetailsSection = ({ initialBook }: Props) => {
             lang={bookWithDetails?.lang}
             langAvailable={bookWithDetails?.langAvailable}
             handleLangChange={switchLang}
+            book={bookWithDetails!}
           />
         </div>
       </div>

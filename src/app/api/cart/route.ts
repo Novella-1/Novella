@@ -12,20 +12,34 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const existing = await prisma.cartItem.findUnique({
-      where: { userId_bookId: { userId, bookId } },
+    const book = await prisma.book.findUnique({
+      where: { id: bookId },
     });
 
-    if (existing) {
-      const updated = await prisma.cartItem.update({
-        where: { userId_bookId: { userId, bookId } },
-        data: { quantity: existing.quantity + quantity },
-      });
-      return NextResponse.json(updated, { status: 200 });
+    if (!book) {
+      return NextResponse.json({ error: 'Book not found' }, { status: 404 });
     }
 
-    const cartItem = await prisma.cartItem.create({
-      data: { userId, bookId, quantity },
+    const cartItem = await prisma.cartItem.upsert({
+      where: {
+        userId_bookId: {
+          userId: userId,
+          bookId: bookId,
+        },
+      },
+      update: {
+        quantity: {
+          increment: quantity,
+        },
+      },
+      create: {
+        userId: userId,
+        bookId: bookId,
+        quantity: quantity,
+      },
+      include: {
+        book: true,
+      },
     });
 
     return NextResponse.json(cartItem, { status: 201 });
@@ -49,10 +63,14 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    await prisma.cartItem.deleteMany({
-      where: { userId, bookId },
+    await prisma.cartItem.delete({
+      where: {
+        userId_bookId: {
+          userId: userId,
+          bookId: bookId,
+        },
+      },
     });
-
     return NextResponse.json({ message: 'Removed from cart' });
   } catch (err) {
     console.error(err);

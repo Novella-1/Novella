@@ -44,9 +44,16 @@ export async function getBooksQuantityByType(bookType: BookType) {
   return res.json() as Promise<{ totalCount: number }>;
 }
 
-export async function fetchBook(namespaceId: string, lang: string) {
+export async function fetchBook(
+  namespaceId: string,
+  lang: string,
+  type: string,
+) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${namespaceId}/${lang}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${namespaceId}/${lang}?` +
+      new URLSearchParams({
+        type: type,
+      }),
     {
       cache: 'no-store',
     },
