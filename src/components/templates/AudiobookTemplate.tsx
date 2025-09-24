@@ -58,7 +58,7 @@ const AudiobookTemplate = async ({ searchParams }: Props) => {
 
         <HydrationBoundary state={dehydrate(queryClient)}>
           <BooksList
-            className="mb-10"
+            className="flex flex-wrap justify-items-center gap-4 mb-10"
             type="AUDIOBOOK"
             page={page}
             pageSize={pageSize}
