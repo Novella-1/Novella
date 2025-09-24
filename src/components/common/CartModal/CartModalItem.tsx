@@ -1,7 +1,8 @@
-import { Minus, Plus, Trash2 } from 'lucide-react';
+// import { Minus, Plus, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { MinusIcon, PlusIcon, TrashIcon } from '@/components/ui/custom/icons';
 import { TypographyP } from '@/components/ui/custom/typography';
 import { CartItem } from '@/types/CartItemType';
 
@@ -23,20 +24,21 @@ const CartModalItem = ({
   return (
     <div
       key={item.id}
-      className="flex items-center justify-between p-3 border rounded-lg bg-white"
+      className="flex items-center justify-between p-3 border rounded-lg bg-custom-header-footer"
     >
       <Image
         width={80}
         height={80}
         src={`/books/${item.book.images[0]}`}
         alt="Cart item img"
+        className="rounded-md mr-4"
       />
       <div className="flex-1 min-w-0 mr-4">
-        <TypographyP className="font-medium truncate">
+        <TypographyP className="font-medium truncate text-custom-primary-text">
           {item.book.name}
         </TypographyP>
-        <TypographyP className="text-sm text-gray-600">
-          ₴{(item.book.priceDiscount || item.book.priceRegular).toFixed(2)} each
+        <TypographyP className="text-sm text-custom-icons">
+          ${(item.book.priceDiscount || item.book.priceRegular).toFixed(2)} each
         </TypographyP>
       </div>
 
@@ -46,12 +48,12 @@ const CartModalItem = ({
           variant="outline"
           onClick={() => handleRemoveQuantity(item.book.id, item.quantity)}
           disabled={isPending}
-          className="h-8 w-8 p-0"
+          className="h-8 w-8 p-0 cursor-pointer bg-custom-primary-bg hover:bg-custom-primary-bg/50"
         >
-          <Minus className="h-3 w-3" />
+          <MinusIcon className="h-3 w-3 text-custom-primary-text" />
         </Button>
 
-        <span className="w-8 text-center font-medium text-sm">
+        <span className="w-8 text-center font-medium text-sm text-custom-primary-text">
           {item.quantity}
         </span>
 
@@ -60,9 +62,9 @@ const CartModalItem = ({
           variant="outline"
           onClick={() => handleAddQuantity(item.book.id)}
           disabled={isPending}
-          className="h-8 w-8 p-0"
+          className="h-8 w-8 p-0 cursor-pointer bg-custom-primary-bg hover:bg-custom-primary-bg/50"
         >
-          <Plus className="h-3 w-3" />
+          <PlusIcon className="h-3 w-3 text-custom-primary-text" />
         </Button>
 
         <Button
@@ -70,9 +72,9 @@ const CartModalItem = ({
           variant="destructive"
           onClick={() => handleRemoveItem(item.book.id)}
           disabled={isPending}
-          className="h-8 w-8 p-0"
+          className="h-8 w-8 p-0 cursor-pointer "
         >
-          <Trash2 className="h-3 w-3" />
+          <TrashIcon className="h-3 w-3" />
         </Button>
       </div>
     </div>

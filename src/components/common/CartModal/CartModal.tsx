@@ -1,14 +1,14 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ShoppingCart } from 'lucide-react';
 
 import { useState, useEffect } from 'react';
 
-import { toast } from 'sonner';
+import { ShoppingCartIcon } from '@/components/ui/custom/icons';
 import { TypographyP } from '@/components/ui/custom/typography';
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetOverlay,
   SheetTrigger,
@@ -28,6 +28,7 @@ import {
 } from '@/services/fetchCart';
 import { CartItem } from '@/types/CartItemType';
 import CartHeaderIcon from '../Cart/CartHeaderIcon';
+import { showToast } from '../ShowToast';
 import CartModalCheckoutButton from './CartModalCheckoutButton';
 import CartModalHeader from './CartModalHeader';
 import CartModalItem from './CartModalItem';
@@ -127,7 +128,7 @@ export default function CartModal({ userId }: CartModalProps) {
 
       return await createOrder(orderData);
     },
-    onSuccess: (order) => {
+    onSuccess: () => {
       if (userId) {
         queryClient.invalidateQueries({ queryKey: ['CART', userId] });
       } else {
@@ -135,7 +136,7 @@ export default function CartModal({ userId }: CartModalProps) {
         window.dispatchEvent(new CustomEvent('cartButtonsUpdated'));
       }
       handleOpenChange(false);
-      toast.success('Vitayu');
+      showToast('successfullOrder');
     },
   });
 
@@ -254,6 +255,7 @@ export default function CartModal({ userId }: CartModalProps) {
       </SheetTrigger>
 
       <SheetContent className="w-full sm:max-w-lg bg-custom-primary-bg">
+        <SheetClose className="w-10" />
         <CartModalHeader
           totalCount={totalCount}
           userId={userId}
@@ -267,7 +269,7 @@ export default function CartModal({ userId }: CartModalProps) {
             </div>
           : cartItems.length === 0 ?
             <div className="text-center py-8 text-gray-500">
-              <ShoppingCart className="mx-auto h-12 w-12 mb-4 opacity-50" />
+              <ShoppingCartIcon className="mx-auto h-12 w-12 mb-4 opacity-50" />
               <TypographyP>Your cart is empty</TypographyP>
               <TypographyP className="text-sm mt-2">
                 Add some products to get started!
@@ -279,7 +281,7 @@ export default function CartModal({ userId }: CartModalProps) {
               )}
             </div>
           : <>
-              <div className="w-full flex-1 min-h-0 overflow-y-auto max-h-96">
+              <div className="w-full flex-1 min-h-0 overflow-y-auto max-h-96 scrollbar-hide">
                 <div className="space-y-4">
                   {cartItems.map((item: CartItem) => (
                     <CartModalItem
@@ -297,7 +299,7 @@ export default function CartModal({ userId }: CartModalProps) {
               <div className="border-t pt-4 space-y-4">
                 <div className="flex justify-between items-center font-semibold text-lg text-custom-primary-text">
                   <span>Total:</span>
-                  <span>₴{totalPrice.toFixed(2)}</span>
+                  <span>${totalPrice.toFixed(2)}</span>
                 </div>
 
                 {!userId && (

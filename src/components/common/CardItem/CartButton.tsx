@@ -23,7 +23,7 @@ interface AddToCartProps {
   book: BookWithDetails;
 }
 
-export function AddToCart({ className, name, book, ...props }: AddToCartProps) {
+export function AddToCart({ name, book }: AddToCartProps) {
   const queryClient = useQueryClient();
   const { data: session, status } = useSession();
   const [localInCart, setLocalInCart] = useState(false);

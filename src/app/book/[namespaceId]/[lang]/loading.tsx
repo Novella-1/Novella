@@ -37,7 +37,7 @@ const Loading = () => {
             src="https://lottie.host/752e52c2-fcaa-47ff-99ed-0687fea87c59/WrJsDQktAl.lottie"
             loop
             autoplay
-            style={{ width: 200, height: 200 }}
+            className="w-[150px] h-[150px] md:w-[170px] md:h-[170px] xl:w-[200px] xl:h-[200px]"
           />
         </motion.div>
       )}
