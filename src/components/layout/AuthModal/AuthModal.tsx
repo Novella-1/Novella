@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { login, register } from '@/services/fetchAuth';
-import { AuthFormValues } from '@/types/AuthFormValues';
+import { AuthFormValues } from '@/types/AuthFormValuesType';
 
 type AuthType = 'login' | 'register';
 

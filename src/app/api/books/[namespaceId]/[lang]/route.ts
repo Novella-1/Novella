@@ -1,3 +1,4 @@
+import { BookType } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { formatCategories } from '@/server/helpers/helpers';
 import { prisma } from '@/server/prisma';
@@ -9,8 +10,16 @@ export async function GET(
   const { namespaceId, lang } = await context.params;
 
   try {
+    const { searchParams } = new URL(request.url);
+    const typeParam = searchParams.get('type');
+
+    let type: BookType | undefined;
+    if (typeParam && ['PAPERBACK', 'KINDLE', 'AUDIOBOOK'].includes(typeParam)) {
+      type = typeParam as BookType;
+    }
+
     const book = await prisma.book.findFirst({
-      where: { namespaceId, lang },
+      where: { namespaceId, lang, ...(type ? { type } : {}) },
       include: {
         categories: { include: { category: true } },
         paperDetails: true,

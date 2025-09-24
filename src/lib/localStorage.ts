@@ -1,4 +1,7 @@
 import { BookWithDetails } from '@/types/BookType';
+import { CartItem } from '@/types/CartItemType';
+
+// FAVOURITES
 
 export const addToLocalFavourites = (book: BookWithDetails) => {
   try {
@@ -43,6 +46,63 @@ export const getLocalFavourites = (): BookWithDetails[] => {
     return JSON.parse(localStorage.getItem('favourites') || '[]');
   } catch (err) {
     console.error('Error getting favourites:', err);
+    return [];
+  }
+};
+
+// CART
+
+// export const addToLocalCart = (book: BookWithDetails, quantity = 1) => {
+//   try {
+//     const cart: LocalCartItem[] = JSON.parse(
+//       localStorage.getItem('cart') || '[]',
+//     );
+
+//     const existing = cart.find((item) => item.id === book.id);
+//     if (existing) {
+//       existing.quantity += quantity;
+//     } else {
+//       cart.push({
+//         ...book,
+//         quantity,
+//         id: crypto.randomUUID(),
+//       });
+//     }
+
+//     localStorage.setItem('cart', JSON.stringify(cart));
+//   } catch (err) {
+//     console.error('Error adding to cart:', err);
+//   }
+// };
+
+export const removeFromLocalCart = (bookId: string) => {
+  try {
+    const cart: LocalCartItem[] = JSON.parse(
+      localStorage.getItem('cart') || '[]',
+    );
+    const updated = cart.filter((item) => item.id !== bookId);
+    localStorage.setItem('cart', JSON.stringify(updated));
+  } catch (err) {
+    console.error('Error removing from cart:', err);
+  }
+};
+export const isInLocalCart = (bookId: string): boolean => {
+  try {
+    const cart: LocalCartItem[] = JSON.parse(
+      localStorage.getItem('cart') || '[]',
+    );
+    return cart.some((item) => item.id === bookId);
+  } catch (err) {
+    console.error('Error checking cart:', err);
+    return false;
+  }
+};
+
+export const getLocalCart = (): LocalCartItem[] => {
+  try {
+    return JSON.parse(localStorage.getItem('cart') || '[]');
+  } catch (err) {
+    console.error('Error getting cart:', err);
     return [];
   }
 };

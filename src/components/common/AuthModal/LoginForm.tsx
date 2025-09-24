@@ -4,7 +4,7 @@ import { TypographyQD } from '@/components/ui/custom/typography';
 import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AuthFormValues } from '@/types/AuthFormValues';
+import { AuthFormValues } from '@/types/AuthFormValuesType';
 
 type LoginFormProps = {
   formik: FormikProps<AuthFormValues>;

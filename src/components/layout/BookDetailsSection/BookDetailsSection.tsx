@@ -24,14 +24,19 @@ const BookDetailsSection = ({ initialBook }: Props) => {
     isLoading,
     isFetching,
   } = useQuery({
-    queryKey: ['book', initialBook.namespaceId, lang],
-    queryFn: () => fetchBook(initialBook.namespaceId, lang),
+    queryKey: ['BOOK', initialBook.namespaceId, lang, initialBook.type],
+    queryFn: () => fetchBook(initialBook.namespaceId, lang, initialBook.type),
     initialData: lang === initialBook.lang ? initialBook : undefined,
+    staleTime: 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
+
+  console.log(bookWithDetails);
 
   const switchLang = (newLang: string) => {
     setLang(newLang);
-    const newUrl = `/book/${initialBook.namespaceId}/${newLang}`;
+    const newUrl = `/book/${initialBook.namespaceId}/${newLang}?type=${initialBook.type}`;
     // for sharing
     window.history.replaceState(null, '', newUrl);
   };

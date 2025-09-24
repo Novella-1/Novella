@@ -60,6 +60,17 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
   }, []);
 
   useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  useEffect(() => {
     return () => {
       if (debounceTimer.current) {
         clearTimeout(debounceTimer.current);
@@ -95,16 +106,18 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
   const renderResults = () => {
     if (!open || results.length === 0) return null;
 
+     
+
     const containerClasses =
       variant === 'mobile' ?
         'absolute top-full left-0 right-0 mx-auto w-full max-w-2xl mt-2 bg-custom-header-footer border border-custom-border rounded-md shadow-lg z-50 p-4 max-h-[300px] overflow-y-auto custom-scrollbar'
-      : 'absolute top-full left-1/3 mt-4 bg-custom-header-footer rounded-xl z-50 p-4 max-h-[290px] overflow-y-auto custom-scrollbar w-[480px] -translate-x-1/2';
+      : 'absolute top-full left-1/3 mt-4 bg-custom-header-footer rounded-xl z-50 p-4 max-h-[290px] overflow-y-auto custom-scrollbar w-[480px] -translate-x-1/2 scrollbar-hide';
 
     return (
       <div className={containerClasses}>
         {results.map((book) => (
           <Link
-            href={`/book/${book.slug}`}
+            href={`/book/${book.namespaceId}/${book.lang}?type=${book.type}`}
             key={book.id}
             className={
               variant === 'mobile' ?
