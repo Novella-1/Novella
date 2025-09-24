@@ -136,7 +136,7 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
                   >
                     <div className="w-[100px] h-[135px] md:w-[130px] md:h-[175px] flex-none overflow-hidden">
                       <DotLottieReact
-                        src="https://lottie.host/752e52c2-fcaa-47ff-99ed-0687fea87c59/WrJsDQktAl.lottie"
+                        src="https://lottie.host/84c28cf2-5862-494b-84d2-da3bb078e01e/ILSfTM9AiG.lottie"
                         loop
                         autoplay
                         className="w-full h-full"
