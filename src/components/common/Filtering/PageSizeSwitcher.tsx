@@ -1,6 +1,7 @@
-import Image from 'next/image';
+'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FC, useEffect, useState, useTransition } from 'react';
+import { TfiLayoutGrid4Alt, TfiLayoutGrid3Alt } from 'react-icons/tfi';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
@@ -37,24 +38,20 @@ export const PageSizeSwitcher: FC<PageSizeSwitcherProps> = ({ className }) => {
     });
   }
 
-  const renderButton = (
-    size: number,
-    activeImg: string,
-    inactiveImg: string,
-  ) => (
+  const renderButton = (size: number, Icon: FC<{ className?: string }>) => (
     <button
+      type="button"
       onClick={() => handlePageSizeChange(size)}
-      className={cn('relative', {
+      className={cn('p-1 rounded-md', {
         'opacity-50': isPending && +currentPageSize !== size,
       })}
       disabled={isPending && +currentPageSize !== size}
     >
-      <Image
-        src={+currentPageSize === size ? activeImg : inactiveImg}
-        alt={`${size} view`}
-        width={22}
-        height={22}
-        className="cursor-pointer"
+      <Icon
+        className={cn('w-6 h-6 cursor-pointer transition-colors', {
+          'text-custom-header-footer': +currentPageSize === size,
+          'text-custom-icons': +currentPageSize !== size,
+        })}
       />
     </button>
   );
@@ -70,12 +67,8 @@ export const PageSizeSwitcher: FC<PageSizeSwitcherProps> = ({ className }) => {
 
   return (
     <div className={cn('flex items-center gap-3', className)}>
-      {renderButton(
-        16,
-        '/images/table4x4.png',
-        '/images/table4x4-inactive.png',
-      )}
-      {renderButton(9, '/images/table3x3.png', '/images/table3x3-inactive.png')}
+      {renderButton(16, TfiLayoutGrid4Alt)}
+      {renderButton(9, TfiLayoutGrid3Alt)}
     </div>
   );
 };
