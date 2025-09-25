@@ -31,7 +31,7 @@ const CartModalItem = ({
         height={80}
         src={`/books/${item.book.images[0]}`}
         alt="Cart item img"
-        className="rounded-md mr-4"
+        className="rounded-md mr-4 flex-shrink-0 object-cover h-20 w-16"
       />
       <div className="flex-1 min-w-0 mr-4">
         <TypographyP className="font-medium truncate text-custom-primary-text">

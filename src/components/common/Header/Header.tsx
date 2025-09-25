@@ -124,7 +124,7 @@ const Header: FC = () => {
             </div>
             <div className="flex justify-around items-center h-[48px] border-t px-4 shadow-[0_-1px_8px_0_rgba(0,0,0,0.10)]">
               <AuthModal />
-              <FavouritesHeaderIcon />
+              <FavouritesHeaderIcon userId={data?.user.id} />
 
               <CartModalSection />
             </div>
