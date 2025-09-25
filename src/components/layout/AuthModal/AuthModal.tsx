@@ -1,6 +1,7 @@
 'use client';
 import { useFormik } from 'formik';
 
+import { useRouter } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -30,6 +31,7 @@ const AuthModal = () => {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const { data } = useSession();
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
 
   const formik = useFormik<AuthFormValues>({
     initialValues: {
@@ -53,6 +55,8 @@ const AuthModal = () => {
           if (res?.error) {
             setIserror(true);
             setErrorMsg('Invalid email or password. Please try again');
+          } else {
+            router.push('/');
           }
         } else {
           const res = await register(email, password, firstName, lastName);
@@ -61,6 +65,9 @@ const AuthModal = () => {
             setErrorMsg(
               'User with this email already exists. Please try another one',
             );
+          } else {
+            await login(email, password);
+            router.push('/');
           }
         }
       } catch (err) {
@@ -118,7 +125,7 @@ const AuthModal = () => {
           className="absolute 
         mt-2
         bottom-9 -left-16 w-40
-        xl:top-9 xl:-left-34 xl:h-12
+        md:top-9 md:-left-34 md:h-12
         border bg-custom-header-footer rounded shadow-lg p-2 z-50"
         >
           <button

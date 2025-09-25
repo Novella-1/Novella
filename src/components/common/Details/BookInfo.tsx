@@ -12,6 +12,7 @@ import {
 import { cn } from '@/lib/utils';
 import { BookWithDetails } from '@/types/BookType';
 import { AddToFavorite } from '../CardItem/AddToFavorite';
+import { AddToCart } from '../CardItem/CartButton';
 
 interface BookInfoProps {
   className?: string;
@@ -108,10 +109,11 @@ export function BookInfo({
             : <TypographyH2>${priceRegular ?? '-'}</TypographyH2>}
           </div>
           <div className="flex gap-2 mb-6">
-            <Button className="flex-1 h-10 bg-custom-button hover:bg-custom-hover-button cursor-pointer">
+            {/* <Button className="flex-1 h-10 bg-custom-button hover:bg-custom-hover-button cursor-pointer">
               {' '}
               <TypographyB>Add to cart</TypographyB>
-            </Button>
+            </Button> */}
+            <AddToCart book={book} />
             <AddToFavorite
               name={name}
               book={book}
