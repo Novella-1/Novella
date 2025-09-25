@@ -22,7 +22,7 @@ export const VideoPlayer = ({ className }: { className?: string }) => {
         muted
         playsInline
         className="w-full h-full object-cover brightness-50"
-        poster="/hero-cover.png"
+        poster="/images/hero-cover.png"
         ref={videoRef}
       >
         <source
