@@ -269,7 +269,7 @@ export default function CartModal({ userId }: CartModalProps) {
             </div>
           : cartItems.length === 0 ?
             <div className="text-center py-8 text-gray-500">
-              <ShoppingCartIcon className="mx-auto h-12 w-12 mb-4 opacity-50" />
+              <ShoppingCartIcon className="mx-auto h-12 w-12 mb-4 opacity-50 text-custom-icons" />
               <TypographyP>Your cart is empty</TypographyP>
               <TypographyP className="text-sm mt-2">
                 Add some products to get started!

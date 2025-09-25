@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import LoginForm from '@/components/common/AuthModal/LoginForm';
 import RegisterForm from '@/components/common/AuthModal/RegisterForm';
 import { authValidationSchema } from '@/components/common/AuthModal/validationShema';
+import { showToast } from '@/components/common/ShowToast';
 import { Button } from '@/components/ui/button';
 import { ExitIcon, UserIcon } from '@/components/ui/custom/icons';
 import {
@@ -25,6 +26,8 @@ type AuthType = 'login' | 'register';
 const AuthModal = () => {
   const [authVariant, setAuthVariant] = useState<AuthType>('login');
   const [isError, setIserror] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const { data } = useSession();
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -40,21 +43,38 @@ const AuthModal = () => {
 
     onSubmit: async (values) => {
       const { email, password, firstName, lastName } = values;
+      setIsLoading(true);
+      setIserror(false);
 
-      if (authVariant === 'login') {
-        const res = await login(email, password);
+      try {
+        if (authVariant === 'login') {
+          const res = await login(email, password);
 
-        if (res?.error) {
-          setIserror(true);
+          if (res?.error) {
+            setIserror(true);
+            setErrorMsg('Invalid email or password. Please try again');
+          }
+        } else {
+          const res = await register(email, password, firstName, lastName);
+          if (res?.error) {
+            setIserror(true);
+            setErrorMsg(
+              'User with this email already exists. Please try another one',
+            );
+          }
         }
-      } else {
-        await register(email, password, firstName, lastName);
+      } catch (err) {
+        console.error(err);
+        setIserror(true);
+      } finally {
+        setIsLoading(false);
       }
     },
   });
 
   useEffect(() => {
     setIserror(false);
+    setErrorMsg('');
   }, [formik.values.email, formik.values.password]);
 
   const detailsRef = useRef<HTMLDetailsElement>(null);
@@ -97,18 +117,16 @@ const AuthModal = () => {
         <div
           className="absolute 
         mt-2
-        bottom-9 -left-10 w-40
-        xl:top-9 xl:right-0 xl:h-12
+        bottom-9 -left-16 w-40
+        xl:top-9 xl:-left-34 xl:h-12
         border bg-custom-header-footer rounded shadow-lg p-2 z-50"
         >
           <button
             className="flex items-center gap-2 w-full px-2 py-1 cursor-pointer rounded text-custom-icons"
             onClick={async () => {
               await signOut({
-                // redirect: false
                 redirectTo: '/',
               });
-              // router.push('/');
             }}
           >
             <ExitIcon className="w-5 h-5 xl:w-6 xl:h-6 border-custom-button" />
@@ -127,7 +145,7 @@ const AuthModal = () => {
         </button>
       </DialogTrigger>
 
-      <DialogContent className="w-[280px] max:h-[380px] overflow-auto md:w-[340px] xl:w-[400px] h-[420px] bg-custom-header-footer scrollbar-hide [&>button]:top-2 [&>button]:right-2 [&>button]:cursor-pointer">
+      <DialogContent className="w-[317px] max:h-[380px] overflow-auto md:w-[340px] xl:w-[400px] h-[440px] bg-custom-header-footer scrollbar-hide [&>button]:top-2 [&>button]:right-2 [&>button]:cursor-pointer">
         <form onSubmit={formik.handleSubmit}>
           <DialogHeader>
             <Tabs
@@ -162,8 +180,8 @@ const AuthModal = () => {
             </Tabs>
           </DialogHeader>
 
-          <div className="text-red-400 text-xs">
-            {isError && <span>User not found</span>}
+          <div className="text-red-400 font-semibold mb-6">
+            {isError && <span>{errorMsg}</span>}
           </div>
 
           <DialogFooter>

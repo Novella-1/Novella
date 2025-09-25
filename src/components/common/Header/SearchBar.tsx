@@ -87,6 +87,7 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
         containerRef.current &&
         !containerRef.current.contains(e.target as Node)
       ) {
+        setQuery('');
         setOpen(false);
       }
     }
@@ -98,8 +99,18 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
     if (!query.trim()) {
       setResults([]);
       setOpen(false);
+
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
       return;
     }
+
     debouncedSearch(query);
   }, [query, debouncedSearch]);
 
@@ -115,6 +126,9 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
       <div className={containerClasses}>
         {results.map((book) => (
           <Link
+            onClick={() => {
+              setQuery('');
+            }}
             href={`/book/${book.namespaceId}/${book.lang}?type=${book.type}`}
             key={book.id}
             className={

@@ -1,15 +1,18 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, Search, X } from 'lucide-react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import React, { FC, useState } from 'react';
 
 import AuthModal from '@/components/layout/AuthModal/AuthModal';
 import { CartModalSection } from '@/components/layout/CartModalSection/CartModalSection';
+import {
+  SearchIcon,
+  BurgerMenuIcon,
+  CLoseIcon,
+} from '@/components/ui/custom/icons';
 import { LogoIcon } from '@/components/ui/custom/LogoIcon';
-// import { CartModalSection } from '../../layout/CartModalSection/CartModalSection';
 import { FavouritesHeaderIcon } from './FavouritesHeaderIcon';
 import Nav from './Nav';
 import SearchBar from './SearchBar';
@@ -19,8 +22,6 @@ const Header: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { data, status } = useSession();
-
-  console.log('status', data);
 
   return (
     <>
@@ -52,10 +53,9 @@ const Header: FC = () => {
                 onClick={() => setIsSearchOpen((p) => !p)}
                 aria-label="Toggle search"
               >
-                <Search className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons" />
+                <SearchIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons" />
               </button>
 
-              {/* AUTH */}
               {status === 'authenticated' ?
                 <span className="font-manrope text-custom-icons">{`Hello, ${data?.user?.firstName ?? 'user'}`}</span>
               : ''}
@@ -73,7 +73,7 @@ const Header: FC = () => {
                 onClick={() => setIsMenuOpen(true)}
                 aria-label="Open menu"
               >
-                <Menu className="text-custom-icons h-4 w-4" />
+                <BurgerMenuIcon className="text-custom-icons h-4 w-4" />
               </button>
             </div>
           </div>
@@ -106,7 +106,7 @@ const Header: FC = () => {
                   aria-label="Close menu"
                   className="p-2 text-custom-icons"
                 >
-                  <X size={24} />
+                  <CLoseIcon className="h-4 w-4" />
                 </button>
               </div>
             </div>

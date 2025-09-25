@@ -8,7 +8,7 @@ type ToastAction =
   | 'addToCart'
   | 'removeFromCart'
   | 'successfullOrder'
-  | 'authenticateError';
+  | 'loginError';
 
 export function showToast(action: ToastAction, name?: string) {
   switch (action) {
@@ -41,8 +41,8 @@ export function showToast(action: ToastAction, name?: string) {
         description: `Thank you for your order! Our manager will get in touch with you soon.`,
         duration: 5000,
       });
-    case 'authenticateError':
-      toast.info('Invalid email or password. Please try again!', {
+    case 'loginError':
+      toast.warning('Invalid email or password. Please try again!', {
         duration: 5000,
       });
     default:
