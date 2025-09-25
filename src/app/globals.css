@@ -72,6 +72,7 @@
   --color-custom-bookmark-dash: var(--bookmark-dash);
   --color-custom-modal: var(--modal);
   --color-custom-text-hover: var(--text-hover);
+  --color-custom-toast: var(--toast);
 }
 
 :root,
@@ -124,8 +125,9 @@
   --hero-bg: #0b0101;
   --bookmark: #802b2b;
   --bookmark-dash: #e1c670;
-  --modal: #6c563d;
+  --modal: #eeeade;
   --text-hover: #2b1d0c;
+  --toast: #fdfdf9;
 }
 
 [data-theme='dark'] {
@@ -143,6 +145,8 @@
   --modal-bg: #000000;
   --text-decoration: rgba(241, 237, 225, 0.03);
   --text-hover: #ffff;
+  --toast: #958370;
+  --modal: #5d4c3a;
 }
 
 /* [data-theme='protanopia'] { */

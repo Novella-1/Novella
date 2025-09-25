@@ -198,8 +198,8 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
         onFocus={() => results.length > 0 && setOpen(true)}
         className={
           variant === 'mobile' ?
-            'w-full placeholder:text-custom-icons border-custom-icons text-custom-icons'
-          : 'w-full placeholder:text-custom-icons font-bold bg-custom-header-footer border-custom-icons border-1 rounded-md h-9 px-4 focus:outline-none focus:ring-0 text-custom-icons'
+            'w-full placeholder:text-custom-icons border-custom-icons text-custom-icons selection:text-custom-primary-text'
+          : 'w-full placeholder:text-custom-icons font-bold bg-custom-header-footer border-custom-icons border-1 rounded-md h-9 px-4 focus:outline-none focus:ring-0 text-custom-icons selection:text-custom-primary-text'
         }
       />
       <AnimatePresence mode="wait">

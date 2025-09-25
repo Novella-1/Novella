@@ -68,7 +68,7 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
       <DialogContent
         className="
           fixed top-1/2 left-1/2 z-[51] -translate-x-1/2 -translate-y-1/2
-          rounded-xl border-2 border-custom-border bg-custom-primary-bg shadow-xl h-120
+          rounded-xl border-2 border-custom-border bg-custom-modal shadow-xl h-120
           w-[88vw] max-w-[360px] md:w-100 md:h-auto
           p-0 overflow-hidden flex flex-col
         "
