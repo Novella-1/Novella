@@ -119,7 +119,7 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
 
     const containerClasses =
       variant === 'mobile' ?
-        'absolute top-full left-0 right-0 mx-auto w-full max-w-2xl mt-2 bg-custom-header-footer border border-custom-border rounded-md shadow-lg z-50 p-4 max-h-[300px] overflow-y-auto custom-scrollbar'
+        'absolute top-full left-0 right-0 mx-auto w-full max-w-2xl mt-2 bg-custom-header-footer border border-custom-border rounded-md shadow-lg z-50 p-4 max-h-[300px] overflow-y-auto scrollbar-hide'
       : 'absolute top-full left-1/3 mt-4 bg-custom-header-footer rounded-xl z-50 p-4 max-h-[290px] overflow-y-auto custom-scrollbar w-[480px] -translate-x-1/2 scrollbar-hide';
 
     return (
@@ -134,7 +134,7 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
             className={
               variant === 'mobile' ?
                 'flex items-center space-x-4 p-3 rounded-lg hover:border-custom-border bg-custom-header-bg hover:bg-custom-primary-bg transition mb-2 last:mb-0'
-              : 'flex items-center justify-between space-x-4 p-4 rounded-xl hover:border-custom-border bg-custom-header-bg transition hover:bg-custom-primary-bg mb-2 last:mb-0'
+              : 'flex items-center justify-between space-x-4 p-4 rounded-xl hover:border-custom-border bg-custom-header-bg transition hover:bg-custom-border mb-2 last:mb-0'
             }
           >
             <div className="flex items-center space-x-4">
@@ -156,7 +156,7 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
                 <span
                   className={
                     variant === 'mobile' ?
-                      'font-bold text-primary'
+                      'font-bold text-custom-primary-text'
                     : 'font-bold text-custom-primary-text'
                   }
                 >
@@ -165,8 +165,8 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
                 <span
                   className={
                     variant === 'mobile' ?
-                      'text-secondary font-semibold'
-                    : 'text-custom-secondary text-sm'
+                      'text-custom-primary-text font-semibold'
+                    : 'text-custom-primary-text text-sm'
                   }
                 >
                   {variant === 'mobile' ? `$${book.priceRegular}` : book.author}
@@ -174,7 +174,7 @@ const SearchBar: FC<SearchBarProps> = ({ variant }) => {
               </div>
             </div>
             {variant !== 'mobile' && (
-              <span className="text-custom-primary font-semibold text-xl">
+              <span className="text-custom-primary-text font-semibold text-xl">
                 ${book.priceRegular}
               </span>
             )}

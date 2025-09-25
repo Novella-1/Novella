@@ -14,7 +14,9 @@ const CartModalHeader = ({
 }) => {
   return (
     <SheetHeader>
-      <SheetTitle className="text-custom-primary-text">Cart</SheetTitle>
+      <SheetTitle className="text-custom-primary-text text-2xl text-bold">
+        Cart
+      </SheetTitle>
       <SheetDescription>
         {totalCount === 0 ?
           'Your cart is empty. Start adding some products!'

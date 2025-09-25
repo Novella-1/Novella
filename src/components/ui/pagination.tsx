@@ -67,7 +67,7 @@ function PaginationLink({
         className,
         isActive ?
           'bg-custom-button text-custom-button-text'
-        : 'bg-custom-header-footer text-custom-primary-text hover:bg-custom-icons hover:text-custom-button-text',
+        : 'bg-custom-header-footer text-custom-primary-text hover:bg-custom-button hover:text-custom-button-text',
       )}
       {...props}
     />

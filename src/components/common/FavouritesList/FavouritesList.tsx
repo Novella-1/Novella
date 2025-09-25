@@ -114,13 +114,15 @@ const FavouritesList = ({
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5 }}
       >
-        <HeartIcon className="mx-auto h-32 w-32 mb-4 opacity-50 stroke-1" />
-        <TypographyP className="text-xl">
-          Your favourites list is empty
-        </TypographyP>
-        <TypographyP className="text-xl mt-2">
-          Add some books to your favourites to see them here!
-        </TypographyP>
+        <div className="flex flex-col items-center justify-center w-[300px]">
+          <HeartIcon className="mx-auto h-24 w-24 md:h-30 md:w-30 mb-4 opacity-50 stroke-1" />
+          <TypographyP className="text-md">
+            Your favourites list is empty
+          </TypographyP>
+          <TypographyP className="text-md text-center mt-2">
+            Add some books to your favourites to see them here!
+          </TypographyP>
+        </div>
       </motion.div>
     );
   }
