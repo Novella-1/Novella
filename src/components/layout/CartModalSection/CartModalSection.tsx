@@ -15,7 +15,7 @@ export const CartModalSection = () => {
         className="relative text-custom-icons border-2"
       >
         <CartIcon
-          strokeWidth={2.5}
+          // strokeWidth={2.5}
           className="w-4 h-4 xl:w-6 xl:h-6"
         />
       </Button>
