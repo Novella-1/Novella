@@ -1,13 +1,17 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, Search, X } from 'lucide-react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import React, { FC, useState } from 'react';
 
 import AuthModal from '@/components/layout/AuthModal/AuthModal';
-import { CartIcon } from '@/components/ui/custom/icons';
+import { CartModalSection } from '@/components/layout/CartModalSection/CartModalSection';
+import {
+  SearchIcon,
+  BurgerMenuIcon,
+  CLoseIcon,
+} from '@/components/ui/custom/icons';
 import { LogoIcon } from '@/components/ui/custom/LogoIcon';
 import { FavouritesHeaderIcon } from './FavouritesHeaderIcon';
 import Nav from './Nav';
@@ -49,24 +53,16 @@ const Header: FC = () => {
                 onClick={() => setIsSearchOpen((p) => !p)}
                 aria-label="Toggle search"
               >
-                <Search className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons" />
+                <SearchIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons" />
               </button>
 
-              {/* AUTH */}
               {status === 'authenticated' ?
                 <span className="font-manrope text-custom-icons">{`Hello, ${data?.user?.firstName ?? 'user'}`}</span>
               : ''}
               <AuthModal />
+              <FavouritesHeaderIcon userId={data?.user.id} />
 
-              {/* <IconNav variant="desktop" /> */}
-              <FavouritesHeaderIcon />
-              <Link
-                href="/cart"
-                aria-label="Cart"
-                className="flex items-center justify-center text-custom-icons"
-              >
-                <CartIcon className="w-4 h-4 xl:w-6 xl:h-6" />
-              </Link>
+              <CartModalSection />
               <ThemeButton />
             </div>
 
@@ -77,7 +73,7 @@ const Header: FC = () => {
                 onClick={() => setIsMenuOpen(true)}
                 aria-label="Open menu"
               >
-                <Menu className="text-custom-icons h-4 w-4" />
+                <BurgerMenuIcon className="text-custom-icons h-4 w-4" />
               </button>
             </div>
           </div>
@@ -110,7 +106,7 @@ const Header: FC = () => {
                   aria-label="Close menu"
                   className="p-2 text-custom-icons"
                 >
-                  <X size={24} />
+                  <CLoseIcon className="h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -125,6 +121,12 @@ const Header: FC = () => {
                   <SearchBar variant="mobile" />
                 </div>
               </div>
+            </div>
+            <div className="flex justify-around items-center h-[48px] border-t px-4 shadow-[0_-1px_8px_0_rgba(0,0,0,0.10)]">
+              <AuthModal />
+              <FavouritesHeaderIcon />
+
+              <CartModalSection />
             </div>
 
             <div className="border-t">

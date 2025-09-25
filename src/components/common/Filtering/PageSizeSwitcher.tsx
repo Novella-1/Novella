@@ -72,10 +72,10 @@ export const PageSizeSwitcher: FC<PageSizeSwitcherProps> = ({ className }) => {
     <div className={cn('flex items-center gap-3', className)}>
       {renderButton(
         16,
-        '/images/Table-active-4x4.png',
-        '/images/Table-4x4.png',
+        '/images/table4x4.png',
+        '/images/table4x4-inactive.png',
       )}
-      {renderButton(9, '/images/Table-active-3x3.png', '/images/Table-3x3.png')}
+      {renderButton(9, '/images/table3x3.png', '/images/table3x3-inactive.png')}
     </div>
   );
 };

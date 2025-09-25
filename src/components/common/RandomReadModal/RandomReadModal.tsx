@@ -1,7 +1,7 @@
 'use client';
 
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
@@ -15,25 +15,18 @@ import {
   DialogDescription,
   DialogClose,
 } from '@/components/ui/dialog';
+import { BookWithDetails } from '@/types/BookType';
 
 interface RandomBookModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-interface Book {
-  title: string;
-  author: string;
-  slug: string;
-  coverImage: string;
-  categories?: string[];
-}
-
 export const RandomBookModal: React.FC<RandomBookModalProps> = ({
   open,
   onClose,
 }) => {
-  const [book, setBook] = React.useState<Book | null>(null);
+  const [book, setBook] = React.useState<BookWithDetails | null>(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -47,22 +40,17 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
       );
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-      const data = await res.json();
-      const cover = `/books/${data.images[0]}`;
+      const parsedBook = await res.json();
 
-      setBook({
-        title: data.name,
-        author: data.author,
-        slug: data.slug,
-        coverImage: cover,
-        categories: data.categories || [],
-      });
+      console.log('dsadsadsads', parsedBook);
+
+      setBook(parsedBook);
     } catch (err) {
       console.error('Error fetching book:', err);
       setError('Failed to download the book. Try again.');
       setBook(null);
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 80);
     }
   };
 
@@ -77,95 +65,187 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
       open={open}
       onOpenChange={onClose}
     >
-      <DialogContent className="fixed top-1/2 left-1/2 z-[51] w-full h-[700px] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-custom-border bg-custom-modal p-0 shadow-xl overflow-hidden">
-        <DialogHeader className="font-marcellus pt-6 px-6">
-          <DialogTitle className="text-2xl text-center font-bold tracking-wide text-custom-bookmark-dash">
+      <DialogContent
+        className="
+          fixed top-1/2 left-1/2 z-[51] -translate-x-1/2 -translate-y-1/2
+          rounded-xl border-2 border-custom-border bg-custom-modal shadow-xl h-120
+          w-[88vw] max-w-[360px] md:w-100 md:h-auto
+          p-0 overflow-hidden flex flex-col
+        "
+      >
+        <DialogHeader className="font-marcellus pt-4 px-4 md:pt-6 md:px-6">
+          <DialogTitle className="text-lg md:text-2xl text-center font-bold tracking-wide text-custom-primary-text">
             Not sure what to read next?
           </DialogTitle>
-          <DialogDescription className="mt-1 text-center text-custom-button-text text-base pb-4 border-b-1 ">
+          <DialogDescription className="mt-1 text-center text-custom-primary-text text-sm md:text-base pb-1">
             Let fate decide! We’ll surprise you with a random book from our
             collection.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="px-6 flex flex-col items-center">
+        <div
+          className="px-4 md:px-6 flex-1 relative md:overflow-auto overflow-hidden"
+          style={
+            {
+              WebkitOverflowScrolling: 'touch',
+              scrollbarGutter: 'stable',
+            } as React.CSSProperties
+          }
+        >
           <div
-            className="flex flex-col items-center gap-4 justify-center"
-            style={{ height: 360 }}
+            className="w-full flex items-start md:items-center justify-center"
+            style={{ height: 320 }}
           >
-            {loading && (
-              <div className="flex justify-center items-center w-full h-full">
-                <DotLottieReact
-                  src="https://lottie.host/752e52c2-fcaa-47ff-99ed-0687fea87c59/WrJsDQktAl.lottie"
-                  loop
-                  autoplay
-                  className="w-[150px] h-[200px]"
-                />
-              </div>
-            )}
+            <div
+              style={{
+                width: '100%',
+                maxWidth: 220,
+                position: 'relative',
+                height: '100%',
+                overflow: 'hidden',
+              }}
+            >
+              <AnimatePresence mode="wait">
+                {loading && (
+                  <motion.div
+                    key="loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute inset-0 flex flex-col items-center justify-start gap-3"
+                    style={{
+                      paddingTop: 14,
+                      paddingLeft: 6,
+                      paddingRight: 6,
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <div className="w-[100px] h-[135px] md:w-[130px] md:h-[175px] flex-none overflow-hidden">
+                      <DotLottieReact
+                        src="https://lottie.host/84c28cf2-5862-494b-84d2-da3bb078e01e/ILSfTM9AiG.lottie"
+                        loop
+                        autoplay
+                        className="w-full h-full"
+                        style={{ background: 'transparent' }}
+                      />
+                    </div>
 
-            {error && !loading && (
-              <p className="text-center text-red-300">{error}</p>
-            )}
+                    <div className="text-center w-[80%] h-[56px] flex flex-col justify-center">
+                      <div className="w-full h-3 rounded bg-white/10" />
+                      <div className="w-1/2 h-2 rounded bg-white/6 mt-2 mx-auto" />
+                    </div>
+                  </motion.div>
+                )}
 
-            {book && !loading && !error && (
-              <motion.div
-                key={book.title}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  duration: 0.6,
-                  ease: 'easeOut',
-                }}
-                className="flex flex-col items-center gap-4"
-              >
-                <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
-                  className="w-[150px] h-[200px] flex-shrink-0"
-                >
-                  <Image
-                    src={book.coverImage}
-                    alt={book.title || 'Book cover'}
-                    width={200}
-                    height={200}
-                    className="rounded-md shadow-lg object-cover border border-custom-border w-full h-full"
-                  />
-                </motion.div>
+                {!loading && error && (
+                  <motion.div
+                    key="error"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute inset-0 flex flex-col items-center justify-start gap-3 px-2"
+                    style={{ paddingTop: 14, overflow: 'hidden' }}
+                  >
+                    <div className="w-[100px] h-[135px] md:w-[130px] md:h-[175px] bg-custom-border rounded-md flex-none" />
+                    <p className="text-center text-red-300 text-sm md:text-base px-2">
+                      {error}
+                    </p>
+                  </motion.div>
+                )}
 
-                <div className="text-center flex flex-col items-center">
-                  <TypographyH3 className="text-lg font-semibold text-custom-primary-bg">
-                    {book.title}
-                  </TypographyH3>
-                  <TypographyP className="text-white/70">
-                    {book.author}
-                  </TypographyP>
-                  {book.categories && book.categories.length > 0 && (
-                    <TypographyP className="mt-1 text-sm text-custom-primary-bg">
-                      {book.categories.join(', ')}
-                    </TypographyP>
-                  )}
-                </div>
-              </motion.div>
-            )}
+                {!loading && book && (
+                  <motion.div
+                    key={book.slug}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute inset-0 flex flex-col items-center justify-start gap-3 px-2"
+                    style={{ paddingTop: 14, overflow: 'hidden' }}
+                  >
+                    <div
+                      className="w-[100px] h-[135px] md:w-[130px] md:h-[175px] flex-none"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <Image
+                        src={`/books/${book.images[0]}`}
+                        alt={book.name || 'Book cover'}
+                        width={130}
+                        height={175}
+                        sizes="(max-width: 640px) 100px, 130px"
+                        className="rounded-md shadow-lg object-contain border border-custom-border"
+                        style={{
+                          maxWidth: '100%',
+                          maxHeight: '100%',
+                          width: 'auto',
+                          height: 'auto',
+                          display: 'block',
+                        }}
+                        priority={false}
+                      />
+                    </div>
+
+                    <div className="text-center flex flex-col items-center px-2">
+                      <TypographyH3 className="text-sm md:text-lg mb-1 font-semibold text-custom-primary-text leading-tight">
+                        {book.name}
+                      </TypographyH3>
+                      <TypographyP className="text-custom-primary-text text-xs md:text-sm truncate w-full">
+                        {book.author}
+                      </TypographyP>
+                      {book.categories && book.categories.length > 0 && (
+                        <TypographyP className="mt-1 text-xs md:text-sm text-custom-primary-text line-clamp-1 w-full">
+                          {book.categories.join(', ')}
+                        </TypographyP>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+
+                {!loading && !book && !error && (
+                  <motion.div
+                    key="placeholder"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute inset-0 flex flex-col items-center justify-start gap-3"
+                    style={{ paddingTop: 14, overflow: 'hidden' }}
+                  >
+                    <div className="w-[100px] h-[135px] md:w-[130px] md:h-[175px] bg-custom-border rounded-md" />
+                    <div className="text-center w-[80%] h-[56px] flex flex-col justify-center">
+                      <div className="w-full h-3 rounded bg-white/10" />
+                      <div className="w-1/2 h-2 rounded bg-white/6 mt-2 mx-auto" />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
-        <div className="px-6 pb-6 flex flex-wrap justify-between items-center gap-2 w-full">
+
+        <div className="w-full flex gap-1 px-4 pb-4 md:pb-6 md:px-6 justify-center">
           <Button
-            className="flex-1 font-bold text-custom-primary-text bg-custom-header-footer"
+            className="w-full flex-1 font-bold bg-custom-button text-custom-button-text hover:bg-custom-hover-button"
             onClick={fetchRandomBook}
+            aria-disabled={loading}
           >
             Reroll
           </Button>
 
           {book && !error && (
             <Link
-              href={`/book/${book.slug}`}
+              href={`/book/${book.namespaceId}/${book.lang}?=${book.type}`}
               className="flex-1"
             >
               <Button
-                className="w-full flex-1 font-bold text-[#5C3B23] bg-yellow-400 hover:bg-yellow-300"
+                className="w-full font-bold bg-custom-button text-custom-button-text hover:bg-custom-hover-button"
                 onClick={onClose}
               >
                 Get Book
@@ -174,7 +254,7 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
           )}
 
           <DialogClose asChild>
-            <Button className="flex-1 font-bold bg-[#5C3B23] text-white hover:bg-[#4a2f1a]">
+            <Button className="w-full flex-1 font-bold text-custom-button bg-custom-button-text hover:bg-custom-hover-button">
               Close
             </Button>
           </DialogClose>

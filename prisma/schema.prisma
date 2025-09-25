@@ -17,6 +17,8 @@ model User {
   Session        Session[]
   Profile        Profile?
   Favourite      Favourite[]
+  Order          Order[]
+  CartItem       CartItem[]
 }
 
 model Profile {
@@ -57,6 +59,10 @@ model Book {
   kindleDetails    KindleDetails?
   paperDetails     PaperDetails?
   Favourite        Favourite[]
+  OrderItem        OrderItem[]
+  CartItem         CartItem[]
+
+  @@index([namespaceId, lang])
 }
 
 model Category {
@@ -72,6 +78,7 @@ model BookCategory {
   category   Category @relation(fields: [categoryId], references: [id])
 
   @@id([bookId, categoryId])
+  @@index([categoryId])
 }
 
 model PaperDetails {
@@ -116,6 +123,50 @@ model Favourite {
   book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
   @@unique([userId, bookId])
+  @@index([userId])
+}
+
+model Order {
+  id        String      @id @default(uuid())
+  userId    String
+  total     Float
+  status    OrderStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items OrderItem[]
+}
+
+model CartItem {
+  id       String @id @default(uuid())
+  userId   String
+  bookId   String
+  quantity Int    @default(1)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id])
+
+  @@unique([userId, bookId])
+}
+
+model OrderItem {
+  id       String @id @default(uuid())
+  orderId  String
+  bookId   String
+  quantity Int
+  price    Float
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  book  Book  @relation(fields: [bookId], references: [id])
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  CANCELLED
+  COMPLETED
 }
 
 enum BookType {

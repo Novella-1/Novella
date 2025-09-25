@@ -16,8 +16,10 @@ import {
   LogOut,
   UserRound,
   User,
+  ShoppingCart,
+  Trash2,
+  LogIn,
 } from 'lucide-react';
-import * as React from 'react';
 
 export function TruckIcon(props: React.SVGProps<SVGSVGElement>) {
   return <Truck {...props} />;
@@ -31,8 +33,16 @@ export function HeartIcon(props: React.SVGProps<SVGSVGElement>) {
   return <Heart {...props} />;
 }
 
-export function CartIcon(props: React.SVGProps<SVGSVGElement>) {
-  return <ShoppingBag {...props} />;
+export function CartIcon({
+  // size = 16,
+  ...props
+}: { size?: number } & React.SVGProps<SVGSVGElement>) {
+  return (
+    <ShoppingBag
+      // size={size}
+      {...props}
+    />
+  );
 }
 
 export function HeadphonesIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -85,4 +95,16 @@ export function ProfileIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export function UserIcon(props: React.SVGProps<SVGSVGElement>) {
   return <User {...props} />;
+}
+
+export function ShoppingCartIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <ShoppingCart {...props} />;
+}
+
+export function TrashIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <Trash2 {...props} />;
+}
+
+export function LogInIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <LogIn {...props} />;
 }

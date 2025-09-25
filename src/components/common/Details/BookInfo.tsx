@@ -1,5 +1,4 @@
 import { Separator } from '@radix-ui/react-select';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ImageContainer } from '@/components/ui/custom/imageContainer';
@@ -11,7 +10,9 @@ import {
   TypographyP,
 } from '@/components/ui/custom/typography';
 import { cn } from '@/lib/utils';
+import { BookWithDetails } from '@/types/BookType';
 import { AddToFavorite } from '../CardItem/AddToFavorite';
+import { AddToCart } from '../CardItem/CartButton';
 
 interface BookInfoProps {
   className?: string;
@@ -26,6 +27,7 @@ interface BookInfoProps {
   handleLangChange: (lang: string) => void;
   langAvailable?: string[];
   lang?: string;
+  book: BookWithDetails;
 }
 
 export function BookInfo({
@@ -41,6 +43,7 @@ export function BookInfo({
   handleLangChange,
   name,
   lang,
+  book,
   ...props
 }: BookInfoProps) {
   return (
@@ -106,11 +109,15 @@ export function BookInfo({
             : <TypographyH2>${priceRegular ?? '-'}</TypographyH2>}
           </div>
           <div className="flex gap-2 mb-6">
-            <Button className="flex-1 h-10 bg-custom-button hover:bg-custom-hover-button cursor-pointer">
+            {/* <Button className="flex-1 h-10 bg-custom-button hover:bg-custom-hover-button cursor-pointer">
               {' '}
               <TypographyB>Add to cart</TypographyB>
-            </Button>
-            {/* <AddToFavorite name={name} /> */}
+            </Button> */}
+            <AddToCart book={book} />
+            <AddToFavorite
+              name={name}
+              book={book}
+            />
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex justify-between w-full">

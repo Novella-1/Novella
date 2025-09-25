@@ -6,9 +6,11 @@ type ToastAction =
   | 'addToFav'
   | 'removeFromFav'
   | 'addToCart'
-  | 'removeFromCart';
+  | 'removeFromCart'
+  | 'successfullOrder'
+  | 'loginError';
 
-export function showToast(action: ToastAction, name: string) {
+export function showToast(action: ToastAction, name?: string) {
   switch (action) {
     case 'addToFav':
       toast.info('Added to favorites!', {
@@ -34,6 +36,11 @@ export function showToast(action: ToastAction, name: string) {
         duration: 5000,
       });
       break;
+    case 'successfullOrder':
+      toast.info('Your order is successfuly created!', {
+        description: `Thank you for your order! Our manager will get in touch with you soon.`,
+        duration: 5000,
+      });
     default:
       break;
   }

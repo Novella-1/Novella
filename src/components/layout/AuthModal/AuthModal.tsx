@@ -1,12 +1,15 @@
 'use client';
 import { useFormik } from 'formik';
 
+import { useRouter } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import LoginForm from '@/components/common/AuthModal/LoginForm';
 import RegisterForm from '@/components/common/AuthModal/RegisterForm';
 import { authValidationSchema } from '@/components/common/AuthModal/validationShema';
+import { showToast } from '@/components/common/ShowToast';
+import { Button } from '@/components/ui/button';
 import { ExitIcon, UserIcon } from '@/components/ui/custom/icons';
 import {
   Dialog,
@@ -17,13 +20,18 @@ import {
 } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { login, register } from '@/services/fetchAuth';
-import { AuthFormValues } from '@/types/AuthFormValues';
+import { AuthFormValues } from '@/types/AuthFormValuesType';
 
 type AuthType = 'login' | 'register';
 
 const AuthModal = () => {
   const [authVariant, setAuthVariant] = useState<AuthType>('login');
+  const [isError, setIserror] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const { data } = useSession();
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
 
   const formik = useFormik<AuthFormValues>({
     initialValues: {
@@ -37,34 +45,98 @@ const AuthModal = () => {
 
     onSubmit: async (values) => {
       const { email, password, firstName, lastName } = values;
+      setIsLoading(true);
+      setIserror(false);
 
-      if (authVariant === 'login') {
-        await login(email, password);
-      } else {
-        await register(email, password, firstName, lastName);
+      try {
+        if (authVariant === 'login') {
+          const res = await login(email, password);
+
+          if (res?.error) {
+            setIserror(true);
+            setErrorMsg('Invalid email or password. Please try again');
+          } else {
+            router.push('/');
+          }
+        } else {
+          const res = await register(email, password, firstName, lastName);
+          if (res?.error) {
+            setIserror(true);
+            setErrorMsg(
+              'User with this email already exists. Please try another one',
+            );
+          } else {
+            await login(email, password);
+            router.push('/');
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        setIserror(true);
+      } finally {
+        setIsLoading(false);
       }
     },
   });
 
+  useEffect(() => {
+    setIserror(false);
+    setErrorMsg('');
+  }, [formik.values.email, formik.values.password]);
+
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        detailsRef.current &&
+        !detailsRef.current.contains(event.target as Node)
+      ) {
+        detailsRef.current.removeAttribute('open');
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const handleSignIn = () => {
+      if (triggerRef.current) {
+        triggerRef.current.click();
+      }
+    };
+    window.addEventListener('openSignIn', handleSignIn);
+
+    return () => window.removeEventListener('openSignIn', handleSignIn);
+  }, []);
+
   if (data?.user) {
     return (
-      <details className="relative">
-        <summary className="flex items-center cursor-pointer p-2 rounded">
+      <details
+        ref={detailsRef}
+        className="relative"
+      >
+        <summary className="flex items-center cursor-pointer rounded">
           <UserIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons" />
         </summary>
 
-        <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg p-2 z-50">
+        <div
+          className="absolute 
+        mt-2
+        bottom-9 -left-16 w-40
+        md:top-9 md:-left-34 md:h-12
+        border bg-custom-header-footer rounded shadow-lg p-2 z-50"
+        >
           <button
-            className="flex items-center gap-2 w-full px-2 py-1 hover:bg-gray-100 rounded"
+            className="flex items-center gap-2 w-full px-2 py-1 cursor-pointer rounded text-custom-icons"
             onClick={async () => {
               await signOut({
-                // redirect: false
                 redirectTo: '/',
               });
-              // router.push('/');
             }}
           >
-            <ExitIcon className="w-5 h-5" />
+            <ExitIcon className="w-5 h-5 xl:w-6 xl:h-6 border-custom-button" />
             Sign out
           </button>
         </div>
@@ -75,10 +147,12 @@ const AuthModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <UserIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons cursor-pointer" />
+        <button ref={triggerRef}>
+          <UserIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons cursor-pointer" />
+        </button>
       </DialogTrigger>
 
-      <DialogContent className="bg-custom-modal sm:max-w-[425px] [&>button]:top-2 [&>button]:right-2 [&>button]:cursor-pointer">
+      <DialogContent className="w-[317px] max:h-[380px] overflow-auto md:w-[340px] xl:w-[400px] h-[440px] bg-custom-header-footer scrollbar-hide [&>button]:top-2 [&>button]:right-2 [&>button]:cursor-pointer">
         <form onSubmit={formik.handleSubmit}>
           <DialogHeader>
             <Tabs
@@ -86,16 +160,16 @@ const AuthModal = () => {
               onValueChange={(val: string) => setAuthVariant(val as AuthType)}
               className="w-full"
             >
-              <TabsList className="grid w-full grid-cols-2">
+              <TabsList className="grid w-full grid-cols-2 bg-custom-border">
                 <TabsTrigger
                   value="login"
-                  className="cursor-pointer"
+                  className="cursor-pointer font-manrope text-custom-button"
                 >
                   Login
                 </TabsTrigger>
                 <TabsTrigger
                   value="register"
-                  className="cursor-pointer"
+                  className="cursor-pointer font-manrope text-custom-button"
                 >
                   Register
                 </TabsTrigger>
@@ -112,15 +186,20 @@ const AuthModal = () => {
               </TabsContent>
             </Tabs>
           </DialogHeader>
+
+          <div className="text-red-400 font-semibold mb-6">
+            {isError && <span>{errorMsg}</span>}
+          </div>
+
           <DialogFooter>
-            <button
+            <Button
               type="submit"
-              className="cursor-pointer"
+              className="cursor-pointer px-3 bg-custom-button text-custom-button-text"
             >
               {authVariant === 'login' ?
                 <span>Sign In</span>
               : <span>Sign Up</span>}
-            </button>
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

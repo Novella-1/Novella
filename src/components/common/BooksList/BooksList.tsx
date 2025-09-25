@@ -62,16 +62,13 @@ const BooksList = ({
 
   return (
     <motion.div
-      className={cn(
-        'flex flex-row flex-wrap gap-y-10  sm:items-center justify-evenly',
-        {
-          'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gap-x-0 justify-center justify-items-center':
-            pageSize === 9,
-          'flex flex-row flex-wrap gap-y-10 gap-x-4 sm:items-center justify-evenly':
-            pageSize === 16,
-        },
-        className,
-      )}
+      key={`${type}-${page}-${pageSize}-${sortBy}-${sortOrder}`}
+      className={cn('mb-10', {
+        'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gap-x-0 justify-center justify-items-center':
+          pageSize === 9,
+        'flex flex-row flex-wrap gap-y-10 gap-x-4 sm:items-center justify-evenly':
+          pageSize === 16,
+      })}
       variants={container}
       initial="hidden"
       animate="show"
@@ -80,6 +77,7 @@ const BooksList = ({
         <motion.div
           key={book.slug}
           variants={item}
+          className="flex justify-center"
         >
           <CardItem
             key={book.slug}

@@ -21,7 +21,7 @@ const CartCard = () => {
         border border-gray-200 rounded-lg
         shadow-sm
         hover:shadow-md transition-shadow duration-200
-        bg-white
+        bg-custom-separator
       "
     >
       <div className="flex items-center gap-3 min-w-0">

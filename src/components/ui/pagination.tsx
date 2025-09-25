@@ -61,10 +61,13 @@ function PaginationLink({
       data-active={isActive}
       className={cn(
         buttonVariants({
-          variant: isActive ? 'outline' : 'ghost',
+          variant: null,
           size,
         }),
         className,
+        isActive ?
+          'bg-custom-button text-custom-button-text'
+        : 'bg-custom-header-footer text-custom-primary-text hover:bg-custom-button hover:text-custom-button-text',
       )}
       {...props}
     />
@@ -82,7 +85,7 @@ function PaginationPrevious({
       className={cn('gap-1 px-2.5 sm:pl-2.5', className)}
       {...props}
     >
-      <ChevronLeftIcon />
+      <ChevronLeftIcon className="text-custom-primary-text" />
       {/*<span className="hidden sm:block">Previous</span>*/}
     </PaginationLink>
   );
@@ -100,7 +103,7 @@ function PaginationNext({
       {...props}
     >
       {/*<span className="hidden sm:block">Next</span>*/}
-      <ChevronRightIcon />
+      <ChevronRightIcon className="text-custom-primary-text" />
     </PaginationLink>
   );
 }
@@ -116,7 +119,7 @@ function PaginationEllipsis({
       className={cn('flex size-9 items-center justify-center', className)}
       {...props}
     >
-      <MoreHorizontalIcon className="size-4" />
+      <MoreHorizontalIcon className="size-4 text-custom-primary-text" />
       <span className="sr-only">More pages</span>
     </span>
   );

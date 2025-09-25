@@ -72,6 +72,7 @@
   --color-custom-bookmark-dash: var(--bookmark-dash);
   --color-custom-modal: var(--modal);
   --color-custom-text-hover: var(--text-hover);
+  --color-custom-toast: var(--toast);
 }
 
 :root,
@@ -120,12 +121,13 @@
   --favourites-icon: #eb5757;
   --separator: #d9cabb;
   --modal-bg: #000000;
-  --text-decoration: rgba(48, 32, 13, 0.06);
+  --text-decoration: rgba(48, 32, 13, 0.03);
   --hero-bg: #0b0101;
   --bookmark: #802b2b;
   --bookmark-dash: #e1c670;
-  --modal: #6c563d;
+  --modal: #eeeade;
   --text-hover: #2b1d0c;
+  --toast: #fdfdf9;
 }
 
 [data-theme='dark'] {
@@ -133,7 +135,7 @@
   --primary-text: #f1ede1;
   --header-footer: #6c563d;
   --border: #958370;
-  --button: #30200d;
+  --button: #2b1d0c;
   --button-text: #f1ede1;
   --hover-button: #4c412e;
   --icons: #ebe7da;
@@ -141,8 +143,10 @@
   --favourites-icon: #eb5757;
   --separator: #86725e;
   --modal-bg: #000000;
-  --text-decoration: rgba(241, 237, 225, 0.1);
+  --text-decoration: rgba(241, 237, 225, 0.03);
   --text-hover: #ffff;
+  --toast: #958370;
+  --modal: #5d4c3a;
 }
 
 /* [data-theme='protanopia'] { */
@@ -262,18 +266,18 @@
   display: none;
 }
 
-html[data-theme='protanopia'] main {
-  filter: url('#protanopia');
+html[data-theme='protanopia'] #colorblind-overlay {
+  backdrop-filter: url('#protanopia');
 }
 
-html[data-theme='deuteranopia'] main {
-  filter: url('#deuteranopia');
+html[data-theme='deuteranopia'] #colorblind-overlay {
+  backdrop-filter: url('#deuteranopia');
 }
 
-html[data-theme='tritanopia'] main {
-  filter: url('#tritanopia');
+html[data-theme='tritanopia'] #colorblind-overlay {
+  backdrop-filter: url('#tritanopia');
 }
 
-html[data-theme='grayscale'] main {
-  filter: grayscale(100%);
+html[data-theme='grayscale'] #colorblind-overlay {
+  backdrop-filter: grayscale(100%);
 }

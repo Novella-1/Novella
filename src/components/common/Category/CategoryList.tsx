@@ -1,7 +1,21 @@
 'use client';
 
 import { useTheme } from 'next-themes';
+import { BookCountsResponse } from '@/components/layout/CategorySection/CategorySection';
+import { BookType } from '@/types/BookType';
 import { CategoryItem } from './CategoryItem';
+
+const typeToCategoryId: Record<BookType, number> = {
+  PAPERBACK: 1,
+  AUDIOBOOK: 2,
+  KINDLE: 3,
+};
+
+const typeToSlug: Record<BookType, string> = {
+  PAPERBACK: 'paper',
+  AUDIOBOOK: 'audiobook',
+  KINDLE: 'kindle',
+};
 
 export const categories = [
   {
@@ -39,22 +53,32 @@ export const categories = [
   },
 ];
 
-export function CategoryList() {
+export function CategoryList({
+  categoriesCount,
+}: {
+  categoriesCount: BookCountsResponse;
+}) {
+  const { counts } = categoriesCount;
   const { theme } = useTheme();
   return (
     <div className="flex items-center justify-center flex-col md:flex-row gap-4 ">
-      {categories.map(({ id, imageSrc, title, bookCount }) => {
+      {categories.map(({ id, imageSrc, title }) => {
         const src =
           imageSrc[theme as keyof typeof imageSrc] || imageSrc.default;
 
-        console.log(src);
+        const countObj = counts.find((c) => typeToCategoryId[c.type] === id);
+        const matched = counts.find((c) => typeToCategoryId[c.type] === id);
+        const slug = matched ? typeToSlug[matched.type] : '';
+
+        console.log(countObj);
 
         return (
           <CategoryItem
             key={id}
             imageSrc={src}
             title={title}
-            bookCount={bookCount}
+            bookCount={countObj ? `${countObj.count} books` : '0 books'}
+            slug={slug}
           />
         );
       })}
