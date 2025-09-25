@@ -118,7 +118,7 @@ const AuthModal = () => {
         className="relative"
       >
         <summary className="flex items-center cursor-pointer rounded">
-          <UserIcon className="w-4 h-4 xl:w-6 xl:h-6 text-custom-icons" />
+          <UserIcon className="w-6 h-6 xl:w-6 xl:h-6 text-custom-icons" />
         </summary>
 
         <div
@@ -196,7 +196,13 @@ const AuthModal = () => {
               type="submit"
               className="cursor-pointer px-3 bg-custom-button text-custom-button-text"
             >
-              {authVariant === 'login' ?
+              {isLoading ?
+                <>
+                  <div className="relative">
+                    <div className="w-5 h-5 border-2 border-custom-icons border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                </>
+              : authVariant === 'login' ?
                 <span>Sign In</span>
               : <span>Sign Up</span>}
             </Button>
