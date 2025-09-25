@@ -79,7 +79,7 @@ export default function RootLayout({
                   toastOptions={{
                     classNames: {
                       toast:
-                        '!top-10 [@media(min-width:1200px)]:!top-12 !border-custom-border !bg-custom-header-footer',
+                        '!top-10 [@media(min-width:1200px)]:!top-12 !border-custom-border !bg-custom-toast',
                       title:
                         '!text-custom-primary-text !font-bold !font-marcellus',
                       description: '!text-custom-primary-text !font-manrope',

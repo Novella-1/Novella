@@ -192,15 +192,14 @@ export function AddToCart({ name, book }: AddToCartProps) {
       className={cn(
         'flex-1 h-10 cursor-pointer bg-custom-button transition-shadow duration-200',
         {
-          'bg-custom-primary-bg border border-custom-border text-custom-button':
-            isInCart,
+          'bg-custom-header-footer border border-custom-border': isInCart,
         },
       )}
       onClick={handleAddToCart}
     >
       <TypographyB
         className={cn({
-          'text-custom-button': isInCart,
+          ' text-custom-primary-text': isInCart,
         })}
       >
         {pending ? 'Processing...' : displayText}

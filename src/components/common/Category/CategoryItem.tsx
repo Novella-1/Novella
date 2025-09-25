@@ -15,8 +15,11 @@ export function CategoryItem({
   slug: string;
 }) {
   return (
-    <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/${slug}`}>
-      <Card className="flex flex-col items-start w-full bg-transparent shadow-none md:w-[273px] sm:p-4 md:p-5  xl:w-[370px] p-6 gap-5 transition-transform duration-200 ease-in-out hover:scale-[1.02] hover:shadow-[0px_4px_16px_0px_rgba(0,0,0,0.25)] cursor-pointer">
+    <Link
+      href={`${process.env.NEXT_PUBLIC_BASE_URL}/${slug}`}
+      className="block w-full h-full"
+    >
+      <Card className="flex flex-col items-start w-full bg-transparent shadow-none md:w-full sm:p-4 md:p-5  xl:max-w-[370px] p-6 gap-5 transition-transform duration-200 ease-in-out hover:scale-[1.02] hover:shadow-[0px_4px_16px_0px_rgba(0,0,0,0.25)] cursor-pointer">
         <ShopCategoryImage src={imageSrc} />
         <div className="flex flex-col gap-2">
           <TypographyH5 className="text-custom-primary-text">
