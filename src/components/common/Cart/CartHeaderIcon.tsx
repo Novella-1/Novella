@@ -16,7 +16,7 @@ const CartHeaderIcon = forwardRef<
       <CartIcon className="w-6 h-6 md:w-4 md:h-4 xl:w-6 xl:h-6" />
       {totalCount > 0 && (
         <Badge
-          className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-0.5 font-mono tabular-nums flex items-center justify-center text-xs"
+          className="absolute -top-1 -right-2  xl:-right-2 h-5 min-w-5 rounded-full px-0.5 font-mono tabular-nums flex items-center justify-center text-xs md:h-3 md:min-w-3 md:text-[8px] xl:h-5 xl:min-w-5 xl:text-xs md:-right-1"
           variant="destructive"
         >
           {totalCount > 9 ? '9+' : totalCount}

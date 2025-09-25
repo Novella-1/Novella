@@ -32,13 +32,13 @@ const Nav: FC<NavProps> = ({ variant = 'desktop', className, onLinkClick }) => {
 
   return (
     <nav className={cn(containerClasses, className)}>
-      <div className="h-[20px]">
+      <div className="h-[20px] md:hidden">
         {status === 'authenticated' ?
           <TypographyH4 className="text-custom-icons">{`Hello, ${data?.user?.firstName}`}</TypographyH4>
         : ''}
       </div>
 
-      <hr />
+      {isMobile && status === 'authenticated' && <hr />}
 
       {navLinks.map(({ name, href }) => {
         const isActive = pathname === href;
