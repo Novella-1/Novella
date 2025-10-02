@@ -31,8 +31,6 @@ const BookDetailsSection = ({ initialBook }: Props) => {
     refetchOnWindowFocus: false,
   });
 
-  console.log(bookWithDetails);
-
   const switchLang = (newLang: string) => {
     setLang(newLang);
     const newUrl = `/book/${initialBook.namespaceId}/${newLang}?type=${initialBook.type}`;

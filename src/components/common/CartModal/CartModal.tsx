@@ -124,8 +124,6 @@ export default function CartModal({ userId }: CartModalProps) {
         items: items,
       };
 
-      console.log(orderData);
-
       return await createOrder(orderData);
     },
     onSuccess: () => {
