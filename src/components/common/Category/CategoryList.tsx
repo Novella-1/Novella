@@ -70,8 +70,6 @@ export function CategoryList({
         const matched = counts.find((c) => typeToCategoryId[c.type] === id);
         const slug = matched ? typeToSlug[matched.type] : '';
 
-        console.log(countObj);
-
         return (
           <CategoryItem
             key={id}
