@@ -42,8 +42,6 @@ export const RandomBookModal: React.FC<RandomBookModalProps> = ({
 
       const parsedBook = await res.json();
 
-      console.log('dsadsadsads', parsedBook);
-
       setBook(parsedBook);
     } catch (err) {
       console.error('Error fetching book:', err);
